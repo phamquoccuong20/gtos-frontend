@@ -1,0 +1,65 @@
+﻿
+> gtos-frontend@0.1.0 build
+> next build
+
+   Γû▓ Next.js 15.5.2
+   - Experiments (use with caution):
+     Γ£ô useCache
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully in 97s
+   Linting and checking validity of types ...
+npm : Failed to compile.
+At line:1 char:1
++ npm run build 2>&1 | 
+Out-File -FilePath 
+build-output.txt -Encoding 
+ut ...
++ ~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          
+    : NotSpecified: (Faile  
+  d to compile.:String) [   
+ ], RemoteException
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+
+./src/app/providers.tsx:8:20
+Type error: Expected 1 
+arguments, but got 0.
+
+[0m [90m  6 |[39m
+ [90m  7 |[39m 
+[36mexport[39m 
+[36mdefault[39m 
+[36mfunction[39m 
+[33mProviders[39m({ 
+children }[33m:[39m { 
+children[33m:[39m [33mRea
+ct[39m[33m.[39m[33mReact
+Node[39m }) {
+[31m[1m>[22m[39m[90m  
+8 |[39m   [36mconst[39m 
+storeRef [33m=[39m useRef
+[33m<[39m[33mAppStore[39m
+[33m>[39m()[33m;[39m
+ [90m    |[39m            
+        [31m[1m^[22m[39m
+ [90m  9 |[39m   
+[36mif[39m ([33m![39msto
+reRef[33m.[39mcurrent) 
+storeRef[33m.[39mcurrent 
+[33m=[39m 
+makeStore()[33m;[39m
+ [90m 10 |[39m   
+[36mreturn[39m [33m<[39m
+[33mProvider[39m store[33
+m=[39m{storeRef[33m.[39mc
+urrent}[33m>[39m{children}
+[33m<[39m[33m/[39m[33mP
+rovider[39m[33m>[39m[33m
+;[39m
+ [90m 11 |[39m }[0m
+Next.js build worker exited 
+with code: 1 and signal: 
+null

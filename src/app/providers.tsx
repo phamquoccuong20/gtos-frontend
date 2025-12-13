@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { makeStore, type AppStore } from "@/store/store";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  const storeRef = useRef<AppStore>();
+  const storeRef = useRef<AppStore | null>(null);
   if (!storeRef.current) storeRef.current = makeStore();
   return <Provider store={storeRef.current}>{children}</Provider>;
 }

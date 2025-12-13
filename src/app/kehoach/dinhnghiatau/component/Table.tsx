@@ -63,53 +63,53 @@ export default function DataTable<T extends object>({
 
   const rowSelection = selectable
     ? {
-        selectedRowKeys,
-        onChange: (keys: React.Key[]) => setSelectedRowKeys(keys),
-      }
+      selectedRowKeys,
+      onChange: (keys: React.Key[]) => setSelectedRowKeys(keys),
+    }
     : undefined;
 
   const cols = React.useMemo(() => {
-    const actionCol =
+    const actionCol: NonNullable<TableProps<T>["columns"]> =
       onDeleteRow || renderActions
-        ? ([
-            {
-              title: "Thao tác",
-              key: "__actions",
-              align: "right" as const,
-              render: (_: unknown, record: T) => (
-                <Space>
-                  {renderActions?.(record)}
-                  {onDeleteRow && (
-                    <Popconfirm
-                      title="Xoá dòng này?"
-                      okText="Xoá"
-                      cancelText="Huỷ"
-                      onConfirm={() => onDeleteRow(record)}
-                    >
-                      <Button danger size="small" icon={<DeleteOutlined />}>
-                        Xoá
-                      </Button>
-                    </Popconfirm>
-                  )}
-                </Space>
-              ),
-              width: 120,
-            },
-          ] as TableProps<T>["columns"])
-        : [];
-
-    const indexCol: TableProps<T>["columns"] = showIndex
-      ? [
+        ? [
           {
-            title: indexTitle,
-            dataIndex: "__stt",
-            width: indexWidth,
-            sorter: (a: any, b: any) => (a.__stt ?? 0) - (b.__stt ?? 0),
-            render: (_: any, __: T, idx: number) =>
-              ((page.current ?? 1) - 1) * (page.pageSize ?? 50) + idx + 1,
-            align: "center",
+            title: "Thao tác",
+            key: "__actions",
+            align: "right" as const,
+            render: (_: unknown, record: T) => (
+              <Space>
+                {renderActions?.(record)}
+                {onDeleteRow && (
+                  <Popconfirm
+                    title="Xoá dòng này?"
+                    okText="Xoá"
+                    cancelText="Huỷ"
+                    onConfirm={() => onDeleteRow(record)}
+                  >
+                    <Button danger size="small" icon={<DeleteOutlined />}>
+                      Xoá
+                    </Button>
+                  </Popconfirm>
+                )}
+              </Space>
+            ),
+            width: 120,
           },
         ]
+        : [];
+
+    const indexCol: NonNullable<TableProps<T>["columns"]> = showIndex
+      ? [
+        {
+          title: indexTitle,
+          dataIndex: "__stt",
+          width: indexWidth,
+          sorter: (a: any, b: any) => (a.__stt ?? 0) - (b.__stt ?? 0),
+          render: (_: any, __: T, idx: number) =>
+            ((page.current ?? 1) - 1) * (page.pageSize ?? 50) + idx + 1,
+          align: "center",
+        },
+      ]
       : [];
 
     return [...indexCol, ...(columns || []), ...actionCol];
@@ -127,7 +127,7 @@ export default function DataTable<T extends object>({
   return (
     <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
       {title ? (
-        <Typography.Title level={4} style={{ marginTop: 0, marginBottom: 25, borderBottom: "1px solid #ced4da", padding: 25}}>
+        <Typography.Title level={4} style={{ marginTop: 0, marginBottom: 25, borderBottom: "1px solid #ced4da", padding: 25 }}>
           {title}
         </Typography.Title>
       ) : null}
@@ -200,8 +200,8 @@ export default function DataTable<T extends object>({
       </div>
       <div className="px-5">
         <ConfigProvider
-        theme={{
-        }}
+          theme={{
+          }}
         >
           <Table<T>
             size="middle"

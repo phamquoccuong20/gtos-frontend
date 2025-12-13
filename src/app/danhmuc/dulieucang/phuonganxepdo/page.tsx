@@ -6,6 +6,7 @@ import { title } from "process";
 import { useMemo, useState } from "react";
 import DataTable from "../components/Table";
 import SearchBar from "../components/SearchBar";
+import { PHUONG_AN_OPTIONS, PA_CODE_BY_LABEL, STORAGE_KEY } from "./constants";
 
 type Row = {
   id: number;
@@ -16,28 +17,6 @@ type Row = {
   phanLoai: string;
   editable?: boolean;
 };
-
-export const PHUONG_AN_OPTIONS = [
-  { label: "HẠ TẬP KẾT", value: "HBAI" as const },
-  { label: "XUẤT BÃI", value: "LAYN" as const },
-  { label: "GIAO HÀNG", value: "NGTH" as const },
-  { label: "XUẤT GIAO THẲNG", value: "XGTH" as const },
-  { label: "XUẤT TÀU", value: "XTAU" as const },
-];
-
-const STORAGE_KEY = "phuonganxepdo-data";
-
-export const PA_LABEL_BY_CODE: Record<string, string> = {
-  HBAI: "HẠ TẬP KẾT",
-  LAYN: "XUẤT BÃI",
-  NGTH: "GIAO HÀNG",
-  XGTH: "XUẤT GIAO THẲNG",
-  XTAU: "XUẤT TÀU",
-};
-
-export const PA_CODE_BY_LABEL: Record<string, string> = Object.fromEntries(
-  Object.entries(PA_LABEL_BY_CODE).map(([code, label]) => [label, code])
-);
 
 const INITIAL: Row[] = (rawData as any[]).map((r, i) => ({
   id: r.id ?? i + 1,
@@ -56,9 +35,9 @@ export default function PhuongAnXepDoPage() {
   const [addCount, setAddCount] = useState<number | null>(null);
 
   const filtered = useMemo(() => {
-    if(!q) return data;
+    if (!q) return data;
     const n = q.toLowerCase();
-    return data.filter((r) => 
+    return data.filter((r) =>
       [r.phuongAn, r.maPA].some((v) =>
         String(v ?? "").toLowerCase().includes(n)
       )
@@ -91,14 +70,14 @@ export default function PhuongAnXepDoPage() {
       open={open}
       title="Thêm dữ liệu"
       onCancel={() => setOpen(false)}
-      onOk={() => { addBlankRows(addCount || 1); setOpen(false);}}
+      onOk={() => { addBlankRows(addCount || 1); setOpen(false); }}
       okText="Thêm"
       width="fit-content"
       afterClose={() => setAddCount(null)}
       cancelText="Hủy"
       centered
     >
-      <div style={{marginTop: 25 }}>Nhập số dòng cần thêm:</div>
+      <div style={{ marginTop: 25 }}>Nhập số dòng cần thêm:</div>
       <InputNumber
         placeholder="Nhập số dòng"
         min={1}
@@ -108,7 +87,7 @@ export default function PhuongAnXepDoPage() {
         style={{ width: 300, marginTop: 8 }}
       />
     </Modal>
-    );
+  );
 
   const columns: TableProps<Row>["columns"] = useMemo(
     () => [
@@ -129,43 +108,46 @@ export default function PhuongAnXepDoPage() {
               style={{ textAlign: "center", width: "100%", height: "100%" }}
             />
           ) : (
-          val ?? ""
-        ),
+            val ?? ""
+          ),
       },
-      { title: "Mã phương án xếp dỡ", dataIndex: "maPA", with: 80, align: "center",
+      {
+        title: "Mã phương án xếp dỡ", dataIndex: "maPA", with: 80, align: "center",
         sorter: (a, b) => a.maPA.localeCompare(b.maPA),
         render: (val, r) =>
           r.editable
             ? <Input
-                variant="borderless"
-                value={val}
-                onChange={e => updateCell(r.id, "maPA", e.target.value)}
-                style={{ textAlign: "center", width: "100%", height: "100%" }}
-              />
+              variant="borderless"
+              value={val}
+              onChange={e => updateCell(r.id, "maPA", e.target.value)}
+              style={{ textAlign: "center", width: "100%", height: "100%" }}
+            />
             : val
       },
-      { title: "Tên phương án xếp dỡ", dataIndex: "tenPA", with: 80, align: "center",
+      {
+        title: "Tên phương án xếp dỡ", dataIndex: "tenPA", with: 80, align: "center",
         sorter: (a, b) => a.tenPA.localeCompare(b.tenPA),
         render: (val, r) =>
           r.editable
             ? <Input
-                variant="borderless"
-                value={val}
-                onChange={e => updateCell(r.id, "tenPA", e.target.value)}
-                style={{ textAlign: "center", width: "100%", height: "100%" }}
-              />
+              variant="borderless"
+              value={val}
+              onChange={e => updateCell(r.id, "tenPA", e.target.value)}
+              style={{ textAlign: "center", width: "100%", height: "100%" }}
+            />
             : val
       },
-      { title: "Phân loại", dataIndex: "phanLoai", with: 80, align: "center",
+      {
+        title: "Phân loại", dataIndex: "phanLoai", with: 80, align: "center",
         sorter: (a, b) => a.phanLoai.localeCompare(b.phanLoai),
         render: (val, r) =>
           r.editable
             ? <Input
-                variant="borderless"
-                value={val}
-                onChange={e => updateCell(r.id, "phanLoai", e.target.value)}
-                style={{ textAlign: "center", width: "100%", height: "100%" }}
-              />
+              variant="borderless"
+              value={val}
+              onChange={e => updateCell(r.id, "phanLoai", e.target.value)}
+              style={{ textAlign: "center", width: "100%", height: "100%" }}
+            />
             : val
       }
     ], [data]
@@ -186,7 +168,7 @@ export default function PhuongAnXepDoPage() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   }
 
-    const onCreate = async () => {
+  const onCreate = async () => {
     const v = await form.validateFields();
     if (data.some((r) => r.id === v.id)) {
       setData((prev) => prev.map((r) => (r.id === v.id ? v : r)));
@@ -199,7 +181,7 @@ export default function PhuongAnXepDoPage() {
 
   return (
     <div className="space-y-4">
-      <DataTable<Row> 
+      <DataTable<Row>
         title="PHƯƠNG ÁN XẾP DỠ"
         rowKey="id"
         columns={columns}
@@ -210,7 +192,7 @@ export default function PhuongAnXepDoPage() {
         }
         onDeleteSelected={onDeleteSelected}
         data={filtered}
-        scrollY={ 'calc(100vh - 422px)' }
+        scrollY={'calc(100vh - 422px)'}
       />
       {AddRowsModal}
     </div>
