@@ -160,6 +160,7 @@ export default function ListVessel({ open, onClose, onConfirm }: any) {
         title="Danh mục tàu"
         width={1000}
         centered
+        zIndex={1100}
         onCancel={onClose}
         footer={[
           <Button key="cancel" onClick={() => onClose(false)}>
@@ -208,13 +209,13 @@ export default function ListVessel({ open, onClose, onConfirm }: any) {
             paddingLeft: 20,
             justifyContent: "space-between",
           }}
-          // onFinish={handleLoad}
+        // onFinish={handleLoad}
         >
           <Form.Item name="name" label="Tàu" style={{ minWidth: 200 }}>
             <Input
               allowClear
               placeholder="Tên tàu"
-              // onPressEnter={handleLoad}
+            // onPressEnter={handleLoad}
             />
           </Form.Item>
           <Form.Item name="year" label="Năm">

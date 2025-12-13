@@ -1,8 +1,8 @@
 import { Vessel, VesselStatus, Berth, CargoItem, YardBlock, YardInventoryItem } from './types';
 
 // Visual Constants
-export const PIXELS_PER_HOUR = 60; // Horizontal scale: 60px per hour
-export const PIXELS_PER_METER = 0.8; // Vertical scale: 0.8px per meter (Reduced from 1.2)
+export const PIXELS_PER_HOUR = 40; // Horizontal scale: 40px per hour
+export const PIXELS_PER_METER = 0.5; // Vertical scale: 0.5px per meter
 export const METERS_PER_BITT = 20; // 1 Bitt = 20 meters
 
 // Layout

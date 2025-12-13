@@ -167,14 +167,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     <>
       {/* Backdrop overlay */}
       <div
-        className={`fixed inset-0 bg-black/40 backdrop-blur-[2px] z-30 transition-opacity duration-300 ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        className={`fixed inset-0 bg-black/40 backdrop-blur-[2px] z-[70] transition-opacity duration-300 ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           }`}
         onClick={onClose}
       />
 
       {/* Sidebar Panel */}
       <div
-        className={`fixed top-0 left-0 h-full w-[320px] bg-white shadow-2xl z-40 transform transition-transform duration-300 ease-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"
+        className={`fixed top-0 left-0 h-full w-[320px] bg-white shadow-2xl z-[80] transform transition-transform duration-300 ease-out flex flex-col ${isOpen ? "translate-x-0" : "-translate-x-full"
           }`}
       >
         <div className="h-20 bg-[#004e9a] flex items-center justify-between px-6 text-white shadow-md flex-shrink-0">

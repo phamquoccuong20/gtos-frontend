@@ -19,7 +19,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
             />
             <div className="flex min-w-0 flex-1 flex-col bg-white">
                 <Header onMenuClick={() => setIsSidebarOpen(true)} />
-                <main className="min-h-0 flex-1 overflow-hidden bg-gray-50">
+                <main className="min-h-0 flex-1 overflow-auto bg-gray-50">
                     {children}
                 </main>
             </div>

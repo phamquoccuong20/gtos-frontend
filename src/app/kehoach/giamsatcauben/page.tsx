@@ -38,10 +38,23 @@ export default function GiamSatCauBenPage() {
         setLoading(true);
         // Simulate API call delay
         setTimeout(() => {
-            // Append 00:00 time to date strings
+            // Parse selected dates
             const startDate = new Date(inputStartTime + 'T00:00:00');
-            const endDate = new Date(inputEndTime + 'T00:00:00');
-            setChartStartTime(startDate);
+            const endDate = new Date(inputEndTime + 'T23:59:59');
+
+            // Find earliest vessel arrival time within the selected range
+            const vesselsInRange = MOCK_VESSELS.filter(v =>
+                v.arrivalTime >= startDate && v.arrivalTime <= endDate
+            );
+
+            let chartStart = startDate;
+            if (vesselsInRange.length > 0) {
+                const earliestArrival = new Date(Math.min(...vesselsInRange.map(v => v.arrivalTime.getTime())));
+                // Start 1 hour before earliest vessel, but not before start date
+                chartStart = new Date(Math.max(startDate.getTime(), earliestArrival.getTime() - 60 * 60 * 1000));
+            }
+
+            setChartStartTime(chartStart);
             setChartEndTime(endDate);
             setIsDataLoaded(true);
             setLoading(false);

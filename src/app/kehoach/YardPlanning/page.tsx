@@ -242,7 +242,7 @@ const Page: React.FC = () => {
   const selectedCargoObj = cargoList.find(c => c.id === selectedCargoId);
 
   return (
-    <div className="h-full bg-slate-50 text-slate-900 font-sans relative flex flex-col">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans relative flex flex-col">
 
       {/* Notification Toast */}
       {notification && (

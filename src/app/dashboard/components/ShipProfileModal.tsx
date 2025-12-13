@@ -35,7 +35,7 @@ export const ShipProfileModal: React.FC<ShipProfileModalProps> = ({ isOpen, onCl
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             <div
                 className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"
                 onClick={onClose}
@@ -149,7 +149,7 @@ export const ShipProfileModal: React.FC<ShipProfileModalProps> = ({ isOpen, onCl
                                                 </div>
                                             </div>
                                             <span className={`text-[12px] font-semibold px-2 py-0.5 rounded ${item.status === 'Completed' ? 'bg-emerald-50 text-emerald-600' :
-                                                    item.status === 'Working' ? 'bg-blue-50 text-blue-600' : 'bg-slate-100 text-slate-500'
+                                                item.status === 'Working' ? 'bg-blue-50 text-blue-600' : 'bg-slate-100 text-slate-500'
                                                 }`}>
                                                 {item.status === 'Completed' ? 'Hoàn thành' : item.status === 'Working' ? 'Đang làm hàng' : 'Chờ làm'}
                                             </span>

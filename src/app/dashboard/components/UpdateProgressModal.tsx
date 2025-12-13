@@ -18,7 +18,7 @@ export const UpdateProgressModal: React.FC<UpdateProgressModalProps> = ({ isOpen
     if (!isOpen || !berth) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             {/* Backdrop */}
             <div
                 className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"
@@ -58,8 +58,8 @@ export const UpdateProgressModal: React.FC<UpdateProgressModalProps> = ({ isOpen
                                     key={hatch}
                                     onClick={() => setActiveHatch(hatch)}
                                     className={`flex-1 h-9 flex items-center justify-center rounded border text-[14px] font-medium transition-all ${activeHatch === hatch
-                                            ? 'bg-blue-600 border-blue-600 text-white shadow-sm'
-                                            : 'bg-white border-slate-200 text-slate-600 hover:border-blue-300 hover:bg-blue-50'
+                                        ? 'bg-blue-600 border-blue-600 text-white shadow-sm'
+                                        : 'bg-white border-slate-200 text-slate-600 hover:border-blue-300 hover:bg-blue-50'
                                         }`}
                                 >
                                     Hầm {hatch}
