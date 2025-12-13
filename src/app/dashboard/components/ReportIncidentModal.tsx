@@ -17,7 +17,7 @@ export const ReportIncidentModal: React.FC<ReportIncidentModalProps> = ({ isOpen
     if (!isOpen || !berth) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             {/* Backdrop */}
             <div
                 className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"
@@ -78,8 +78,8 @@ export const ReportIncidentModal: React.FC<ReportIncidentModalProps> = ({ isOpen
                                 <button
                                     onClick={() => setSeverity('low')}
                                     className={`h-9 rounded border flex items-center justify-center text-[13px] font-medium transition-all ${severity === 'low'
-                                            ? 'bg-emerald-50 border-emerald-500 text-emerald-700 shadow-sm ring-1 ring-emerald-500'
-                                            : 'bg-white border-slate-200 text-slate-600 hover:bg-emerald-50 hover:border-emerald-200'
+                                        ? 'bg-emerald-50 border-emerald-500 text-emerald-700 shadow-sm ring-1 ring-emerald-500'
+                                        : 'bg-white border-slate-200 text-slate-600 hover:bg-emerald-50 hover:border-emerald-200'
                                         }`}
                                 >
                                     Thấp
@@ -87,8 +87,8 @@ export const ReportIncidentModal: React.FC<ReportIncidentModalProps> = ({ isOpen
                                 <button
                                     onClick={() => setSeverity('medium')}
                                     className={`h-9 rounded border flex items-center justify-center text-[13px] font-medium transition-all ${severity === 'medium'
-                                            ? 'bg-orange-50 border-orange-500 text-orange-700 shadow-sm ring-1 ring-orange-500'
-                                            : 'bg-white border-slate-200 text-slate-600 hover:bg-orange-50 hover:border-orange-200'
+                                        ? 'bg-orange-50 border-orange-500 text-orange-700 shadow-sm ring-1 ring-orange-500'
+                                        : 'bg-white border-slate-200 text-slate-600 hover:bg-orange-50 hover:border-orange-200'
                                         }`}
                                 >
                                     Trung bình
@@ -96,8 +96,8 @@ export const ReportIncidentModal: React.FC<ReportIncidentModalProps> = ({ isOpen
                                 <button
                                     onClick={() => setSeverity('high')}
                                     className={`h-9 rounded border flex items-center justify-center text-[13px] font-medium transition-all ${severity === 'high'
-                                            ? 'bg-rose-50 border-rose-500 text-rose-700 shadow-sm ring-1 ring-rose-500'
-                                            : 'bg-white border-slate-200 text-slate-600 hover:bg-rose-50 hover:border-rose-200'
+                                        ? 'bg-rose-50 border-rose-500 text-rose-700 shadow-sm ring-1 ring-rose-500'
+                                        : 'bg-white border-slate-200 text-slate-600 hover:bg-rose-50 hover:border-rose-200'
                                         }`}
                                 >
                                     Cao

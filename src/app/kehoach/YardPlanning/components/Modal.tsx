@@ -22,7 +22,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, size = 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 top-[60px] z-[50] flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"
@@ -30,7 +30,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, size = 
       ></div>
 
       {/* Content */}
-      <div className={`relative w-full ${sizeClasses[size]} bg-white rounded-xl shadow-2xl border border-slate-100 transform transition-all scale-100 overflow-hidden flex flex-col max-h-[90vh]`}>
+      <div className={`relative w-full ${sizeClasses[size]} bg-white rounded-xl shadow-2xl border border-slate-100 transform transition-all scale-100 overflow-hidden flex flex-col max-h-[80vh]`}>
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/50">
           <h3 className="text-lg font-bold text-blue-800 uppercase tracking-wide">{title}</h3>
           <button

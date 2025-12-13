@@ -67,7 +67,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   }, []);
 
   return (
-    <header className="h-15 w-full flex items-center bg-white pr-6 pl-1 gap-2 relative z-[60] shadow-lg">
+    <header className="h-15 w-full flex items-center pr-6 pl-1 relative z-[60]">
       {/* 1. Menu Button - Detached, Dark Blue, Full Height */}
       <button
         onClick={onMenuClick}
@@ -90,7 +90,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
 
       {/* 2. Main Branding Bar - Image Background */}
       {/* Replaced CSS shapes with an img tag as requested */}
-      <div className="flex-1 h-full relative min-w-0 ml-1 mr-3">
+      <div className="flex-1 h-full relative min-w-0 ml-2 -mr-6 z-10">
         {/* Background Image */}
         {/* 
             TODO: Replace the src below with the actual path to your uploaded image asset.
@@ -123,8 +123,8 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
         </div>
       </div>
 
-      {/* 3. Right Icons Area - On White Background */}
-      <div className="flex items-center gap-3 pl-2 shrink-0">
+      {/* 3. Right Icons Area - On White Background - blue bar overlaps on top */}
+      <div className="flex items-center gap-3 pl-32 pr-2 shrink-0 bg-white shadow-lg rounded-bl -ml-28 h-full">
         {/* Notification */}
         <button
           onClick={() => {

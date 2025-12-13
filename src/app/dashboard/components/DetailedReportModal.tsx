@@ -14,7 +14,7 @@ export const DetailedReportModal: React.FC<DetailedReportModalProps> = ({ isOpen
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             {/* Backdrop */}
             <div
                 className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"
@@ -102,8 +102,8 @@ export const DetailedReportModal: React.FC<DetailedReportModalProps> = ({ isOpen
                                     </td>
                                     <td className="px-6 py-3 whitespace-nowrap">
                                         <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${item.status === 'Completed' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' :
-                                                item.status === 'Processing' ? 'bg-blue-50 text-blue-700 border-blue-100' :
-                                                    'bg-orange-50 text-orange-700 border-orange-100'
+                                            item.status === 'Processing' ? 'bg-blue-50 text-blue-700 border-blue-100' :
+                                                'bg-orange-50 text-orange-700 border-orange-100'
                                             }`}>
                                             {item.status === 'Completed' ? 'Hoàn thành' : item.status === 'Processing' ? 'Đang xử lý' : 'Chờ duyệt'}
                                         </span>

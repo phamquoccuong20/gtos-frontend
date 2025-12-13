@@ -6,7 +6,6 @@
       "href": "/dashboard",
       "icon": "home"
     },
-
     {
       "key": "quan-tri",
       "label": "QUẢN TRỊ HỆ THỐNG",
@@ -15,13 +14,13 @@
         {
           "key": "nhom-nguoi-dung",
           "label": "Nhóm người dùng",
-          "href": "/quan-tri/nhom-nguoi-dung",
+          "href": "/quantri/groupUser",
           "icon": "users"
         },
         {
           "key": "nguoi-dung",
           "label": "Người dùng",
-          "href": "/quan-tri/nguoi-dung",
+          "href": "/quan-tri/user",
           "icon": "user"
         },
         {
@@ -32,7 +31,6 @@
         }
       ]
     },
-
     {
       "key": "danh-muc",
       "label": "DANH MỤC",
@@ -224,7 +222,6 @@
         }
       ]
     },
-
     {
       "key": "ke-hoach",
       "label": "KẾ HOẠCH KHAI THÁC",
@@ -286,7 +283,6 @@
         }
       ]
     },
-
     {
       "key": "quy-trinh",
       "label": "QUY TRÌNH KHAI THÁC",
@@ -312,7 +308,6 @@
         }
       ]
     },
-
     {
       "key": "bao-cao",
       "label": "BÁO CÁO",
@@ -476,7 +471,6 @@
         }
       ]
     },
-
     {
       "key": "khac",
       "label": "KHÁC",

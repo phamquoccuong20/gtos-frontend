@@ -158,7 +158,7 @@ export const BerthChart: React.FC<BerthChartProps> = ({ vessels, startTime, endT
                     // Technical Blueprint: White background, Amber dashed border.
                     wrapper: 'bg-white hover:bg-amber-50',
                     style: {},
-                    border: 'border-2 border-dashed border-amber-400',
+                    border: 'border-2 border-amber-400',
                     shadow: 'shadow-sm',
                     textPrimary: 'text-slate-800',
                     textSecondary: 'text-slate-500',
@@ -452,13 +452,13 @@ export const BerthChart: React.FC<BerthChartProps> = ({ vessels, startTime, endT
                                                     {/* Icon & Name Row */}
                                                     <div className="flex items-center justify-center gap-1.5 max-w-full">
                                                         {segment.status === VesselStatus.AT_BERTH && (
-                                                            <Anchor className={`w-3.5 h-3.5 flex-shrink-0 ${styles.iconColor}`} />
+                                                            <Ship className={`w-3.5 h-3.5 flex-shrink-0 ${styles.iconColor}`} />
                                                         )}
                                                         {segment.status === VesselStatus.PLANNED && (
-                                                            <Clock className={`w-3.5 h-3.5 flex-shrink-0 ${styles.iconColor}`} />
+                                                            <Ship className={`w-3.5 h-3.5 flex-shrink-0 ${styles.iconColor}`} />
                                                         )}
                                                         {segment.status === VesselStatus.DEPARTED && (
-                                                            <CheckCircle2 className={`w-3.5 h-3.5 flex-shrink-0 ${styles.iconColor}`} />
+                                                            <Ship className={`w-3.5 h-3.5 flex-shrink-0 ${styles.iconColor}`} />
                                                         )}
                                                         <span className={`font-bold text-xs truncate leading-tight font-heading ${styles.textPrimary}`}>
                                                             {segment.name}
