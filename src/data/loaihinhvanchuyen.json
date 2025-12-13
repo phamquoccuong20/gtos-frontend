@@ -1,0 +1,17 @@
+[
+  {
+    "stt": 1,
+    "maLH": "TI",
+    "tenLH": "Trans-Terminal In"
+  },
+  {
+    "stt": 2,
+    "maLH": "TO",
+    "tenLH": "Trans-Terminal Out"
+  },
+  {
+    "stt": 3,
+    "maLH": "TS",
+    "tenLH": "Transhipment"
+  }
+]

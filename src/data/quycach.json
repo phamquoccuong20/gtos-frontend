@@ -1,0 +1,92 @@
+[
+  {
+    "stt": 1,
+    "maBai": "",
+    "maQC": "QCCAY",
+    "tenQC": "H100x50x5x7",
+    "dai": 1,
+    "rong": 0,
+    "trongluong": 9.3
+  },
+  {
+    "stt": 2,
+    "maBai": "",
+    "maQC": "QCCAY",
+    "tenQC": "H125x60x6x8",
+    "dai": 1,
+    "rong": 0,
+    "trongluong": 13.1
+  },
+  {
+    "stt": 3,
+    "maBai": "VCK2",
+    "maQC": "QCCAY",
+    "tenQC": "H100x100x6x8",
+    "dai": 1,
+    "rong": 0,
+    "trongluong": 16.9
+  },
+  {
+    "stt": 4,
+    "maBai": "",
+    "maQC": "QCCAY",
+    "tenQC": "H150x75x5x7",
+    "dai": 1,
+    "rong": 0,
+    "trongluong": 14
+  },
+  {
+    "stt": 5,
+    "maBai": "",
+    "maQC": "QCCAY",
+    "tenQC": "H148x100x6x9",
+    "dai": 1,
+    "rong": 0,
+    "trongluong": 20.7
+  },
+  {
+    "stt": 6,
+    "maBai": "",
+    "maQC": "QCCAY",
+    "tenQC": "H125x125x6.5x9",
+    "dai": 1,
+    "rong": 0,
+    "trongluong": 23.6
+  },
+  {
+    "stt": 7,
+    "maBai": "",
+    "maQC": "QCCAY",
+    "tenQC": "H175x90x5x8",
+    "dai": 1,
+    "rong": 0,
+    "trongluong": 18
+  },
+  {
+    "stt": 8,
+    "maBai": "",
+    "maQC": "QCCAY",
+    "tenQC": "H200x100x5.5x8",
+    "dai": 1,
+    "rong": 0,
+    "trongluong": 20.9
+  },
+  {
+    "stt": 9,
+    "maBai": "",
+    "maQC": "QCCAY",
+    "tenQC": "H150x150x7x10",
+    "dai": 1,
+    "rong": 0,
+    "trongluong": 31.1
+  },
+  {
+    "stt": 10,
+    "maBai": "",
+    "maQC": "QCCAY",
+    "tenQC": "H198x99x4.5x7",
+    "dai": 1,
+    "rong": 0,
+    "trongluong": 17.8
+  }
+]

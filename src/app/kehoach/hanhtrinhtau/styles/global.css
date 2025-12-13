@@ -1,0 +1,112 @@
+.ship {
+  offset-path: path("M 10 40 L 812 40 L 812 190 L 10 190 Z");
+  animation: moveShip 40s linear infinite;
+  offset-rotate: 0deg;
+  left: 10px;
+  position: absolute;
+  transition: transform 0.3s linear;
+}
+
+@keyframes moveShip {
+  0% {
+    offset-distance: 0%;
+    transform: rotate(0deg);
+  }
+
+  /* Đi trên line trên */
+  48% {
+    offset-distance: 48%;
+    transform: rotateY(0deg);
+  }
+
+  /* Đến điểm rẽ xuống – đứng lại quay đầu */
+  50% {
+    offset-distance: 50%;
+    transform: rotateY(180deg) translateY(-20px); /* xoay đầu xuống */
+  }
+
+  /* 55%: bắt đầu xuống line dọc */
+  55% {
+    offset-distance: 55%;
+    transform: rotateY(180deg) translateY(-20px);
+    opacity: 1;
+  }
+
+  /* Xuống line dưới – lật tàu lên trên nằm trên line */
+  60% {
+    offset-distance: 60%;
+    transform: rotateY(180deg) translateY(-20px);
+    opacity: 1;
+    /* bạn có thể chỉnh -20px để đẩy tàu nằm trên line */
+  }
+
+  /* Chạy thẳng line dưới */
+  91% {
+    offset-distance: 91%;
+    transform: rotateY(180deg) translateY(-20px);
+    opacity: 0;
+  }
+
+  /* Cuối line dưới – chuẩn bị biến mất */
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+    transform: rotateY(180deg) translateY(-20px);
+  }
+}
+
+.code_submission {
+  display: flex;
+  align-items: center;
+}
+
+.code_text {
+  width: 130px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.btn_data {
+  display: flex;
+  gap: 10px;
+}
+
+.btn_load {
+  height: 35px !important;
+  color: #ffffff !important;
+  font-size: 16px !important;
+  background-color: #228be6 !important;
+}
+
+.btn_load:hover {
+  background-color: #339af0 !important;
+  color: #ffffff !important;
+  height: 35px !important;
+}
+
+.btn_add {
+  color: #38d9a9 !important;
+  height: 35px !important;
+}
+
+.btn_add:hover {
+  border: 1px solid #38d9a9 !important;
+  height: 35px !important;
+}
+
+.btn_delete {
+  color: #fa5252 !important;
+  height: 35px !important;
+  border: 1px solid #fa5252 !important;
+}
+
+.code_local {
+  background-color: #f1f3f5;
+  padding: 16px;
+  border-radius: 6px;
+  margin-bottom: 30px;
+}

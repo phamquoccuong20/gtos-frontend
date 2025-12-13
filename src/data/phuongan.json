@@ -1,0 +1,68 @@
+[
+  {
+    "stt": 1,
+    "huongNX": "Xuất",
+    "transitID": "",
+    "vaora": "Vào",
+    "maPA": "HBAI",
+    "tenPA": "HẠ TẬP KẾT",
+    "bai": true,
+    "tau": true,
+    "maHQ": 0
+  },
+  {
+    "stt": 2,
+    "huongNX": "Nhập",
+    "transitID": "",
+    "vaora": "Ra",
+    "maPA": "LAYN",
+    "tenPA": "XUẤT BÃI",
+    "bai": true,
+    "tau": false,
+    "maHQ": 0
+  },
+  {
+    "stt": 3,
+     "huongNX": "Nhập",
+    "transitID": "",
+    "vaora": "Ra",
+    "maPA": "NGTH",
+    "tenPA": "GIAO HÀNG",
+    "bai": true,
+    "tau": true,
+    "maHQ": 0
+  },
+  {
+    "stt": 4,
+    "huongNX": "Nhập",
+    "transitID": "",
+    "vaora": "Vào",
+    "maPA": "NTAU",
+    "tenPA": "NHẬP BÃI",
+    "bai": true,
+    "tau": true,
+    "maHQ": 0
+  },
+  {
+    "stt": 5,
+    "huongNX": "Xuất",
+    "transitID": "",
+    "vaora": "Ra",
+    "maPA": "XGTH",
+    "tenPA": "XUẤT GIAO THẲNG",
+    "bai": true,
+    "tau": true,
+    "maHQ": 0
+  },
+  {
+    "stt": 6,
+    "huongNX": "Xuất",
+    "transitID": "",
+    "vaora": "Ra",
+    "maPA": "XTAU",
+    "tenPA": "XUẤT TÀU",
+    "bai": true,
+    "tau": true,
+    "maHQ": 0
+  }
+]

@@ -1,0 +1,566 @@
+{
+  "items": [
+    {
+      "key": "dashboards",
+      "label": "DASHBOARDS",
+      "href": "/dashboard",
+      "icon": "home"
+    },
+
+    {
+      "key": "quan-tri",
+      "label": "QUẢN TRỊ HỆ THỐNG",
+      "icon": "cog",
+      "children": [
+        {
+          "key": "nhom-nguoi-dung",
+          "label": "Nhóm người dùng",
+          "href": "/quan-tri/nhom-nguoi-dung",
+          "icon": "users"
+        },
+        {
+          "key": "nguoi-dung",
+          "label": "Người dùng",
+          "href": "/quan-tri/nguoi-dung",
+          "icon": "user"
+        },
+        {
+          "key": "phan-quyen",
+          "label": "Phân quyền",
+          "href": "/quan-tri/permission",
+          "icon": "user-lock"
+        }
+      ]
+    },
+
+    {
+      "key": "danh-muc",
+      "label": "DANH MỤC",
+      "icon": "stream",
+      "children": [
+        {
+          "key": "he-thong",
+          "label": "Hệ thống",
+          "icon": "cogs",
+          "href": "/danhmuc/hethong",
+          "children": [
+            {
+              "key": "cang",
+              "label": "Cảng",
+              "icon": "anchor",
+              "href": "/danhmuc/hethong#cang"
+            },
+            {
+              "key": "ty-gia",
+              "label": "Tỷ giá",
+              "icon": "dollar-sign",
+              "href": "/danhmuc/hethong#ty-gia"
+            },
+            {
+              "key": "quoc-gia",
+              "label": "Quốc gia",
+              "icon": "globe",
+              "href": "/danhmuc/hethong#quoc-gia"
+            },
+            {
+              "key": "vung-phu",
+              "label": "Vùng phụ",
+              "icon": "compass",
+              "href": "/danhmuc/hethong#vung-phu"
+            }
+          ]
+        },
+        {
+          "key": "du-lieu-cang",
+          "label": "Dữ liệu cảng",
+          "icon": "anchor",
+          "children": [
+            {
+              "key": "ca-lam-viec",
+              "label": "Ca làm việc",
+              "href": "/danhmuc/dulieucang/Calamviec",
+              "icon": "calendar-check"
+            },
+            {
+              "key": "bai",
+              "label": "Bãi",
+              "href": "/danh-muc/du-lieu-cang/bai",
+              "icon": "warehouse"
+            },
+            {
+              "key": "dinh-nghia-so-do-bai",
+              "label": "Định nghĩa sơ đồ bãi",
+              "href": "/danh-muc/du-lieu-cang/dinh-nghia-so-do-bai",
+              "icon": "project-diagram"
+            },
+            {
+              "key": "dich-vu",
+              "label": "Dịch vụ",
+              "href": "/danhmuc/dulieucang/dichvu",
+              "icon": "cogs"
+            },
+            {
+              "key": "don-vi-tinh",
+              "label": "Đơn vị tính",
+              "href": "/danhmuc/dulieucang/donvitinh",
+              "icon": "ruler-combined"
+            },
+            {
+              "key": "phuong-an",
+              "label": "Phương án",
+              "href": "/danhmuc/dulieucang/phuongan",
+              "icon": "project-diagram"
+            },
+            {
+              "key": "phuong-an-xep-do",
+              "label": "Phương án xếp dỡ",
+              "href": "/danhmuc/dulieucang/phuonganxepdo",
+              "icon": "boxes"
+            },
+            {
+              "key": "loai-cong-viec",
+              "label": "Loại công việc",
+              "href": "/danhmuc/dulieucang/loaicongviec",
+              "icon": "tasks"
+            },
+            {
+              "key": "huong-nhap-xuat",
+              "label": "Hướng nhập xuất",
+              "href": "/danhmuc/dulieucang/huongnhapxuat",
+              "icon": "exchange-alt"
+            },
+            {
+              "key": "loai-hinh-van-chuyen",
+              "label": "Loại hình vận chuyển",
+              "href": "/danhmuc/dulieucang/loaihinhvanchuyen",
+              "icon": "route"
+            },
+            {
+              "key": "quy-cach",
+              "label": "Quy cách",
+              "href": "/danhmuc/dulieucang/quycach",
+              "icon": "sliders-h"
+            },
+            {
+              "key": "tinh-trang-hang-hoa",
+              "label": "Tình trạng hàng hóa",
+              "href": "/danhmuc/dulieucang/tinhtranghanghoa",
+              "icon": "clipboard-check"
+            }
+          ]
+        },
+        {
+          "key": "du-lieu-khai-thac",
+          "label": "Dữ liệu khai thác",
+          "icon": "users",
+          "children": [
+            {
+              "key": "loai-hang-hoa",
+              "label": "Loại hàng hóa",
+              "href": "/danh-muc/du-lieu-khai-thac/loai-hang-hoa",
+              "icon": "boxes"
+            },
+            {
+              "key": "hang-hoa",
+              "label": "Hàng hóa",
+              "href": "/danh-muc/du-lieu-khai-thac/hang-hoa",
+              "icon": "box"
+            },
+            {
+              "key": "loai-to-doi-cong-nhan",
+              "label": "Loại tổ đội công nhân",
+              "href": "/danh-muc/du-lieu-khai-thac/loai-to-doi-cong-nhan",
+              "icon": "users"
+            },
+            {
+              "key": "to-doi-cong-nhan",
+              "label": "Tổ đội công nhân",
+              "href": "/danh-muc/du-lieu-khai-thac/to-doi-cong-nhan",
+              "icon": "users"
+            },
+            {
+              "key": "loai-khach-hang",
+              "label": "Loại khách hàng",
+              "href": "/danh-muc/du-lieu-khai-thac/loai-khach-hang",
+              "icon": "user-tag"
+            },
+            {
+              "key": "khach-hang",
+              "label": "Khách hàng",
+              "href": "/danh-muc/du-lieu-khai-thac/khach-hang",
+              "icon": "user"
+            },
+            {
+              "key": "loai-thiet-bi",
+              "label": "Loại thiết bị",
+              "href": "/danh-muc/du-lieu-khai-thac/loai-thiet-bi",
+              "icon": "cogs"
+            },
+            {
+              "key": "thiet-bi",
+              "label": "Thiết bị",
+              "href": "/danh-muc/du-lieu-khai-thac/thiet-bi",
+              "icon": "toolbox"
+            },
+            {
+              "key": "hang-khai-thac",
+              "label": "Hãng khai thác",
+              "href": "/danh-muc/du-lieu-khai-thac/hang-khai-thac",
+              "icon": "ship"
+            },
+            {
+              "key": "id",
+              "label": "ID",
+              "href": "/danh-muc/du-lieu-khai-thac/id",
+              "icon": "id-badge"
+            },
+            {
+              "key": "phan-tram-tai-trong",
+              "label": "Phần trăm tải trọng",
+              "href": "/danh-muc/du-lieu-khai-thac/phan-tram-tai-trong",
+              "icon": "percentage"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "key": "ke-hoach",
+      "label": "KẾ HOẠCH KHAI THÁC",
+      "icon": "stream",
+      "children": [
+        {
+          "key": "ke-hoach-bai",
+          "label": "Kế hoạch bãi",
+          "href": "/kehoach/YardPlanning",
+          "icon": "clipboard-list"
+        },
+        {
+          "key": "dinh-nghia-tau",
+          "label": "Định nghĩa tàu",
+          "href": "/kehoach/dinhnghiatau",
+          "icon": "ship"
+        },
+        {
+          "key": "ke-hoach-cau-ben",
+          "label": "Kế hoạch cầu bến",
+          "href": "/kehoach/kehoachcauben",
+          "icon": "calendar-alt"
+        },
+        {
+          "key": "giam-sat-cau-ben",
+          "label": "Giám sát cầu bến",
+          "href": "/kehoach/giamsatcauben",
+          "icon": "binoculars"
+        },
+        {
+          "key": "pttb-nhap",
+          "label": "Kế hoạch PTTB Nhập",
+          "href": "/kehoach/pttbnhap",
+          "icon": "truck"
+        },
+        {
+          "key": "cap-nhat-thong-tin-cang-vu",
+          "label": "Cập nhật thông tin cảng vụ",
+          "href": "/ke-hoach/cap-nhat-thong-tin-cang-vu",
+          "icon": "sync"
+        },
+        {
+          "key": "hanh-trinh-tau",
+          "label": "Hành trình tàu",
+          "href": "/kehoach/hanhtrinhtau",
+          "icon": "route"
+        },
+        {
+          "key": "pttb-xuat",
+          "label": "Kế hoạch PTTB Xuất",
+          "href": "/kehoach/pttbxuat",
+          "icon": "truck-moving"
+        },
+        {
+          "key": "pttb-dao-chuyen",
+          "label": "Kế hoạch PTTB Đảo chuyển",
+          "href": "/ke-hoach/pttb-dao-chuyen",
+          "icon": "exchange-alt"
+        }
+      ]
+    },
+
+    {
+      "key": "quy-trinh",
+      "label": "QUY TRÌNH KHAI THÁC",
+      "icon": "stream",
+      "children": [
+        {
+          "key": "nhap",
+          "label": "Nhập",
+          "href": "/quy-trinh/nhap",
+          "icon": "file-import"
+        },
+        {
+          "key": "bai-kho-hang",
+          "label": "Bãi/Kho hàng",
+          "href": "/quy-trinh/bai-kho-hang",
+          "icon": "warehouse"
+        },
+        {
+          "key": "xuat",
+          "label": "Xuất",
+          "href": "/quy-trinh/xuat",
+          "icon": "file-export"
+        }
+      ]
+    },
+
+    {
+      "key": "bao-cao",
+      "label": "BÁO CÁO",
+      "icon": "stream",
+      "children": [
+        {
+          "key": "phat-hanh-hoa-don",
+          "label": "Phát hành hóa đơn",
+          "href": "/bao-cao/phat-hanh-hoa-don",
+          "icon": "file-invoice-dollar"
+        },
+        {
+          "key": "dieu-chinh-thay-the-hoa-don",
+          "label": "Điều chỉnh/Thay thế hóa đơn",
+          "href": "/bao-cao/dieu-chinh-thay-the-hoa-don",
+          "icon": "file-invoice"
+        },
+        {
+          "key": "in-lai-chung-tu",
+          "label": "In lại chứng từ",
+          "href": "/bao-cao/in-lai-chung-tu",
+          "icon": "print"
+        },
+        {
+          "key": "huy-hoa-don",
+          "label": "Hủy hóa đơn",
+          "href": "/bao-cao/huy-hoa-don",
+          "icon": "ban"
+        },
+        {
+          "key": "lich-su-thay-doi-du-lieu",
+          "label": "Lịch sử thay đổi dữ liệu",
+          "href": "/bao-cao/lich-su-thay-doi-du-lieu",
+          "icon": "history"
+        },
+        {
+          "key": "tao-hoa-don-tay",
+          "label": "Tạo hoá đơn tay",
+          "href": "/bao-cao/tao-hoa-don-tay",
+          "icon": "pen"
+        },
+        {
+          "key": "in-phieu-giao-nhan",
+          "label": "In phiếu giao nhận",
+          "href": "/bao-cao/in-phieu-giao-nhan",
+          "icon": "print"
+        },
+        {
+          "key": "dieu-hanh-xe-noi-bo",
+          "label": "Điều hành Xe Nội Bộ",
+          "href": "/bao-cao/dieu-hanh-xe-noi-bo",
+          "icon": "truck"
+        },
+        {
+          "key": "danh-sach-barcode",
+          "label": "Danh sách Barcode",
+          "href": "/bao-cao/danh-sach-barcode",
+          "icon": "barcode"
+        },
+        {
+          "key": "bien-ban-ket-toan-tau",
+          "label": "Biên bản kết toán tàu",
+          "href": "/bao-cao/bien-ban-ket-toan-tau",
+          "icon": "file-contract"
+        },
+        {
+          "key": "ra-vao-cong",
+          "label": "Ra vào cổng",
+          "href": "/bao-cao/ra-vao-cong",
+          "icon": "door-open"
+        },
+        {
+          "key": "nhap-xuat-tau",
+          "label": "Nhập xuất tàu",
+          "href": "/bao-cao/nhap-xuat-tau",
+          "icon": "ship"
+        },
+        {
+          "key": "ton-kho-bai",
+          "label": "Tồn kho bãi",
+          "href": "/bao-cao/ton-kho-bai",
+          "icon": "boxes"
+        },
+        {
+          "key": "khai-thac-cau-ben",
+          "label": "Khai thác cầu bến",
+          "href": "/bao-cao/khai-thac-cau-ben",
+          "icon": "anchor"
+        },
+        {
+          "key": "doanh-thu-hoa-don",
+          "label": "Doanh thu hóa đơn",
+          "href": "/bao-cao/doanh-thu-hoa-don",
+          "icon": "hand-holding-usd"
+        },
+        {
+          "key": "doanh-thu-theo-khach-hang",
+          "label": "Doanh thu theo khách hàng",
+          "href": "/bao-cao/doanh-thu-theo-khach-hang",
+          "icon": "user-tag"
+        },
+        {
+          "key": "san-luong-theo-ham",
+          "label": "Sản lượng theo hầm",
+          "href": "/bao-cao/san-luong-theo-ham",
+          "icon": "chart-bar"
+        },
+        {
+          "key": "kiem-nhan-hang-voi-tau",
+          "label": "Kiểm nhận hàng với tàu",
+          "href": "/bao-cao/kiem-nhan-hang-voi-tau",
+          "icon": "clipboard-check"
+        },
+        {
+          "key": "danh-sach-hang-hoa-nhap-tau",
+          "label": "Danh sách hàng hóa nhập tàu",
+          "href": "/bao-cao/danh-sach-hang-hoa-nhap-tau",
+          "icon": "boxes"
+        },
+        {
+          "key": "san-luong-phuong-tien-thiet-bi",
+          "label": "Sản lượng phương tiện thiết bị",
+          "href": "/bao-cao/san-luong-phuong-tien-thiet-bi",
+          "icon": "truck-moving"
+        },
+        {
+          "key": "kiem-dem-giao-hang-trong-kho",
+          "label": "Kiểm đếm giao hàng trong kho",
+          "href": "/bao-cao/kiem-dem-giao-hang-trong-kho",
+          "icon": "clipboard-list"
+        },
+        {
+          "key": "hang-hoa-nhap-xuat",
+          "label": "Hàng hóa nhập xuất",
+          "href": "/bao-cao/hang-hoa-nhap-xuat",
+          "icon": "exchange-alt"
+        },
+        {
+          "key": "bang-ke-xuat-hang",
+          "label": "Bảng kê xuất hàng",
+          "href": "/bao-cao/bang-ke-xuat-hang",
+          "icon": "file-export"
+        },
+        {
+          "key": "phieu-ban-giao-ca",
+          "label": "Phiếu bàn giao ca",
+          "href": "/bao-cao/phieu-ban-giao-ca",
+          "icon": "handshake"
+        },
+        {
+          "key": "thay-doi-cong-viec-cong",
+          "label": "Thay đổi công việc cổng",
+          "href": "/bao-cao/thay-doi-cong-viec-cong",
+          "icon": "random"
+        },
+        {
+          "key": "thay-doi-cong-viec-tau",
+          "label": "Thay đổi công việc tàu",
+          "href": "/bao-cao/thay-doi-cong-viec-tau",
+          "icon": "random"
+        }
+      ]
+    },
+
+    {
+      "key": "khac",
+      "label": "KHÁC",
+      "icon": "stream",
+      "children": [
+        {
+          "key": "ma-bieu-cuoc",
+          "label": "Mã biểu cước",
+          "href": "/khac/ma-bieu-cuoc",
+          "icon": "th"
+        },
+        {
+          "key": "xep-do-hang-voi-tau",
+          "label": "Xếp dỡ hàng với tàu",
+          "href": "/khac/xep-do-hang-voi-tau",
+          "icon": "boxes"
+        },
+        {
+          "key": "mau-bieu-cuoc",
+          "label": "Mẫu biểu cước",
+          "href": "/khac/mau-bieu-cuoc",
+          "icon": "file-alt"
+        },
+        {
+          "key": "giao-nhan-cong",
+          "label": "Giao nhận cổng",
+          "href": "/khac/giao-nhan-cong",
+          "icon": "landmark"
+        },
+        {
+          "key": "bieu-cuoc-chuan",
+          "label": "Biểu cước chuẩn",
+          "href": "/khac/bieu-cuoc-chuan",
+          "icon": "file-invoice-dollar"
+        },
+        {
+          "key": "lenh-dich-vu",
+          "label": "Lệnh dịch vụ",
+          "href": "/khac/lenh-dich-vu",
+          "icon": "file-signature"
+        },
+        {
+          "key": "hop-dong",
+          "label": "Hợp đồng",
+          "href": "/khac/hop-dong",
+          "icon": "file-contract"
+        },
+        {
+          "key": "dich-vu-tai-bai",
+          "label": "Dịch vụ tại bãi",
+          "href": "/khac/dich-vu-tai-bai",
+          "icon": "cogs"
+        },
+        {
+          "key": "lenh-ha-tap-ket",
+          "label": "Lệnh hạ tập kết",
+          "href": "/khac/lenh-ha-tap-ket",
+          "icon": "download"
+        },
+        {
+          "key": "phi-cau-ben",
+          "label": "Phí cầu bến",
+          "href": "/khac/phi-cau-ben",
+          "icon": "money-bill"
+        },
+        {
+          "key": "truy-van-thong-tin-lenh",
+          "label": "Truy vấn thông tin lệnh",
+          "href": "/khac/truy-van-thong-tin-lenh",
+          "icon": "book"
+        },
+        {
+          "key": "phi-luu-bai",
+          "label": "Phí lưu bãi",
+          "href": "/khac/phi-luu-bai",
+          "icon": "money-bill"
+        },
+        {
+          "key": "giao-nhan-kho-hang",
+          "label": "Giao nhận kho hàng",
+          "href": "/khac/giao-nhan-kho-hang",
+          "icon": "warehouse"
+        }
+      ]
+    }
+  ]
+}

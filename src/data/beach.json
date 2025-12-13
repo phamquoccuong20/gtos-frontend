@@ -1,0 +1,82 @@
+[
+  {
+    "stt": 1,
+    "location": "BCSBTBDTT2",
+    "dienGiai": "BÃI CON SÂU BỜ TƯỜNG BIỂN ĐÔNG",
+    "sucChua": "6656",
+    "thue": "Nội bộ",
+    "xeNang": ""
+  },
+  {
+    "stt": 2,
+    "location": "BCSBVBTT2",
+    "dienGiai": "BÃI CON SÂU CỔNG BÙI VĂN BA",
+    "sucChua": "6400",
+    "thue": "Nội bộ",
+    "xeNang": ""
+  },
+  {
+    "stt": 3,
+    "location": "BCSCC2TT2",
+    "dienGiai": "BÃI CON SÂU TRƯỚC CẦU CÂN 2",
+    "sucChua": "6656",
+    "thue": "Nội bộ",
+    "xeNang": ""
+  },
+  {
+    "stt": 4,
+    "location": "BCSKCXTT2",
+    "dienGiai": "BÃI CON SÂU CỔNG KCX",
+    "sucChua": "6400",
+    "thue": "Nội bộ",
+    "xeNang": ""
+  },
+  {
+    "stt": 5,
+    "location": "C1-HN",
+    "dienGiai": "C1 GIÁP KHU HÀNG NỘI",
+    "sucChua": "7208",
+    "thue": "Nội bộ",
+    "xeNang": ""
+  },
+  {
+    "stt": 6,
+    "location": "C1K2",
+    "dienGiai": "C1 GIÁP KHO 2",
+    "sucChua": "7208",
+    "thue": "Nội bộ",
+    "xeNang": ""
+  },
+  {
+    "stt": 7,
+    "location": "C1ND",
+    "dienGiai": "C1 KHU HÀNG NỘI ĐỊA",
+    "sucChua": "10816",
+    "thue": "Nội bộ",
+    "xeNang": ""
+  },
+  {
+    "stt": 8,
+    "location": "C1RC",
+    "dienGiai": "C1 RỬA CONT",
+    "sucChua": "9120",
+    "thue": "Nội bộ",
+    "xeNang": ""
+  },
+  {
+    "stt": 9,
+    "location": "C4BS",
+    "dienGiai": "BÃI C4 BỜ SÔNG GIÁP DỊCH VỤ",
+    "sucChua": "3054.4",
+    "thue": "Nội bộ",
+    "xeNang": ""
+  },
+  {
+    "stt": 10,
+    "location": "C4BT",
+    "dienGiai": "BÃI C4 BỜ TƯỜNG GIÁP DỊCH VỤ",
+    "sucChua": "3054.4",
+    "thue": "Nội bộ",
+    "xeNang": ""
+  }
+]

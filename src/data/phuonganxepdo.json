@@ -1,0 +1,37 @@
+[
+  {
+    "stt": 1,
+    "phuongAn": "LAYN",
+    "maPA": "BAI - OTO",
+    "tenPA": "BÃI - Ô TÔ",
+    "phanLoai": "Barge"
+  },
+  {
+    "stt": 2,
+    "phuongAn": "XTAU",
+    "maPA": "BAI - SISU",
+    "tenPA": "BÃI - SISU",
+    "phanLoai": ""
+  },
+    {
+    "stt": 3,
+    "phuongAn": "NTAU",
+    "maPA": "DAU BAI - TAU",
+    "tenPA": "ĐẦU BÃI - TÀU",
+    "phanLoai": ""
+  },
+    {
+    "stt": 4,
+    "phuongAn": "HBAI",
+    "maPA": "DAU CAN - DAU BAI",
+    "tenPA": "ĐẦU CẦN - ĐẦU BÃI",
+    "phanLoai": "Barge"
+  },
+    {
+    "stt": 5,
+    "phuongAn": "XGTH",
+    "maPA": "DAU CAN - OTO",
+    "tenPA": "ĐẦU CẦN  - Ô TÔ",
+    "phanLoai": ""
+  }
+]

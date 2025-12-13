@@ -1,0 +1,26 @@
+[
+  {
+    "stt": 1,
+    "maCa": "CA1",
+    "tenCa": "Ca 1",
+    "gioBatDau": "07:00",
+    "gioKetThuc": "15:00",
+    "ghiChu": "Ca làm việc buổi sáng"
+  },
+  {
+    "stt": 2,
+    "maCa": "CA2",
+    "tenCa": "Ca 2",
+    "gioBatDau": "15:00",
+    "gioKetThuc": "23:00",
+    "ghiChu": "Ca làm việc buổi chiều"
+  },
+  {
+    "stt": 3,
+    "maCa": "CA3",
+    "tenCa": "Ca 3",
+    "gioBatDau": "23:00",
+    "gioKetThuc": "07:00",
+    "ghiChu": "Ca làm việc buổi đêm"
+  }
+]

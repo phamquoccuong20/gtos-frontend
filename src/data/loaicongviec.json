@@ -1,0 +1,56 @@
+[
+  {
+    "stt": 1,
+    "maLoai": "DS",
+    "tenLoai": "Dỡ từ tàu",
+    "loaiDC": "Nhập",
+    "cauTau": true,
+    "bai": true,
+    "cong": false
+  },
+  {
+    "stt": 2,
+    "maLoai": "GF",
+    "tenLoai": "Hạ từ cổng vào",
+    "loaiDC": "Xuất",
+    "cauTau": false,
+    "bai": false,
+    "cong": true
+  },
+  {
+    "stt": 3,
+    "maLoai": "GO",
+    "tenLoai": "Giao ra cổng",
+    "loaiDC": "Nhập",
+    "cauTau": true,
+    "bai": false,
+    "cong": true
+  },
+    {
+    "stt": 4,
+    "maLoai": "LD",
+    "tenLoai": "Xuất tàu",
+    "loaiDC": "Xuất",
+    "cauTau": false,
+    "bai": true,
+    "cong": false
+  },
+    {
+    "stt": 5,
+    "maLoai": "YF",
+    "tenLoai": "HẠ",
+    "loaiDC": "Tất cả",
+    "cauTau": false,
+    "bai": false,
+    "cong": true
+  },
+    {
+    "stt": 6,
+    "maLoai": "YO",
+    "tenLoai": "NÂNG",
+    "loaiDC": "Tất cả",
+    "cauTau": true,
+    "bai": true,
+    "cong": false
+  }
+]

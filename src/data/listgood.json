@@ -1,0 +1,62 @@
+[
+  {
+    "stt": 1,
+    "maHang": "FB",
+    "tenHang": "Flat bar",
+    "maNhom": "6S"
+  },
+  {
+   "stt": 2,
+    "maHang": "OV",
+    "tenHang": "Sắt ống vuông",
+    "maNhom": "6S"
+  },
+  {
+    "stt": 3,
+    "maHang": "SBT",
+    "tenHang": "Sắt bó tròn",
+    "maNhom": "6S"
+  },
+  {
+    "stt": 4,
+    "maHang": "SK",
+    "tenHang": "Sắt khoanh",
+    "maNhom": "6S"
+  },
+  {
+    "stt": 5,
+    "maHang": "SLM",
+    "tenHang": "Sắt lồng máng",
+    "maNhom": "6S"
+  },
+  {
+    "stt": 6,
+    "maHang": "OV",
+    "tenHang": "Sắt ống vuông",
+    "maNhom": "6S"
+  },
+  {
+    "stt": 7,
+    "maHang": "TB",
+    "tenHang": "Thiết bị",
+    "maNhom": "6S"
+  },
+  {
+    "stt": 8,
+    "maHang": "TC",
+    "tenHang": "Tole cuộn",
+    "maNhom": "6S"
+  },
+  {
+    "stt": 9,
+    "maHang": "TM",
+    "tenHang": "Tole mạ",
+    "maNhom": "6S"
+  },
+  {
+    "stt": 10,
+    "maHang": "TN",
+    "tenHang": "Tole nóng",
+    "maNhom": "6S"
+  }
+]

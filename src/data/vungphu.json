@@ -1,0 +1,205 @@
+[
+  {
+    "stt": 1,
+    "maArea": "BC3",
+    "tenArea": "BÃI C3 (CỔNG RA)",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 2,
+    "maArea": "BGK12",
+    "tenArea": "BÃI GIỮA KHO 1-2",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 3,
+    "maArea": "BSDDBCS",
+    "tenArea": "BỜ SÔNG ĐỐI DIỆN BÃI CON SÂU",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 4,
+    "maArea": "BSDDK1 TT2",
+    "tenArea": "TT2 BỜ SÔNG ĐỐI DIỆN KHO 1",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 5,
+    "maArea": "BSDDK23 TT2",
+    "tenArea": "TT2 BỜ SÔNG ĐỐI DIỆN KHO 2-3",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 6,
+    "maArea": "BTBD",
+    "tenArea": "BỜ TƯỜNG BIỂN ĐÔNG",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 7,
+    "maArea": "BTBVB",
+    "tenArea": "BỜ TƯỜNG BÙI VĂN BA",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 8,
+    "maArea": "BTC1",
+    "tenArea": "BỜ TƯỜNG C1",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 9,
+    "maArea": "BTC4",
+    "tenArea": "BỜ TƯỜNG C4",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 10,
+    "maArea": "BTDV",
+    "tenArea": "BỜ TƯỜNG DỊCH VỤ",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 11,
+    "maArea": "BTK1",
+    "tenArea": "BỜ TƯỜNG KHO 1",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 12,
+    "maArea": "BTK2",
+    "tenArea": "BỜ TƯỜNG KHO 2",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 13,
+    "maArea": "BTKCXDDK1",
+    "tenArea": "BỜ TƯỜNG KCX ĐỐI DIỆN KHO 1",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 14,
+    "maArea": "BTKCXDDK23",
+    "tenArea": "BỜ TƯỜNG KCX ĐỐI DIỆN KHO 2-3",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 15,
+    "maArea": "BTRC",
+    "tenArea": "BỜ TƯỜNG RỬA CONT",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 16,
+    "maArea": "BTR1",
+    "tenArea": "BỜ TƯỜNG R1",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 17,
+    "maArea": "BTR2",
+    "tenArea": "BỜ TƯỜNG R2",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 18,
+    "maArea": "BTQL",
+    "tenArea": "BỜ TƯỜNG QUỐC LỘ",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 19,
+    "maArea": "BTDK",
+    "tenArea": "BỜ TƯỜNG ĐO KIỂM",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 20,
+    "maArea": "BTTN",
+    "tenArea": "BỜ TƯỜNG TÂN NGUYÊN",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 21,
+    "maArea": "BTDG",
+    "tenArea": "BỜ TƯỜNG DÃY G",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 22,
+    "maArea": "BTDH",
+    "tenArea": "BỜ TƯỜNG DÃY H",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 23,
+    "maArea": "BTTH",
+    "tenArea": "BỜ TƯỜNG THỦY",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 24,
+    "maArea": "BTPX",
+    "tenArea": "BỜ TƯỜNG PHÂN XƯỞNG",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 25,
+    "maArea": "BTLK",
+    "tenArea": "BỜ TƯỜNG LIÊN KHO",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 26,
+    "maArea": "BTPT",
+    "tenArea": "BỜ TƯỜNG PHỤ TRỢ",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 27,
+    "maArea": "BTQL1",
+    "tenArea": "BỜ TƯỜNG QUỐC LỘ 1",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 28,
+    "maArea": "BTKC",
+    "tenArea": "BỜ TƯỜNG KHU C",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  },
+  {
+    "stt": 29,
+    "maArea": "BTKD",
+    "tenArea": "BỜ TƯỜNG KHU D",
+    "sucChua": 1000,
+    "thue": "Nội bộ"
+  }
+]

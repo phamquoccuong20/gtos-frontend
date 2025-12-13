@@ -1,0 +1,20 @@
+.truck-out-page {
+  padding: 20px;
+
+  .header-actions {
+    margin: 10px 0;
+    display: flex;
+    gap: 10px;
+  }
+
+  .transport-type-selector {
+    margin: 15px 0;
+  }
+
+  .vessel-input {
+    border: 1px solid #ccc;
+    padding: 6px;
+    width: 350px;
+    cursor: pointer;
+  }
+}

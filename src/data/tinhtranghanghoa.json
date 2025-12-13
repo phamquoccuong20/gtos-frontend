@@ -1,0 +1,82 @@
+[
+  {
+    "stt": 1,
+    "status": "Ẩm ướt"
+  },
+  {
+    "stt": 2,
+    "status": "Ướt vỏ ngoài"
+  },
+  {
+    "stt": 3,
+    "status": "Biến dạng"
+  },
+  {
+    "stt": 4,
+   "status": "Bung rối"
+  },
+  {
+    "stt": 5,
+    "status": "Bung vành"
+  },
+  {
+    "stt": 6,
+    "status": "Bung lõi"
+  },
+  {
+    "stt": 7,
+    "status": "Cong cấn mép"
+  },
+  {
+    "stt": 8,
+    "status": "Dính dầu"
+  },
+  {
+    "stt": 9,
+    "status": "Đứt đai"
+  },
+  {
+    "stt": 10,
+    "status": "Lem dơ"
+  },
+  {
+    "stt": 11,
+    "status": "Dính tạp chất"
+  },
+  {
+    "stt": 12,
+    "status": "Thủng đáy"
+  },
+  {
+    "stt": 13,
+    "status": "Rỉ sét"
+  },
+  {
+    "stt": 14,
+    "status": "Móp lõi"
+  },
+  {
+    "stt": 15,
+    "status": "Rách vỏ"
+  },
+  {
+    "stt": 16,
+    "status": "Trầy sướt"
+  },
+  {
+    "stt": 17,
+    "status": "Rách mép"
+  },
+  {
+    "stt": 18,
+    "status": "Bao bể"
+  },
+  {
+    "stt": 19,
+    "status": "Bao rách"
+  },
+  {
+    "stt": 20,
+    "status": "Túi bể"
+  }
+]

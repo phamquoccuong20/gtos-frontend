@@ -1,0 +1,92 @@
+[
+  {
+    "stt": 1,
+    "quocGia": "Việt Nam",
+    "maCang": "A",
+    "tenCang": "TEST"
+  },
+  {
+    "stt": 2,
+    "quocGia": "Đan Mạch",
+    "maCang": "AAR",
+    "tenCang": "AARHUS"
+  },
+  {
+    "stt": 3,
+    "quocGia": "Nhật Bản",
+    "maCang": "ABA",
+    "tenCang": "ABASHIRI"
+  },
+  {
+    "stt": 4,
+    "quocGia": "Australia",
+    "maCang": "ABB",
+    "tenCang": "ABBOT POINT"
+  },
+  {
+    "stt": 5,
+    "quocGia": "Kuwait",
+    "maCang": "ABD",
+    "tenCang": "ABDULLA"
+  },
+  {
+    "stt": 6,
+    "quocGia": "Bờ Biển Ngà",
+    "maCang": "ABJ",
+    "tenCang": "ABIDJAN"
+  },
+  {
+    "stt": 7,
+    "quocGia": "Iraq",
+    "maCang": "ABK",
+    "tenCang": "AL-BAKR TERMINAL"
+  },
+  {
+    "stt": 8,
+    "quocGia": "Norway",
+    "maCang": "ABN",
+    "tenCang": "ANDENES"
+  },
+  {
+    "stt": 9,
+    "quocGia": "Vương quốc Anh",
+    "maCang": "ABR",
+    "tenCang": "ABERDEEN"
+  },
+  {
+    "stt": 10,
+    "quocGia": "Mexico",
+    "maCang": "ACA",
+    "tenCang": "ACAPULCO"
+  },
+  {
+    "stt": 11,
+    "quocGia": "Nhật Bản",
+    "maCang": "ACH",
+    "tenCang": "AJISU"
+  },
+  {
+    "stt": 12,
+    "quocGia": "Ai Cập",
+    "maCang": "ADA",
+    "tenCang": "ADABIYA"
+  },
+  {
+    "stt": 13,
+    "quocGia": "Ethiopia",
+    "maCang": "ADD",
+    "tenCang": "ADDIS ABABA"
+  },
+  {
+    "stt": 14,
+    "quocGia": "Yemen",
+    "maCang": "ADE",
+    "tenCang": "ADEN"
+  },
+  {
+    "stt": 15,
+    "quocGia": "Australia",
+    "maCang": "ADL",
+    "tenCang": "ADELAIDE"
+  }
+]

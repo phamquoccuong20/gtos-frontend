@@ -1,0 +1,32 @@
+[
+  {
+    "stt": 1,
+    "maDVT": "BAG",
+    "tenDVT": "Bao"
+  },
+  {
+    "stt": 2,
+    "maDVT": "Bdls",
+    "tenDVT": "Kiện"
+  },
+  {
+    "stt": 3,
+    "maDVT": "Ben",
+    "tenDVT": "Ben"
+  },
+  {
+    "stt": 4,
+    "maDVT": "BINH",
+    "tenDVT": "Bình"
+  },
+  {
+    "stt": 5,
+    "maDVT": "BO1",
+    "tenDVT": "Bộ"
+  },
+  {
+    "stt": 6,
+    "maDVT": "BO2",
+    "tenDVT": "Bó"
+  }
+]

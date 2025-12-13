@@ -1,0 +1,21 @@
+
+[
+  {
+    "stt": 1,
+    "maDichVu": "DV1",
+    "tenDichVu": "Dịch vụ 1",
+    "phuongAn": "Phương án 1",
+    "tau": true,
+    "bai": true,
+    "cong": true
+  },
+  {
+    "stt": 2,
+    "maDichVu": "DV2",
+    "tenDichVu": "Dịch vụ 2",
+    "phuongAn": "Phương án 2",
+    "tau": true,
+    "bai": true,
+    "cong": false
+  }
+]
