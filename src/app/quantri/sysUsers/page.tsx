@@ -7,9 +7,9 @@ import { MOCK_USERS, DEFAULT_FORM_DATA } from './constants';
 import { Modal, ConfirmModal, UserGroupTable } from './components';
 
 /**
- * GroupUser Page - Main page for user management
+ * SysUsers Page - Main page for user management
  */
-export const GroupUserPage: React.FC = () => {
+export default function SysUsersPage() {
     // User Data State
     const [users, setUsers] = useState<User[]>(MOCK_USERS);
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
@@ -326,6 +326,4 @@ export const GroupUserPage: React.FC = () => {
             </div>
         </>
     );
-};
-
-export default GroupUserPage;
+}
