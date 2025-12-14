@@ -1,19 +1,26 @@
 import React from 'react';
 
-interface GroupUserLayoutProps {
-    children: React.ReactNode;
-}
-
 /**
- * Layout for GroupUser section
+ * Layout for sysUsers section
  * This can contain shared UI elements like breadcrumbs, section headers, etc.
  */
-export const GroupUserLayout: React.FC<GroupUserLayoutProps> = ({ children }) => {
+export default function SysUsersLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    return (
+        <div className="min-h-screen bg-gray-50/50">
+            {children}
+        </div>
+    );
+}
+
+// Also export as named export for page.tsx usage
+export const GroupUserLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <div className="min-h-screen bg-gray-50/50">
             {children}
         </div>
     );
 };
-
-export default GroupUserLayout;

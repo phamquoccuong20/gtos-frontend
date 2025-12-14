@@ -5,7 +5,6 @@ import { Plus, Trash2, Search, Users } from 'lucide-react';
 import { User, SortConfig, ColumnFilters } from './types';
 import { MOCK_USERS, DEFAULT_FORM_DATA } from './constants';
 import { Modal, ConfirmModal, UserGroupTable } from './components';
-import { GroupUserLayout } from './layout';
 
 /**
  * GroupUser Page - Main page for user management
@@ -226,7 +225,7 @@ export const GroupUserPage: React.FC = () => {
     };
 
     return (
-        <GroupUserLayout>
+        <>
             <div className="p-[10px]">
                 {/* Page Header */}
                 <div className="bg-white p-[10px] rounded shadow-sm border border-slate-200 mt-[20px] mb-[12px] flex flex-col md:flex-row md:items-center justify-between gap-[10px]">
@@ -325,7 +324,7 @@ export const GroupUserPage: React.FC = () => {
                     onConfirm={confirmDelete}
                 />
             </div>
-        </GroupUserLayout>
+        </>
     );
 };
 
