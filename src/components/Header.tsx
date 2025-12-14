@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, Bell, Settings, User, ChevronDown } from "lucide-react";
+import { Menu, Bell, Settings, User, ChevronDown, Package, Warehouse } from "lucide-react";
 import navDataRaw from "../data/navdata.json";
 
 // Define the shape of our navigation data
@@ -153,17 +153,22 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           </button>
 
           {isSettingsOpen && (
-            <div className="absolute right-0 mt-3 w-48 bg-white rounded-xl shadow-xl py-1.5 text-gray-700 border border-gray-100 animate-in fade-in zoom-in-95 duration-200 origin-top-right z-[200] ring-1 ring-black/5">
+            <div className="absolute left-1/2 -translate-x-1/2 mt-3 w-48 bg-white rounded-xl shadow-xl py-1.5 text-gray-700 border border-gray-100 animate-in fade-in zoom-in-95 duration-200 origin-top z-[200] ring-1 ring-black/5">
+              {/* Arrow pointing up */}
+              <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-b-8 border-l-transparent border-r-transparent border-b-white"></div>
+              <div className="absolute -top-[10px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[9px] border-r-[9px] border-b-[9px] border-l-transparent border-r-transparent border-b-gray-200"></div>
               <button
-                className="w-full text-left px-5 py-2.5 hover:bg-blue-50 hover:text-blue-600 text-sm font-medium transition-colors border-b border-gray-50"
+                className="w-full flex items-center gap-3 px-5 py-2.5 hover:bg-blue-50 hover:text-blue-600 text-sm font-medium transition-colors border-b border-gray-50"
                 onClick={() => setIsSettingsOpen(false)}
               >
+                <Package size={18} className="text-gray-400" />
                 Tally
               </button>
               <button
-                className="w-full text-left px-5 py-2.5 hover:bg-blue-50 hover:text-blue-600 text-sm font-medium transition-colors"
+                className="w-full flex items-center gap-3 px-5 py-2.5 hover:bg-blue-50 hover:text-blue-600 text-sm font-medium transition-colors"
                 onClick={() => setIsSettingsOpen(false)}
               >
+                <Warehouse size={18} className="text-gray-400" />
                 Bãi/Kho
               </button>
             </div>
