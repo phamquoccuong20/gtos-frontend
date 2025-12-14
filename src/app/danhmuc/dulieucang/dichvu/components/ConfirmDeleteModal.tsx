@@ -20,7 +20,7 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
         <div className="fixed inset-0 z-[100] flex items-center justify-center">
             {/* Backdrop */}
             <div
-                className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity"
+                className="absolute inset-0 bg-slate-900/30 transition-opacity"
                 onClick={onClose}
             ></div>
 

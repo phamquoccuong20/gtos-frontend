@@ -6,10 +6,7 @@ import {
     Plus,
     Trash2,
     Save,
-    Download,
-    Filter,
-    Anchor,
-    Settings
+    Anchor
 } from 'lucide-react';
 import { ServiceRecord, SortField, SortOrder } from './types';
 import { INITIAL_DATA, ITEMS_PER_PAGE } from './constants';
@@ -241,16 +238,6 @@ export default function DichVuPage() {
                                 </div>
                             </div>
 
-                            {/* Action Buttons */}
-                            <div className="flex items-center gap-2">
-                                <button className="p-2.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded transition-all border border-slate-200 hover:border-blue-200">
-                                    <Settings size={18} />
-                                </button>
-                                <button className="flex items-center gap-2 bg-white text-slate-600 px-4 py-2.5 rounded text-[14px] font-medium hover:bg-slate-50 hover:text-blue-600 transition-all border border-slate-200 hover:border-blue-200">
-                                    <Download size={16} />
-                                    <span className="hidden sm:inline">Xuất Excel</span>
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -282,36 +269,31 @@ export default function DichVuPage() {
                             {selectedIds.size > 0 && (
                                 <button
                                     onClick={openDeleteModal}
-                                    className="flex items-center gap-2 px-[12px] h-[36px] text-red-600 bg-white border border-red-300 rounded hover:bg-red-50 hover:border-red-400 transition-all text-[14px] font-medium"
+                                    className="flex items-center gap-2 px-4 h-[36px] text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 hover:border-red-300 transition-all text-[14px] font-medium"
                                 >
                                     <Trash2 size={16} />
                                     <span>Xóa ({selectedIds.size})</span>
                                 </button>
                             )}
 
-                            <button className="flex items-center gap-2 px-[10px] h-[36px] text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors border border-dashed border-slate-300 hover:border-blue-200 text-[14px] font-medium">
-                                <Filter size={16} />
-                                <span>Bộ lọc</span>
+                            <button
+                                onClick={handleSave}
+                                className="flex items-center gap-2 px-4 h-[36px] text-amber-600 bg-amber-50 border border-amber-200 rounded-lg hover:bg-amber-100 hover:border-amber-300 transition-all text-[14px] font-medium"
+                            >
+                                {isSaving ? (
+                                    <span className="w-4 h-4 border-2 border-amber-200 border-t-amber-500 rounded-full animate-spin" />
+                                ) : (
+                                    <Save size={16} />
+                                )}
+                                <span>Lưu</span>
                             </button>
 
                             <button
                                 onClick={() => setIsAddModalOpen(true)}
-                                className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded text-[14px] font-medium hover:bg-blue-700 transition-all shadow-sm"
+                                className="flex items-center gap-2 bg-blue-600 text-white px-4 h-[36px] rounded-lg text-[14px] font-medium hover:bg-blue-700 transition-all shadow-sm"
                             >
                                 <Plus size={16} strokeWidth={2.5} />
                                 <span>Thêm mới</span>
-                            </button>
-
-                            <button
-                                onClick={handleSave}
-                                className="flex items-center gap-2 bg-teal-600 text-white px-5 py-2.5 rounded text-[14px] font-medium hover:bg-teal-700 transition-all shadow-sm"
-                            >
-                                {isSaving ? (
-                                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                ) : (
-                                    <Save size={16} />
-                                )}
-                                <span>Lưu lại</span>
                             </button>
                         </div>
                     </div>

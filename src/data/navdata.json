@@ -20,7 +20,7 @@
         {
           "key": "nguoi-dung",
           "label": "Người dùng",
-          "href": "/quan-tri/user",
+          "href": "/quantri/sysUsers",
           "icon": "user"
         },
         {

@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
     CheckCircle2,
     Clock,
-    Settings,
     Plus,
     Search,
     Trash2,
@@ -272,9 +271,6 @@ const Page = () => {
                         </button>
                     )}
 
-                    <button className="hidden md:flex items-center justify-center w-[36px] h-[36px] text-slate-500 bg-white border border-slate-200 hover:border-blue-400 hover:text-blue-600 rounded transition-all">
-                        <Settings size={16} />
-                    </button>
                 </div>
             </div>
 
