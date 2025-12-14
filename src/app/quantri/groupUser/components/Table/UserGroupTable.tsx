@@ -1,6 +1,10 @@
-import React from 'react';
-import { Search, ArrowUpDown, ChevronLeft, ChevronRight } from 'lucide-react';
+"use client";
+
+import React, { useState } from 'react';
+import { Search, ArrowUpDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight, Filter, Check } from 'lucide-react';
 import { UserGroup } from '../../types';
+
+type ColumnKey = 'code' | 'name';
 
 interface UserGroupTableProps {
   paginatedData: UserGroup[];
@@ -10,10 +14,14 @@ interface UserGroupTableProps {
   isAllSelected: boolean;
   currentPage: number;
   totalPages: number;
+  sortConfig: { key: ColumnKey; direction: 'asc' | 'desc' } | null;
+  columnFilters: { code?: string; name?: string };
   onSelectAll: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSelectOne: (id: string) => void;
   onUpdate: (id: string, field: keyof UserGroup, value: string | number) => void;
   onPageChange: (page: number) => void;
+  onSort: (key: ColumnKey, direction: 'asc' | 'desc') => void;
+  onColumnFilter: (key: ColumnKey, value: string) => void;
 }
 
 export const UserGroupTable: React.FC<UserGroupTableProps> = ({
@@ -24,32 +32,185 @@ export const UserGroupTable: React.FC<UserGroupTableProps> = ({
   isAllSelected,
   currentPage,
   totalPages,
+  sortConfig,
+  columnFilters,
   onSelectAll,
   onSelectOne,
   onUpdate,
   onPageChange,
+  onSort,
+  onColumnFilter,
 }) => {
+  const [openMenu, setOpenMenu] = useState<ColumnKey | null>(null);
+  const [localFilters, setLocalFilters] = useState<{ code: string; name: string }>({
+    code: columnFilters.code || '',
+    name: columnFilters.name || '',
+  });
+
+  const handleToggleMenu = (key: ColumnKey) => {
+    setOpenMenu(openMenu === key ? null : key);
+  };
+
+  const handleCloseMenu = () => {
+    setOpenMenu(null);
+  };
+
+  const handleSortClick = (key: ColumnKey, direction: 'asc' | 'desc') => {
+    onSort(key, direction);
+    handleCloseMenu();
+  };
+
+  const handleFilterChange = (key: ColumnKey, value: string) => {
+    setLocalFilters(prev => ({ ...prev, [key]: value }));
+    onColumnFilter(key, value);
+  };
+
+  const isSortActive = (key: ColumnKey, direction: 'asc' | 'desc') => {
+    return sortConfig?.key === key && sortConfig?.direction === direction;
+  };
+
   return (
     <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col min-h-[500px]">
       {/* HEADER ROW */}
-      <div className="hidden md:grid grid-cols-12 bg-blue-50 text-xs font-bold text-blue-700 uppercase tracking-wider select-none">
+      <div className="hidden md:grid grid-cols-12 bg-[#d0ebff] text-xs font-bold text-[#1971c2] uppercase tracking-wider select-none">
         <div className="col-span-1 flex items-center justify-center py-3 px-2">
           <input
             type="checkbox"
-            className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer accent-blue-600"
+            className="w-4 h-4 rounded border-blue-300 text-blue-600 focus:ring-blue-500 cursor-pointer accent-blue-600"
             checked={isAllSelected}
             onChange={onSelectAll}
           />
         </div>
-        <div className="col-span-2 flex items-center gap-1 cursor-pointer hover:text-blue-900 py-3 px-4">
-          Mã Nhóm <ArrowUpDown size={12} />
+
+        {/* Mã Nhóm Column with Menu */}
+        <div className="col-span-2 relative">
+          <div
+            className="flex items-center justify-between cursor-pointer hover:text-[#228be6] py-3 px-4"
+            onClick={() => handleToggleMenu('code')}
+          >
+            <span>Mã Nhóm</span>
+            <ArrowUpDown size={12} />
+          </div>
+
+          {openMenu === 'code' && (
+            <div className="absolute top-full right-0 mt-1 w-56 bg-white rounded-lg shadow-xl border border-slate-200 z-50">
+              <div className="p-3 border-b border-slate-100">
+                <h4 className="text-sm font-bold text-slate-700">MÃ NHÓM</h4>
+              </div>
+
+              <div className="p-2">
+                <button
+                  onClick={() => handleSortClick('code', 'asc')}
+                  className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-md transition-colors ${isSortActive('code', 'asc') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-slate-700 hover:bg-slate-50'
+                    }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <ArrowUp size={14} />
+                    <span>Sắp xếp A - Z</span>
+                  </div>
+                  {isSortActive('code', 'asc') && <Check size={14} className="text-blue-600" />}
+                </button>
+                <button
+                  onClick={() => handleSortClick('code', 'desc')}
+                  className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-md transition-colors ${isSortActive('code', 'desc') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-slate-700 hover:bg-slate-50'
+                    }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <ArrowDown size={14} />
+                    <span>Sắp xếp Z - A</span>
+                  </div>
+                  {isSortActive('code', 'desc') && <Check size={14} className="text-blue-600" />}
+                </button>
+              </div>
+
+              <div className="p-3 border-t border-slate-100">
+                <div className="flex items-center gap-1 text-xs font-medium text-slate-500 mb-2">
+                  <Filter size={10} />
+                  <span>LỌC THEO GIÁ TRỊ</span>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Nhập để lọc..."
+                  value={localFilters.code}
+                  onChange={(e) => handleFilterChange('code', e.target.value)}
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                  onClick={(e) => e.stopPropagation()}
+                />
+              </div>
+            </div>
+          )}
         </div>
-        <div className="col-span-4 flex items-center gap-1 cursor-pointer hover:text-blue-900 py-3 px-4">
-          Tên Nhóm <ArrowUpDown size={12} />
+
+        {/* Tên Nhóm Column with Menu */}
+        <div className="col-span-3 relative">
+          <div
+            className="flex items-center justify-between cursor-pointer hover:text-[#228be6] py-3 px-4"
+            onClick={() => handleToggleMenu('name')}
+          >
+            <span>Tên Nhóm</span>
+            <ArrowUpDown size={12} />
+          </div>
+
+          {openMenu === 'name' && (
+            <div className="absolute top-full right-0 mt-1 w-56 bg-white rounded-lg shadow-xl border border-slate-200 z-50">
+              <div className="p-3 border-b border-slate-100">
+                <h4 className="text-sm font-bold text-slate-700">TÊN NHÓM</h4>
+              </div>
+
+              <div className="p-2">
+                <button
+                  onClick={() => handleSortClick('name', 'asc')}
+                  className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-md transition-colors ${isSortActive('name', 'asc') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-slate-700 hover:bg-slate-50'
+                    }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <ArrowUp size={14} />
+                    <span>Sắp xếp A - Z</span>
+                  </div>
+                  {isSortActive('name', 'asc') && <Check size={14} className="text-blue-600" />}
+                </button>
+                <button
+                  onClick={() => handleSortClick('name', 'desc')}
+                  className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-md transition-colors ${isSortActive('name', 'desc') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-slate-700 hover:bg-slate-50'
+                    }`}
+                >
+                  <div className="flex items-center gap-2">
+                    <ArrowDown size={14} />
+                    <span>Sắp xếp Z - A</span>
+                  </div>
+                  {isSortActive('name', 'desc') && <Check size={14} className="text-blue-600" />}
+                </button>
+              </div>
+
+              <div className="p-3 border-t border-slate-100">
+                <div className="flex items-center gap-1 text-xs font-medium text-slate-500 mb-2">
+                  <Filter size={10} />
+                  <span>LỌC THEO GIÁ TRỊ</span>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Nhập để lọc..."
+                  value={localFilters.name}
+                  onChange={(e) => handleFilterChange('name', e.target.value)}
+                  className="w-full px-3 py-2 text-sm border border-slate-200 rounded-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                  onClick={(e) => e.stopPropagation()}
+                />
+              </div>
+            </div>
+          )}
         </div>
-        <div className="col-span-2 py-3 px-4">Phân Cấp</div>
+
+        <div className="col-span-3 py-3 px-4">Phân Cấp</div>
         <div className="col-span-3 py-3 px-4">Ghi chú</div>
       </div>
+
+      {/* Click outside to close menu */}
+      {openMenu && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={handleCloseMenu}
+        />
+      )}
 
       {/* LIST ITEMS */}
       <div className="flex-1">
@@ -90,18 +251,18 @@ export const UserGroupTable: React.FC<UserGroupTableProps> = ({
                 </div>
 
                 {/* Column 2: Name (Editable) */}
-                <div className="col-span-4 py-3 px-4 h-full flex items-center">
+                <div className="col-span-3 py-3 px-4 h-full flex items-center">
                   <input
                     type="text"
                     value={item.name}
                     onChange={(e) => onUpdate(item.id, 'name', e.target.value)}
-                    className="w-full font-semibold text-sm md:text-base text-slate-800 bg-transparent border border-transparent rounded px-2 py-1.5 hover:bg-white hover:border-slate-200 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all placeholder:text-slate-300"
+                    className="w-full font-semibold text-sm text-slate-800 bg-transparent border border-transparent rounded px-2 py-1.5 hover:bg-white hover:border-slate-200 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all placeholder:text-slate-300"
                     placeholder="Nhập tên nhóm..."
                   />
                 </div>
 
                 {/* Column 3: Level (Editable Number) */}
-                <div className="col-span-2 py-3 px-4 h-full flex items-center gap-2">
+                <div className="col-span-3 py-3 px-4 h-full flex items-center gap-2">
                   <span className="text-xs font-semibold text-slate-400 uppercase tracking-wide">Level</span>
                   <input
                     type="number"

@@ -222,8 +222,8 @@ export const UserGroupTable: React.FC<UserGroupTableProps> = ({
             <div className="overflow-x-auto custom-scrollbar flex-1">
                 <table className="w-full text-left border-collapse">
                     <thead>
-                        <tr className="bg-blue-50 border-b border-blue-200 text-[12px] uppercase tracking-wider text-blue-800 font-bold">
-                            <th className="p-4 w-12 text-center">
+                        <tr className="bg-[#d0ebff] border-b border-blue-200 text-[12px] uppercase tracking-wider text-[#1971c2] font-bold">
+                            <th className="py-2 px-4 w-12 text-center">
                                 <input
                                     type="checkbox"
                                     className="rounded border-blue-300 text-blue-600 focus:ring-blue-500 cursor-pointer accent-blue-600"
@@ -231,31 +231,31 @@ export const UserGroupTable: React.FC<UserGroupTableProps> = ({
                                     onChange={onSelectAll}
                                 />
                             </th>
-                            <th className="p-4">
+                            <th className="py-2 px-4">
                                 <div className="flex items-center justify-between">
                                     <span>Nhóm / Cảng</span>
                                     {renderHeaderMenu('group', 'Nhóm người dùng')}
                                 </div>
                             </th>
-                            <th className="p-4">
+                            <th className="py-2 px-4">
                                 <div className="flex items-center justify-between">
                                     <span>Tài khoản</span>
                                     {renderHeaderMenu('username', 'Tài khoản')}
                                 </div>
                             </th>
-                            <th className="p-4">
+                            <th className="py-2 px-4">
                                 <div className="flex items-center justify-between">
                                     <span>Thông tin cá nhân</span>
                                     {renderHeaderMenu('fullName', 'Họ và tên')}
                                 </div>
                             </th>
-                            <th className="p-4 hidden xl:table-cell">
+                            <th className="py-2 px-4 hidden xl:table-cell">
                                 <div className="flex items-center justify-between">
                                     <span>Liên hệ</span>
                                     {renderHeaderMenu('email', 'Email / SĐT')}
                                 </div>
                             </th>
-                            <th className="p-4 text-center">
+                            <th className="py-2 px-4 text-center">
                                 <div className="flex items-center justify-center gap-2">
                                     <span>Trạng thái</span>
                                     {renderHeaderMenu('status', 'Trạng thái')}

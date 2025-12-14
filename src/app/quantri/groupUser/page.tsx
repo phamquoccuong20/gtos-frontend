@@ -34,6 +34,10 @@ export default function GroupUserPage() {
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
     const [currentPage, setCurrentPage] = useState(1);
 
+    // Sort and Column Filter state
+    const [sortConfig, setSortConfig] = useState<{ key: 'code' | 'name'; direction: 'asc' | 'desc' } | null>(null);
+    const [columnFilters, setColumnFilters] = useState<{ code?: string; name?: string }>({});
+
     // Filter Data
     const filteredData = useMemo(() => {
         let processed = [...data];
@@ -52,8 +56,29 @@ export default function GroupUserPage() {
             processed = processed.filter(item => item.level === filterLevel);
         }
 
+        // Column filters
+        if (columnFilters.code) {
+            const filterLower = columnFilters.code.toLowerCase();
+            processed = processed.filter(item => item.code.toLowerCase().includes(filterLower));
+        }
+        if (columnFilters.name) {
+            const filterLower = columnFilters.name.toLowerCase();
+            processed = processed.filter(item => item.name.toLowerCase().includes(filterLower));
+        }
+
+        // Sort
+        if (sortConfig) {
+            processed.sort((a, b) => {
+                const aVal = a[sortConfig.key].toLowerCase();
+                const bVal = b[sortConfig.key].toLowerCase();
+                if (aVal < bVal) return sortConfig.direction === 'asc' ? -1 : 1;
+                if (aVal > bVal) return sortConfig.direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+        }
+
         return processed;
-    }, [data, searchQuery, filterLevel]);
+    }, [data, searchQuery, filterLevel, columnFilters, sortConfig]);
 
     // Pagination Logic
     const totalPages = Math.max(1, Math.ceil(filteredData.length / ITEMS_PER_PAGE));
@@ -65,7 +90,17 @@ export default function GroupUserPage() {
     // Reset page when filters change
     useEffect(() => {
         setCurrentPage(1);
-    }, [searchQuery, filterLevel]);
+    }, [searchQuery, filterLevel, columnFilters, sortConfig]);
+
+    // Sort handler
+    const handleSort = (key: 'code' | 'name', direction: 'asc' | 'desc') => {
+        setSortConfig({ key, direction });
+    };
+
+    // Column filter handler
+    const handleColumnFilter = (key: 'code' | 'name', value: string) => {
+        setColumnFilters(prev => ({ ...prev, [key]: value }));
+    };
 
     // Selection Logic
     const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -242,10 +277,14 @@ export default function GroupUserPage() {
                     isAllSelected={isAllSelected}
                     currentPage={currentPage}
                     totalPages={totalPages}
+                    sortConfig={sortConfig}
+                    columnFilters={columnFilters}
                     onSelectAll={handleSelectAll}
                     onSelectOne={handleSelectOne}
                     onUpdate={handleUpdate}
                     onPageChange={setCurrentPage}
+                    onSort={handleSort}
+                    onColumnFilter={handleColumnFilter}
                 />
 
             </main>
