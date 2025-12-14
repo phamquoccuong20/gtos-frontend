@@ -15,12 +15,3 @@ export default function SysUsersLayout({
         </div>
     );
 }
-
-// Also export as named export for page.tsx usage
-export const GroupUserLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    return (
-        <div className="min-h-screen bg-gray-50/50">
-            {children}
-        </div>
-    );
-};
