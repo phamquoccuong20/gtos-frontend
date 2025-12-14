@@ -67,7 +67,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   }, []);
 
   return (
-    <header className="h-15 w-full flex items-center pr-6 pl-1 relative z-[60]">
+    <header className="h-15 w-full flex items-center pl-1 relative z-[60]">
       {/* 1. Menu Button - Detached, Dark Blue, Full Height */}
       <button
         onClick={onMenuClick}

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { MOCK_VESSELS } from './constants';
 import { Vessel } from './types';
 import { BerthChart, Legend, VesselOperations } from './components';
-import { RefreshCw, Calendar as CalendarIcon, Ship, ArrowRight } from 'lucide-react';
+import { RefreshCw, Calendar as CalendarIcon, Ship, ArrowRight, AlertCircle, X } from 'lucide-react';
 
 export default function GiamSatCauBenPage() {
     // Helper to format for input type="datetime-local"
@@ -29,9 +29,13 @@ export default function GiamSatCauBenPage() {
     // New State for Vessel Selection
     const [selectedVessel, setSelectedVessel] = useState<Vessel | null>(null);
 
+    // Error notification state
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
     const handleLoadData = () => {
         if (!inputStartTime || !inputEndTime) {
-            alert('Vui lòng chọn thời gian bắt đầu và kết thúc');
+            setErrorMessage('Vui lòng chọn thời gian bắt đầu và kết thúc');
+            setTimeout(() => setErrorMessage(null), 4000);
             return;
         }
 
@@ -67,6 +71,22 @@ export default function GiamSatCauBenPage() {
 
     return (
         <div className="flex flex-col h-full w-full bg-slate-50 overflow-hidden font-sans">
+            {/* Error Toast Notification */}
+            {errorMessage && (
+                <div className="fixed top-20 right-4 z-[200] animate-in fade-in slide-in-from-top-4 duration-300">
+                    <div className="bg-red-50 text-red-700 border border-red-200 px-4 py-3 rounded-lg shadow-lg flex items-center gap-3">
+                        <AlertCircle size={20} className="text-red-500" />
+                        <span className="font-medium">{errorMessage}</span>
+                        <button
+                            onClick={() => setErrorMessage(null)}
+                            className="ml-2 text-red-400 hover:text-red-600 transition-colors"
+                        >
+                            <X size={16} />
+                        </button>
+                    </div>
+                </div>
+            )}
+
             {/* Page Header - Similar to reference design */}
             <header className="bg-white border-b border-slate-200 shadow-sm z-30 flex-shrink-0 mt-[10px] mx-[10px] rounded-lg">
                 <div className="px-4 h-14 flex items-center justify-between">
