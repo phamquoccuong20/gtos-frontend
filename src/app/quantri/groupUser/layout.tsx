@@ -6,7 +6,7 @@ export default function GroupUserLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="group-user-layout">
+        <div className="group-user-layout mt-6">
             {children}
         </div>
     );

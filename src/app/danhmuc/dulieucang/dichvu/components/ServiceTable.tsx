@@ -6,7 +6,7 @@ import SortHeader from './SortHeader';
 import FeatureToggle from './FeatureToggle';
 import GateIcon from './GateIcon';
 import Pagination from './Pagination';
-import { ITEMS_PER_PAGE } from '../constants';
+import { ITEMS_PER_PAGE, PLAN_OPTIONS } from '../constants';
 
 interface ServiceTableProps {
     data: ServiceRecord[];
@@ -109,13 +109,27 @@ const ServiceTable: React.FC<ServiceTableProps> = ({
                                         />
                                     </td>
                                     <td className="px-[10px] py-[10px] whitespace-nowrap hidden xl:table-cell border-r border-slate-100">
-                                        <input
-                                            type="text"
+                                        <select
                                             value={item.plan}
-                                            placeholder="---"
                                             onChange={(e) => onUpdateField(item.id, 'plan', e.target.value)}
-                                            className="w-full bg-transparent border border-transparent rounded px-2 py-1 text-[14px] text-slate-500 italic placeholder-slate-300 focus:border-blue-400 focus:bg-blue-50/30 focus:outline-none focus:not-italic focus:text-blue-700 transition-all"
-                                        />
+                                            className={`w-full bg-white border rounded px-3 py-1.5 text-[14px] font-medium cursor-pointer focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:outline-none transition-all shadow-sm appearance-none ${item.plan
+                                                    ? 'border-blue-200 text-blue-700'
+                                                    : 'border-slate-200 text-slate-400'
+                                                }`}
+                                            style={{
+                                                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E")`,
+                                                backgroundPosition: 'right 8px center',
+                                                backgroundRepeat: 'no-repeat',
+                                                backgroundSize: '16px',
+                                                paddingRight: '32px'
+                                            }}
+                                        >
+                                            {PLAN_OPTIONS.map((option) => (
+                                                <option key={option.value} value={option.value}>
+                                                    {option.label}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </td>
                                     <td className="px-[10px] py-[10px] w-[320px]">
                                         <div className="flex items-center justify-around">

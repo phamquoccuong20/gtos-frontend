@@ -26,7 +26,7 @@
         {
           "key": "phan-quyen",
           "label": "Phân quyền",
-          "href": "/quan-tri/permission",
+          "href": "/quantri/sysPermission",
           "icon": "user-lock"
         }
       ]
@@ -46,25 +46,25 @@
               "key": "cang",
               "label": "Cảng",
               "icon": "anchor",
-              "href": "/danhmuc/hethong#cang"
+              "href": "/danhmuc/hethong/cang"
             },
             {
-              "key": "ty-gia",
+              "key": "exchangeRate",
               "label": "Tỷ giá",
               "icon": "dollar-sign",
-              "href": "/danhmuc/hethong#ty-gia"
+              "href": "/danhmuc/hethong/exchangeRate"
             },
             {
-              "key": "quoc-gia",
+              "key": "national",
               "label": "Quốc gia",
               "icon": "globe",
-              "href": "/danhmuc/hethong#quoc-gia"
+              "href": "/danhmuc/hethong/national"
             },
             {
-              "key": "vung-phu",
+              "key": "sub-area",
               "label": "Vùng phụ",
               "icon": "compass",
-              "href": "/danhmuc/hethong#vung-phu"
+              "href": "/danhmuc/hethong/subArea"
             }
           ]
         },
