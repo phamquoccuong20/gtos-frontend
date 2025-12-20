@@ -2,6 +2,16 @@ import { ServiceRecord } from './types';
 
 export const ITEMS_PER_PAGE = 10;
 
+export const PLAN_OPTIONS = [
+    { value: '', label: 'Chọn phương án...' },
+    { value: 'HA_TAP_KET', label: 'HẠ TẬP KẾT' },
+    { value: 'XUAT_BAI', label: 'XUẤT BÃI' },
+    { value: 'GIAO_THANG', label: 'GIAO THẲNG' },
+    { value: 'NHAP_BAI', label: 'NHẬP BÃI' },
+    { value: 'XUAT_GIAO_THANG', label: 'XUẤT GIAO THẲNG' },
+    { value: 'XUAT_TAU', label: 'XUẤT TÀU' },
+];
+
 export const INITIAL_DATA: ServiceRecord[] = [
     { id: '1', stt: 1, code: '00', name: 'Giá đỗ tại phao', plan: '', isShip: true, isYard: true, isGate: true, selected: false },
     { id: '2', stt: 2, code: '01', name: 'Giá đỗ tại cầu', plan: '', isShip: true, isYard: true, isGate: true, selected: false },

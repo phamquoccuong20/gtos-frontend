@@ -277,6 +277,7 @@ export default function GroupUserPage() {
                     isAllSelected={isAllSelected}
                     currentPage={currentPage}
                     totalPages={totalPages}
+                    itemsPerPage={ITEMS_PER_PAGE}
                     sortConfig={sortConfig}
                     columnFilters={columnFilters}
                     onSelectAll={handleSelectAll}

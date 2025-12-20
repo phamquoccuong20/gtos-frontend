@@ -14,6 +14,7 @@ interface UserGroupTableProps {
   isAllSelected: boolean;
   currentPage: number;
   totalPages: number;
+  itemsPerPage: number;
   sortConfig: { key: ColumnKey; direction: 'asc' | 'desc' } | null;
   columnFilters: { code?: string; name?: string };
   onSelectAll: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -32,6 +33,7 @@ export const UserGroupTable: React.FC<UserGroupTableProps> = ({
   isAllSelected,
   currentPage,
   totalPages,
+  itemsPerPage,
   sortConfig,
   columnFilters,
   onSelectAll,
@@ -81,6 +83,9 @@ export const UserGroupTable: React.FC<UserGroupTableProps> = ({
             onChange={onSelectAll}
           />
         </div>
+        
+        {/* STT Column */}
+        <div className="col-span-1 py-3 px-2 text-center">STT</div>
 
         {/* Mã Nhóm Column with Menu */}
         <div className="col-span-2 relative">
@@ -200,7 +205,7 @@ export const UserGroupTable: React.FC<UserGroupTableProps> = ({
           )}
         </div>
 
-        <div className="col-span-3 py-3 px-4">Phân Cấp</div>
+        <div className="col-span-2 py-3 px-4">Phân Cấp</div>
         <div className="col-span-3 py-3 px-4">Ghi chú</div>
       </div>
 
@@ -215,9 +220,10 @@ export const UserGroupTable: React.FC<UserGroupTableProps> = ({
       {/* LIST ITEMS */}
       <div className="flex-1">
         {paginatedData.length > 0 ? (
-          paginatedData.map((item) => {
+          paginatedData.map((item, index) => {
             const isSelected = selectedIds.has(item.id);
             const isModified = modifiedIds.has(item.id);
+            const stt = (currentPage - 1) * itemsPerPage + index + 1;
             return (
               <div
                 key={item.id}
@@ -236,6 +242,13 @@ export const UserGroupTable: React.FC<UserGroupTableProps> = ({
                     checked={isSelected}
                     onChange={() => onSelectOne(item.id)}
                   />
+                </div>
+
+                {/* Column STT */}
+                <div className="col-span-1 py-3 px-2 flex justify-center items-center h-full">
+                  <span className="text-sm font-medium text-slate-500">
+                    {stt}
+                  </span>
                 </div>
 
                 {/* Column 1: Code (Editable) */}
@@ -262,7 +275,7 @@ export const UserGroupTable: React.FC<UserGroupTableProps> = ({
                 </div>
 
                 {/* Column 3: Level (Editable Number) */}
-                <div className="col-span-3 py-3 px-4 h-full flex items-center gap-2">
+                <div className="col-span-2 py-3 px-4 h-full flex items-center gap-2">
                   <span className="text-xs font-semibold text-slate-400 uppercase tracking-wide">Level</span>
                   <input
                     type="number"

@@ -231,6 +231,7 @@ export const UserGroupTable: React.FC<UserGroupTableProps> = ({
                                     onChange={onSelectAll}
                                 />
                             </th>
+                            <th className="py-2 px-4 w-16 text-center">STT</th>
                             <th className="py-2 px-4">
                                 <div className="flex items-center justify-between">
                                     <span>Nhóm / Cảng</span>
@@ -278,6 +279,9 @@ export const UserGroupTable: React.FC<UserGroupTableProps> = ({
                                         checked={selectedIds.includes(user.id)}
                                         onChange={() => onSelectOne(user.id)}
                                     />
+                                </td>
+                                <td className="p-4 text-center text-sm font-medium text-slate-600">
+                                    {startIndex + paginatedUsers.indexOf(user) + 1}
                                 </td>
                                 <td className="p-4">
                                     <div className="flex flex-col gap-1">
@@ -355,7 +359,7 @@ export const UserGroupTable: React.FC<UserGroupTableProps> = ({
 
                         {paginatedUsers.length === 0 && (
                             <tr>
-                                <td colSpan={6} className="p-8 text-center text-slate-500">
+                                <td colSpan={7} className="p-8 text-center text-slate-500">
                                     <div className="flex flex-col items-center justify-center gap-2">
                                         <Search size={32} className="text-slate-300" />
                                         <p>Không tìm thấy dữ liệu phù hợp.</p>
