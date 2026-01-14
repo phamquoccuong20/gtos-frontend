@@ -1,6 +1,10 @@
 
 import React from 'react';
+import { Metadata } from 'next';
 
+export const metadata: Metadata = {
+  title: "Quản lý Cảng",
+};
 interface CangLayoutProps {
   children: React.ReactNode;
 }

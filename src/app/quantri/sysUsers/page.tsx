@@ -4,7 +4,8 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Plus, Trash2, Search, Users } from 'lucide-react';
 import { User, SortConfig, ColumnFilters } from './types';
 import { MOCK_USERS, DEFAULT_FORM_DATA } from './constants';
-import { Modal, ConfirmModal, UserGroupTable } from './components';
+import { Modal, UserGroupTable } from './components';
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal';
 
 /**
  * SysUsers Page - Main page for user management
@@ -147,6 +148,21 @@ export default function SysUsersPage() {
     // Clear Sort
     const clearSort = () => {
         setSortConfig(null);
+    };
+
+    const handleConfirmDelete = () => {
+        // Filter out selected items
+        const remainingData = users.filter(item => !selectedIds.includes(item.id));
+
+        // Reindex STT starting from 1
+        const reindexedData = remainingData.map((item, index) => ({
+            ...item,
+            stt: index + 1
+        }));
+
+        setUsers(reindexedData);
+        setSelectedIds([]);
+        setIsDeleteModalOpen(false);
     };
 
     // Handle Form Input Change
@@ -317,11 +333,12 @@ export default function SysUsersPage() {
                     onStatusChange={handleStatusChange}
                 />
 
-                <ConfirmModal
+                <ConfirmDeleteModal
                     isOpen={isDeleteModalOpen}
-                    selectedCount={selectedIds.length}
                     onClose={() => setIsDeleteModalOpen(false)}
-                    onConfirm={confirmDelete}
+                    onConfirm={handleConfirmDelete}
+                    count={selectedIds.length}
+                    entityName="người dùng"
                 />
             </div>
         </>

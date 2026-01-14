@@ -10,10 +10,10 @@ import {
     Save
 } from 'lucide-react';
 import { Shift, ShiftCategoryFilter } from './types';
-import { AddShiftModal } from './components/AddShiftModal';
+import AddRowsModal from '@/components/AddRowsModal';
 import { ShiftTable } from './components/ShiftTable';
 import { ConfirmSaveModal } from './components/ConfirmSaveModal';
-import { ConfirmDeleteModal } from './components/ConfirmDeleteModal';
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal';
 
 const Page = () => {
     // --- State ---
@@ -43,7 +43,7 @@ const Page = () => {
 
     // Modal State
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [rowsToAdd, setRowsToAdd] = useState<number>(1);
+
 
     // Track changes state
     const [hasChanges, setHasChanges] = useState(false);
@@ -105,6 +105,12 @@ const Page = () => {
         setHasChanges(true);
     };
 
+    const handleConfirmDelete = () => {
+        setShifts(prev => prev.filter(s => !s.selected));
+        setHasChanges(true);
+        setIsDeleteModalOpen(false);
+    };
+
     const openDeleteModal = () => {
         const count = shifts.filter(s => s.selected).length;
         if (count === 0) return;
@@ -112,16 +118,15 @@ const Page = () => {
     };
 
     const handleOpenAddModal = () => {
-        setRowsToAdd(1);
         setIsModalOpen(true);
     };
 
-    const handleConfirmAdd = () => {
-        if (rowsToAdd > 0) {
+    const handleConfirmAdd = (count: number) => {
+        if (count > 0) {
             const newShifts: Shift[] = [];
             const baseId = Date.now();
 
-            for (let i = 0; i < rowsToAdd; i++) {
+            for (let i = 0; i < count; i++) {
                 newShifts.push({
                     id: baseId + i,
                     code: '',
@@ -258,7 +263,7 @@ const Page = () => {
                         className="flex-1 md:flex-none flex items-center justify-center gap-2 px-[10px] h-[36px] text-white bg-blue-600 hover:bg-blue-700 rounded text-[14px] font-medium transition-all shadow-sm"
                     >
                         <Plus size={16} strokeWidth={2.5} />
-                        <span>Thêm mới</span>
+                        <span>Thêm dòng</span>
                     </button>
 
                     {hasChanges && (
@@ -292,12 +297,10 @@ const Page = () => {
             />
 
             {/* --- ADD ROW MODAL --- */}
-            <AddShiftModal
+            <AddRowsModal
                 isOpen={isModalOpen}
-                rowsToAdd={rowsToAdd}
                 onClose={() => setIsModalOpen(false)}
                 onConfirm={handleConfirmAdd}
-                setRowsToAdd={setRowsToAdd}
             />
 
             {/* --- SAVE CONFIRMATION MODAL --- */}
@@ -310,11 +313,11 @@ const Page = () => {
             {/* --- DELETE CONFIRMATION MODAL --- */}
             <ConfirmDeleteModal
                 isOpen={isDeleteModalOpen}
-                count={selectedCount}
                 onClose={() => setIsDeleteModalOpen(false)}
-                onConfirm={deleteSelected}
+                onConfirm={handleConfirmDelete}
+                count={selectedCount}
+                entityName="dòng"
             />
-
         </>
     );
 };

@@ -6,13 +6,13 @@ import {
   ArrowUp, ArrowDown, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { Port } from '../../types';
-import ConfirmationModal from '../ConfirmationModal';
-import AddRowsModal from '../AddRowsModal';
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal';
+import AddRowsModal from '@/components/AddRowsModal';
 import EditPortModal from '../EditPortModal';
 
 interface PortTableProps {
   ports: Port[];
-  onDelete: (id: string) => void;
+  onDelete: (ids: string[]) => void;
   onAdd: (count: number) => void;
   onUpdate: (port: Port) => void;
   onSave: () => void;
@@ -137,8 +137,13 @@ const PortTable: React.FC<PortTableProps> = ({
   };
 
   const handleBulkDeleteConfirm = () => {
-    selectedIds.forEach(id => onDelete(id));
+    onDelete(Array.from(selectedIds));
     setSelectedIds(new Set());
+  };
+
+  const handleConfirmDelete = () => {
+    handleBulkDeleteConfirm();
+    setIsDeleteModalOpen(false);
   };
 
   const resetAllFilters = () => {
@@ -208,7 +213,7 @@ const PortTable: React.FC<PortTableProps> = ({
     <div className="flex flex-col h-full min-h-[500px] bg-white relative">
       {/* Toast Notification */}
       {showSavedToast && (
-        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[2000] bg-green-600 text-white px-6 py-3 rounded-lg shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-300">
+        <div className="fixed top-24 right-6 z-[2000] bg-green-600 text-white px-6 py-3 rounded-lg shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-right-8 duration-300">
           <Check size={20} strokeWidth={3} />
           <span className="font-bold text-sm">Dữ liệu đã được lưu thành công!</span>
         </div>
@@ -242,7 +247,7 @@ const PortTable: React.FC<PortTableProps> = ({
             disabled={!isDirty || isSaving}
             className={`h-[38px] flex items-center gap-2 px-5 font-bold rounded-md text-[13px] transition-all border
               ${isDirty 
-                ? 'bg-[#faad14] text-white border-[#faad14] hover:bg-[#d48806] shadow-md shadow-orange-100' 
+                ? 'bg-white text-amber-500 border-amber-500 hover:bg-amber-50 shadow-sm' 
                 : 'bg-white text-slate-400 border-[#d9d9d9] cursor-not-allowed opacity-60'}`}
           >
             {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
@@ -415,10 +420,8 @@ const PortTable: React.FC<PortTableProps> = ({
       </div>
       
       {/* Footer Pagination */}
-      <div className="px-6 py-4 border-t border-[#f0f0f0] bg-[#fafafa]/30 flex items-center justify-between">
-        <div className="text-[13px] text-slate-500">
-          Trang <span className="font-bold text-slate-900">{currentPage}</span> trên <span className="font-bold text-slate-900">{totalPages || 1}</span>
-        </div>
+      <div className="px-6 py-4 border-t border-[#f0f0f0] bg-[#fafafa]/30 flex items-center justify-end">
+        
         <div className="flex items-center gap-2">
           <button 
             onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
@@ -448,13 +451,13 @@ const PortTable: React.FC<PortTableProps> = ({
         </div>
       </div>
 
-      <ConfirmationModal 
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-        onConfirm={handleBulkDeleteConfirm}
-        title="Xác nhận xóa dữ liệu"
-        message={`Hệ thống sẽ xóa vĩnh viễn ${selectedIds.size} danh mục cảng biển đã chọn. Bạn có chắc chắn muốn thực hiện hành động này không?`}
-      />
+    <ConfirmDeleteModal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                onConfirm={handleConfirmDelete}
+                count={selectedIds.size}
+                entityName="cảng"
+            />
 
       <AddRowsModal 
         isOpen={isAddModalOpen}

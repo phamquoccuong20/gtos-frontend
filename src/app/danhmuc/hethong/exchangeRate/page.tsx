@@ -13,9 +13,9 @@ import {
 // Local imports
 import { ExchangeRate, ToastMessage } from './types';
 import { INITIAL_RATES, ITEMS_PER_PAGE_OPTIONS, DEFAULT_ITEMS_PER_PAGE, TOAST_DURATION_MS } from './constants';
+import AddRowsModal from '@/components/AddRowsModal';
 import {
   ExchangeRateTable,
-  AddRowsModal,
   DeleteConfirmModal,
   ToastNotification,
   Pagination,
@@ -70,8 +70,9 @@ const ExchangeRatePage: React.FC = () => {
   };
 
   // Handler: Add new rows
-  const handleConfirmAdd = () => {
-    const newRates: ExchangeRate[] = Array.from({ length: rowsToAdd }).map((_, i) => ({
+  const handleConfirmAdd = (count?: number) => {
+    const finalCount = count || rowsToAdd;
+    const newRates: ExchangeRate[] = Array.from({ length: finalCount }).map((_, i) => ({
       id: (Date.now() + i).toString(),
       code: '',
       value: 0,
@@ -86,7 +87,7 @@ const ExchangeRatePage: React.FC = () => {
     
     showToastMessage(
       'Thêm dòng thành công',
-      `Đã thêm ${rowsToAdd} dòng mới vào danh sách.`
+      `Đã thêm ${finalCount} dòng mới vào danh sách.`
     );
   };
 
@@ -154,7 +155,7 @@ const ExchangeRatePage: React.FC = () => {
             <DollarSign size={24} />
           </div>
           <div className="flex flex-col">
-            <h1 className="text-xl font-bold text-gray-900 leading-tight">Bảng Kê Tỷ Giá Niêm Yết</h1>
+            <h1 className="text-xl font-bold text-gray-900 leading-tight">Tỷ Giá</h1>
             <p className="text-sm text-gray-400 font-medium italic">Thiết lập và quản lý tỷ giá ngoại tệ áp dụng cho dịch vụ cảng</p>
           </div>
         </div>
@@ -261,8 +262,6 @@ const ExchangeRatePage: React.FC = () => {
       {/* Modals */}
       <AddRowsModal
         isOpen={showAddModal}
-        rowsToAdd={rowsToAdd}
-        onRowsChange={setRowsToAdd}
         onConfirm={handleConfirmAdd}
         onClose={() => setShowAddModal(false)}
       />

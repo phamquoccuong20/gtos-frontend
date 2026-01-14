@@ -64,7 +64,7 @@
               "key": "sub-area",
               "label": "Vùng phụ",
               "icon": "compass",
-              "href": "/danhmuc/hethong/subArea"
+              "href": "/danhmuc/hethong/cmArea"
             }
           ]
         },
@@ -82,13 +82,13 @@
             {
               "key": "bai",
               "label": "Bãi",
-              "href": "/danh-muc/du-lieu-cang/bai",
+              "href": "/danhmuc/dulieucang/cmBlock",
               "icon": "warehouse"
             },
             {
               "key": "dinh-nghia-so-do-bai",
               "label": "Định nghĩa sơ đồ bãi",
-              "href": "/danh-muc/du-lieu-cang/dinh-nghia-so-do-bai",
+              "href": "/danhmuc/dulieucang/cmBlockDesign",
               "icon": "project-diagram"
             },
             {
