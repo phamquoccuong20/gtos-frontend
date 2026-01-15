@@ -26,15 +26,12 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const settingsRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
-  // Dynamic title lookup
+  // Dynamic title lookup - finds the top-level parent category
   const pageTitle = useMemo(() => {
+    // Find the immediate item label (for the sub-title)
     const findLabel = (items: NavItem[], path: string): string | null => {
       for (const item of items) {
-        // Check for exact match first
         if (item.href === path) return item.label;
-
-        // If we want to handle partial matches or sub-paths, we could add logic here.
-        // For now, let's also recurse into children.
         if (item.children) {
           const childLabel = findLabel(item.children, path);
           if (childLabel) return childLabel;
@@ -43,11 +40,38 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
       return null;
     };
 
-    // If no match found, default to nothing or "Dashboard" if explicit match fails
-    // However, since we want to show the category name, if it's strictly the root /dashboard we know it's DASHBOARD.
-    // Let's rely on finding it in the JSON. If not found, fallback to 'GTOS'.
     const foundLabel = findLabel(navData.items, pathname);
     return foundLabel || "DASHBOARD";
+  }, [pathname]);
+
+  // Find the top-level parent category name for the center button
+  const categoryTitle = useMemo(() => {
+    const findParentCategory = (items: NavItem[], path: string): string | null => {
+      for (const item of items) {
+        // Check if this item or any of its descendants match the path
+        if (item.href === path) {
+          return item.label; // This is a top-level item with href
+        }
+        if (item.children) {
+          // Check if any child (recursively) matches
+          const matchesChild = (children: NavItem[]): boolean => {
+            for (const child of children) {
+              if (child.href === path) return true;
+              if (child.children && matchesChild(child.children)) return true;
+            }
+            return false;
+          };
+          
+          if (matchesChild(item.children)) {
+            return item.label; // Return the top-level parent's label
+          }
+        }
+      }
+      return null;
+    };
+
+    const foundCategory = findParentCategory(navData.items, pathname);
+    return foundCategory || "GTOS";
   }, [pathname]);
 
   // Close dropdown when clicking outside
@@ -117,7 +141,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           */}
           <div className="absolute left-1/2 top-1/2 -translate-y-1/2 z-20 hidden md:block">
             <button className="bg-white/20 hover:bg-white/30 text-white px-[12px] py-[6px] rounded-[4px] text-sm font-bold backdrop-blur-md border border-white/20 shadow-lg transition-all whitespace-nowrap">
-              Cảng Tân Thuận
+              {categoryTitle}
             </button>
           </div>
         </div>

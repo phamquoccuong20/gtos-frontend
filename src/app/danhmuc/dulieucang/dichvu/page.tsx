@@ -10,10 +10,13 @@ import {
 } from 'lucide-react';
 import { ServiceRecord, SortField, SortOrder } from './types';
 import { INITIAL_DATA, ITEMS_PER_PAGE } from './constants';
-import { ServiceTable, AddRowsModal } from './components';
-import ConfirmDeleteModal from './components/ConfirmDeleteModal';
+import { ServiceTable } from './components';
+import AddRowsModal from '@/components/AddRowsModal';
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 export default function DichVuPage() {
+    useDocumentTitle('Quản lý Dịch vụ - GTOS');
     const [data, setData] = useState<ServiceRecord[]>(INITIAL_DATA);
     const [search, setSearch] = useState('');
     const [sortField, setSortField] = useState<SortField>('stt');
@@ -25,9 +28,9 @@ export default function DichVuPage() {
     const [currentPage, setCurrentPage] = useState(1);
 
     // Modal State
-    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-    const [rowsToAdd, setRowsToAdd] = useState<number>(1);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
 
     // Search & Filter Logic
     const filteredData = useMemo(() => {
@@ -59,6 +62,33 @@ export default function DichVuPage() {
                 : (bValue as number) - (aValue as number);
         });
     }, [data, search, sortField, sortOrder]);
+
+    const handleConfirmAdd = (count: number) => {
+        if (count > 0) {
+            const newServices: ServiceRecord[] = [];
+            const baseId = Date.now();
+
+            for (let i = 0; i < count; i++) {
+                newServices.push({
+                    id: String(baseId + i),
+                    code: '',
+                    name: '',
+                    plan: '',
+                    stt: baseId + i,
+                    isShip: false,
+                    isYard: false,
+                    isGate: false,
+                    selected: false
+                });
+            }
+
+            // Add new shifts at the beginning (top of list)
+            setData([...newServices, ...data]);
+            setCurrentPage(1); // Go to first page to see new rows
+            setIsModalOpen(false);
+            setIsSaving(true);
+        }
+    };
 
     // Pagination Logic
     const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
@@ -142,52 +172,6 @@ export default function DichVuPage() {
         setData(reindexedData);
         setSelectedIds(new Set());
         setIsDeleteModalOpen(false);
-    };
-
-    const confirmAddRows = () => {
-        const count = Math.max(1, Math.floor(rowsToAdd));
-
-        const newItems: ServiceRecord[] = [];
-        for (let i = 0; i < count; i++) {
-            const newId = `${Date.now()}-${i}`;
-            newItems.push({
-                id: newId,
-                stt: 0,
-                code: '',
-                name: 'Dịch vụ mới',
-                plan: '',
-                isShip: false,
-                isYard: false,
-                isGate: false,
-                selected: false
-            });
-        }
-
-        const combinedData = [...newItems, ...data];
-
-        const reindexedData = combinedData.map((item, index) => {
-            const newStt = index + 1;
-
-            if (item.stt === 0) {
-                return {
-                    ...item,
-                    stt: newStt,
-                    code: `N${newStt.toString().padStart(2, '0')}`
-                };
-            }
-
-            return {
-                ...item,
-                stt: newStt
-            };
-        });
-
-        setData(reindexedData);
-        setIsAddModalOpen(false);
-        setRowsToAdd(1);
-        setCurrentPage(1);
-        setSortField('stt');
-        setSortOrder('asc');
     };
 
     const handleSave = () => {
@@ -289,7 +273,7 @@ export default function DichVuPage() {
                             </button>
 
                             <button
-                                onClick={() => setIsAddModalOpen(true)}
+                                onClick={() => setIsModalOpen(true)}
                                 className="flex items-center gap-2 bg-blue-600 text-white px-4 h-[36px] rounded-lg text-[14px] font-medium hover:bg-blue-700 transition-all shadow-sm"
                             >
                                 <Plus size={16} strokeWidth={2.5} />
@@ -317,21 +301,18 @@ export default function DichVuPage() {
                 </div>
             </div>
 
-            {/* Add Rows Modal */}
+            {/* --- ADD ROW MODAL --- */}
             <AddRowsModal
-                isOpen={isAddModalOpen}
-                onClose={() => setIsAddModalOpen(false)}
-                rowsToAdd={rowsToAdd}
-                setRowsToAdd={setRowsToAdd}
-                onConfirm={confirmAddRows}
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onConfirm={handleConfirmAdd}
             />
-
-            {/* Delete Confirmation Modal */}
             <ConfirmDeleteModal
                 isOpen={isDeleteModalOpen}
                 onClose={() => setIsDeleteModalOpen(false)}
                 onConfirm={handleConfirmDelete}
-                selectedCount={selectedIds.size}
+                count={selectedIds.size}
+                entityName="dòng"
             />
         </div>
     );

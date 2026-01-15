@@ -17,9 +17,12 @@ const CangPage: React.FC = () => {
     setIsDirty(JSON.stringify(currentPorts) !== lastSavedPorts.current);
   };
 
-  const handleDeletePort = useCallback((id: string) => {
+  const handleDeletePort = useCallback((ids: string[]) => {
     setPorts(prev => {
-      const next = prev.filter(p => p.id !== id);
+      const idsSet = new Set(ids);
+      const next = prev
+        .filter(p => !idsSet.has(p.id))
+        .map((p, index) => ({ ...p, stt: index + 1 }));
       checkDirty(next);
       return next;
     });
@@ -65,8 +68,6 @@ const CangPage: React.FC = () => {
     lastSavedPorts.current = JSON.stringify(reIndexedPorts);
     setIsDirty(false);
     setIsSaving(false);
-    
-    console.log("Dữ liệu đã được lưu và đánh lại STT thành công!");
   }, [ports]);
 
   return (

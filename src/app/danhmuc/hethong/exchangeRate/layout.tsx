@@ -1,21 +1,23 @@
-'use client';
 
 import React from 'react';
+import { Metadata } from 'next';
 
-interface ExchangeRateLayoutProps {
-  children: React.ReactNode;
-}
+export const metadata: Metadata = {
+  title: "Tỷ giá",
+};
 
 /**
  * Layout component for Exchange Rate module
  * Wraps the exchange rate pages with common UI elements
  */
-const ExchangeRateLayout: React.FC<ExchangeRateLayoutProps> = ({ children }) => {
+export default function ExchangeRateLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="exchange-rate-layout">
       {children}
     </div>
   );
-};
-
-export default ExchangeRateLayout;
+}

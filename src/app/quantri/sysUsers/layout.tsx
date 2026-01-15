@@ -1,9 +1,11 @@
 import React from 'react';
+import { Metadata } from 'next';
 
-/**
- * Layout for sysUsers section
- * This can contain shared UI elements like breadcrumbs, section headers, etc.
- */
+export const metadata: Metadata = {
+  title: "Quản lý Người dùng",
+};
+
+
 export default function SysUsersLayout({
     children,
 }: {

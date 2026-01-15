@@ -10,14 +10,9 @@ import {
 } from 'lucide-react';
 import { INITIAL_DATA, ITEMS_PER_PAGE } from './constants';
 import { UserGroup } from './types';
-import {
-    Modal,
-    ConfirmModal,
-    SaveModal,
-    FilterTab,
-    UserGroupTable
-} from './components';
-
+import { Modal, FilterTab, UserGroupTable } from './components';
+import AddRowsModal from '@/components/AddRowsModal';
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal';
 export default function GroupUserPage() {
     const [data, setData] = useState<UserGroup[]>(INITIAL_DATA);
     const [searchQuery, setSearchQuery] = useState('');
@@ -179,11 +174,15 @@ export default function GroupUserPage() {
         setIsSaveModalOpen(true);
     };
 
-    const confirmSave = () => {
-        // Simulation of save action
-        alert(`Đã lưu thành công ${modifiedIds.size} bản ghi vào hệ thống!`);
-        setModifiedIds(new Set()); // Reset modified tracking after save
-        setIsSaveModalOpen(false);
+
+    const handleConfirmDelete = () => {
+        confirmDelete();
+        setIsDeleteModalOpen(false);
+    };
+
+    const handleConfirmAdd = (count: number) => {
+        handleAdd(count);
+        setIsModalOpen(false);
     };
 
     return (
@@ -290,24 +289,18 @@ export default function GroupUserPage() {
 
             </main>
 
-            <Modal
+            <AddRowsModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                onSave={handleAdd}
+                onConfirm={handleConfirmAdd}
             />
 
-            <ConfirmModal
+             <ConfirmDeleteModal
                 isOpen={isDeleteModalOpen}
                 onClose={() => setIsDeleteModalOpen(false)}
-                onConfirm={confirmDelete}
+                onConfirm={handleConfirmDelete}
                 count={selectedIds.size}
-            />
-
-            <SaveModal
-                isOpen={isSaveModalOpen}
-                onClose={() => setIsSaveModalOpen(false)}
-                onConfirm={confirmSave}
-                count={modifiedIds.size}
+                entityName="Nhóm"
             />
         </div>
     );

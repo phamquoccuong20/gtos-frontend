@@ -1,4 +1,9 @@
 import React from 'react';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: "Quản lý Dịch vụ",
+};
 
 interface DichVuLayoutProps {
     children: React.ReactNode;
