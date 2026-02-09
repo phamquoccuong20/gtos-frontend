@@ -3,12 +3,13 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { DataTable } from './components/DataTable';
 import { TabType, YardData, BerthData, BittData, EquipmentData, GateData } from './types';
-import { YARD_DATA, BERTH_DATA, BITT_DATA, EQUIPMENT_DATA, GATE_DATA, TABS_CONFIG, ICONS } from './constants';
+import { BERTH_DATA, BITT_DATA, EQUIPMENT_DATA, GATE_DATA, TABS_CONFIG, ICONS } from './constants';
 import { AlertTriangle } from 'lucide-react';
 import AddRowsModal from '@/components/AddRowsModal';
 import ConfirmDeleteModal from '@/components/ConfirmDeleteModal';
 
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
+import { useYardData } from '@/context/YardContext';
 
 // ... imports
 
@@ -26,8 +27,8 @@ const Page: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
   
-  // Dynamic data state
-  const [yardData, setYardData] = useState<YardData[]>(YARD_DATA);
+  // Dynamic data state - yardData from shared context
+  const { yardData, setYardData } = useYardData();
   const [berthData, setBerthData] = useState<BerthData[]>(BERTH_DATA);
   const [bittData, setBittData] = useState<BittData[]>(BITT_DATA);
   const [equipmentData, setEquipmentData] = useState<EquipmentData[]>(EQUIPMENT_DATA);
@@ -381,8 +382,8 @@ const Page: React.FC = () => {
         </div>
       )}
 
-      <div className="space-y-6 animate-in fade-in duration-500 mt-5">
-        <div className="bg-white rounded shadow-sm border border-slate-200 p-4">
+      <div className="flex flex-col animate-in fade-in duration-500 mt-5 mx-[14px] bg-white rounded shadow-sm border border-slate-200 overflow-hidden">
+        <div className="p-[14px] border-b border-slate-100">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <div className="bg-slate-50 p-1 rounded border border-slate-200 inline-flex flex-wrap shadow-inner">
               {TABS_CONFIG.map(tab => {
@@ -422,8 +423,8 @@ const Page: React.FC = () => {
           </div>
         </div>
 
-        <div ref={tableContainerRef} className="bg-white rounded shadow-sm border border-slate-200 overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-700">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-4 bg-white border-b border-slate-100">
+        <div ref={tableContainerRef} className="animate-in fade-in slide-in-from-bottom-2 duration-700">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 p-[14px] bg-white border-b border-slate-100">
             <div className="relative flex-1 max-w-md group">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                 <ICONS.Search size={18} className="text-slate-400 group-focus-within:text-blue-500 transition-colors" />
@@ -437,7 +438,7 @@ const Page: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-white">
+          <div className="bg-white p-[14px]">
             {activeTab === TabType.YARD && <DataTable columns={yardColumns} data={filteredData as YardData[]} selectedIds={selectedIds} onToggleSelect={toggleSelect} onToggleAll={handleToggleAll} isAllSelected={isAllSelected} onRowClick={handleRowClick} editingId={editingRowId} />}
             {activeTab === TabType.BERTH && <DataTable columns={berthColumns} data={filteredData as BerthData[]} selectedIds={selectedIds} onToggleSelect={toggleSelect} onToggleAll={handleToggleAll} isAllSelected={isAllSelected} onRowClick={handleRowClick} editingId={editingRowId} />}
             {activeTab === TabType.BITT && <DataTable columns={bittColumns} data={filteredData as BittData[]} selectedIds={selectedIds} onToggleSelect={toggleSelect} onToggleAll={handleToggleAll} isAllSelected={isAllSelected} onRowClick={handleRowClick} editingId={editingRowId} />}

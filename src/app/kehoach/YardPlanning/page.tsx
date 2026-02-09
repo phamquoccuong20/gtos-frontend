@@ -1,15 +1,19 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { VESSELS, CARGO_SUMMARY as INITIAL_CARGO, YARD_BLOCKS as INITIAL_BLOCKS } from './data';
-import { FilterState, YardBlock, CargoSummary, Vessel } from './types';
+import React, { useState, useEffect, useMemo } from 'react';
+import { VESSELS, CARGO_SUMMARY as INITIAL_CARGO } from './data';
+import { FilterState, YardBlock, CargoSummary, Vessel, YardBlockContent } from './types';
 import FilterBar from './components/FilterBar';
 import YardCard from './components/YardCard';
 import Modal from './components/Modal';
 import AlertModal from './components/AlertModal';
 import { UploadCloud, Plus, RefreshCw, Box, Layers, ArrowRight, Ship, AlertCircle, Check, Search, Inbox, FileQuestion } from './components/Icons';
+import { useYardData } from '@/context/YardContext';
 
 const Page: React.FC = () => {
+  // --- GET DATA FROM CONTEXT ---
+  const { yardData, yardBlockInfos, setYardBlockInfos } = useYardData();
+
   // --- STATE ---
   const [filters, setFilters] = useState<FilterState>({
     vesselId: null,
@@ -20,7 +24,33 @@ const Page: React.FC = () => {
 
   // Dynamic Data States
   const [cargoList, setCargoList] = useState<CargoSummary[]>(INITIAL_CARGO);
-  const [yardBlocks, setYardBlocks] = useState<YardBlock[]>(INITIAL_BLOCKS);
+  
+  // Generate yardBlocks from cmBlock yardData
+  const [yardBlocks, setYardBlocks] = useState<YardBlock[]>([]);
+  
+  // Zones list for distribution
+  const zones = ['Hầm 1', 'Hầm 2', 'Hầm 3', 'Hầm 4'];
+  
+  // Generate yard blocks from cmBlock data
+  useEffect(() => {
+    const blocks: YardBlock[] = yardData.map((yard, index) => {
+      // Check if there's existing content from yardBlockInfos
+      const blockInfo = yardBlockInfos.find(info => info.yardId === yard.id);
+      
+      return {
+        id: `b${yard.id}`,
+        name: yard.location,
+        zone: zones[index % zones.length],
+        vesselName: blockInfo?.contents[0]?.vesselName || '',
+        vesselCode: blockInfo?.contents[0]?.vesselCode || '',
+        contents: blockInfo?.contents || [],
+        capacityCurrent: blockInfo?.currentValue || 0,
+        capacityMax: yard.capacity,
+        status: 'active' as const
+      };
+    });
+    setYardBlocks(blocks);
+  }, [yardData, yardBlockInfos]);
 
   // Selection States
   const [selectedCargoId, setSelectedCargoId] = useState<string | null>(null);
@@ -65,7 +95,8 @@ const Page: React.FC = () => {
         dateRange: { start: '2025-12-03', end: '2025-12-10' }
       });
       setCargoList(INITIAL_CARGO);
-      setYardBlocks(INITIAL_BLOCKS);
+      setYardBlocks([]); // Will be regenerated from yardData
+      setYardBlockInfos([]); // Clear cargo assignments
       setSelectedCargoId(null);
       setPendingYardBlock(null);
       setQuantityInput(1);
@@ -181,16 +212,16 @@ const Page: React.FC = () => {
       c.id === selectedCargoId ? { ...c, count: c.count - qtyToAdd } : c
     ));
 
-    // 2. Add to Yard Block
+    const weightToAdd = (cargo.weightPerUnit || 1) * qtyToAdd;
+    const currentVessel = VESSELS.find(v => v.id === cargo.vesselId);
+
+    // 2. Add to Yard Block (local state)
     setYardBlocks(prev => prev.map(block => {
       if (block.id !== pendingYardBlock.id) return block;
 
       const existingContentIndex = block.contents.findIndex(c => c.cargoId === selectedCargoId);
 
       let newContents = [...block.contents];
-      const weightToAdd = (cargo.weightPerUnit || 1) * qtyToAdd;
-
-      const currentVessel = VESSELS.find(v => v.id === cargo.vesselId);
 
       // Add vessel info to the content item itself
       if (existingContentIndex >= 0) {
@@ -221,6 +252,52 @@ const Page: React.FC = () => {
         vesselCode: block.vesselCode || (currentVessel ? currentVessel.code : ''),
       };
     }));
+
+    // 3. Sync to Context (for cmBlockDesign)
+    const yardId = parseInt(pendingYardBlock.id.replace('b', ''));
+    const newContent = {
+      cargoId: cargo.id,
+      cargoName: cargo.name,
+      quantity: qtyToAdd,
+      unit: cargo.unit,
+      color: cargo.color,
+      weight: weightToAdd,
+      vesselName: currentVessel?.name,
+      vesselCode: currentVessel?.code
+    };
+
+    setYardBlockInfos(prev => {
+      const existingIndex = prev.findIndex(info => info.yardId === yardId);
+      const yard = yardData.find(y => y.id === yardId);
+      
+      if (existingIndex >= 0) {
+        // Update existing yard block info
+        const updated = [...prev];
+        const existingContentIndex = updated[existingIndex].contents.findIndex(c => c.cargoId === cargo.id);
+        
+        if (existingContentIndex >= 0) {
+          // Update existing cargo
+          updated[existingIndex].contents[existingContentIndex] = {
+            ...updated[existingIndex].contents[existingContentIndex],
+            quantity: updated[existingIndex].contents[existingContentIndex].quantity + qtyToAdd,
+            weight: updated[existingIndex].contents[existingContentIndex].weight + weightToAdd
+          };
+        } else {
+          // Add new cargo
+          updated[existingIndex].contents.push(newContent);
+        }
+        updated[existingIndex].currentValue += weightToAdd;
+        return updated;
+      } else {
+        // Create new yard block info
+        return [...prev, {
+          yardId,
+          location: yard?.location || pendingYardBlock.name,
+          contents: [newContent],
+          currentValue: weightToAdd
+        }];
+      }
+    });
 
     setNotification({ message: `Đã thêm ${qtyToAdd} ${cargo.unit} ${cargo.name} vào bãi ${pendingYardBlock.name}`, type: 'success' });
     setIsAddToYardModalOpen(false);
@@ -255,8 +332,8 @@ const Page: React.FC = () => {
 
       {/* Top Header */}
       {/* Top Header */}
-      <header className="shrink-0 pt-[10px] px-[10px]">
-        <div className="max-w-[1600px] mx-auto bg-white rounded border border-slate-200 shadow-sm p-[10px] h-auto sm:h-20 flex flex-col sm:flex-row items-center justify-between gap-[10px]">
+      <header className="shrink-0 pt-[14px] px-[14px]">
+        <div className="max-w-[1600px] mx-auto bg-white rounded border border-slate-200 shadow-sm p-[14px] h-auto sm:h-20 flex flex-col sm:flex-row items-center justify-between gap-[14px]">
           <div className="flex items-center gap-4">
             <div className="bg-blue-600 text-white p-2.5 rounded shadow-blue-200 shadow-md">
               <Layers size={22} />
@@ -288,7 +365,7 @@ const Page: React.FC = () => {
         </div>
       </header>
 
-      <main className="flex-1 w-full max-w-[1600px] mx-auto px-[10px] py-[10px] flex flex-col min-h-0 overflow-y-auto">
+      <main className="flex-1 w-full max-w-[1600px] mx-auto px-[14px] py-[14px] flex flex-col min-h-0 overflow-y-auto">
 
         {/* Filters */}
         <FilterBar
@@ -299,12 +376,12 @@ const Page: React.FC = () => {
           availableHatches={availableHatches}
         />
 
-        <div className="flex-1 flex flex-col lg:flex-row gap-[10px] items-start min-h-0 h-full">
+        <div className="flex-1 flex flex-col lg:flex-row gap-[14px] items-start min-h-0 h-full">
 
           {/* Left Sidebar: Cargo List */}
           <aside className="w-full lg:w-80 shrink-0 transition-all duration-300 h-[409px]">
             <div className="bg-white rounded border border-slate-200 shadow-sm overflow-hidden sticky top-48 min-h-[300px] h-[409px]">
-              <div className="p-[10px] border-b border-slate-100 flex justify-between items-center bg-slate-50/80 backdrop-blur">
+              <div className="p-[14px] border-b border-slate-100 flex justify-between items-center bg-slate-50/80 backdrop-blur">
                 <h2 className="font-bold text-slate-800 flex items-center gap-2">
                   <Box size={18} className="text-slate-500" />
                   Danh sách hàng hóa
@@ -320,7 +397,7 @@ const Page: React.FC = () => {
                 {/* Condition: No Vessel Selected -> Show "No Data" Empty State */}
                 {!filters.vesselId ? (
                   <div className="flex flex-col items-center justify-center py-16 text-center px-4">
-                    <div className="bg-slate-50 p-[10px] rounded-full mb-3 text-slate-300">
+                    <div className="bg-slate-50 p-[14px] rounded-full mb-3 text-slate-300">
                       <Inbox size={32} />
                     </div>
                     <p className="text-sm font-medium text-slate-400">No data</p>
@@ -341,7 +418,7 @@ const Page: React.FC = () => {
                           <div
                             key={item.id}
                             onClick={() => !isOut && handleCargoClick(item.id)}
-                            className={`p-[10px] transition-all cursor-pointer relative
+                            className={`p-[14px] transition-all cursor-pointer relative
                                 ${isOut ? 'opacity-50 bg-slate-50 pointer-events-none' : 'hover:bg-blue-50/50'}
                                 ${isSelected ? 'bg-blue-50 border-l-4 border-blue-500 shadow-inner' : 'border-l-4 border-transparent'}
                               `}
@@ -378,7 +455,7 @@ const Page: React.FC = () => {
               </div>
 
               {filters.vesselId && filteredCargoList.length > 0 && (
-                <div className="p-[10px] bg-slate-50 text-center border-t border-slate-100">
+                <div className="p-[14px] bg-slate-50 text-center border-t border-slate-100">
                   <p className="text-xs text-slate-400">Chọn hàng hóa rồi nhấn vào bãi để xếp</p>
                 </div>
               )}
@@ -388,11 +465,11 @@ const Page: React.FC = () => {
           {/* Main Content Area: Yard Grid */}
           <div className="flex-1 w-full min-h-0 overflow-hidden flex flex-col bg-slate-100/50 rounded border border-slate-200">
             {/* Scrollable Container */}
-            <div className="h-[409px] overflow-auto p-[10px]">
+            <div className="h-[409px] overflow-auto p-[14px]">
               {/* Case 1: No Vessel Selected (Empty State) */}
               {!filters.vesselId && (
                 <div className="h-full flex flex-col items-center justify-center text-center">
-                  <div className="bg-slate-100 p-[10px] rounded-full mb-4 text-slate-300">
+                  <div className="bg-slate-100 p-[14px] rounded-full mb-4 text-slate-300">
                     <FileQuestion size={48} />
                   </div>
                   <p className="text-slate-400 font-medium">Không có kế hoạch phù hợp</p>
@@ -401,9 +478,9 @@ const Page: React.FC = () => {
 
               {/* Case 2: Loading */}
               {isLoading && (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-[10px]">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-[14px]">
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
-                    <div key={i} className="bg-white rounded border border-slate-100 shadow-sm h-64 p-[10px] animate-pulse">
+                    <div key={i} className="bg-white rounded border border-slate-100 shadow-sm h-64 p-[14px] animate-pulse">
                       <div className="flex justify-between mb-6">
                         <div className="h-6 bg-slate-200 rounded w-1/3"></div>
                         <div className="h-6 bg-slate-200 rounded w-1/6"></div>
@@ -419,7 +496,7 @@ const Page: React.FC = () => {
 
               {/* Case 3: Data Loaded */}
               {!isLoading && filters.vesselId && (
-                <div className="grid grid-cols-5 gap-[10px] min-w-[1400px]">
+                <div className="grid grid-cols-5 gap-[14px] min-w-[1400px]">
                   {yardBlocks.map(block => (
                     <YardCard
                       key={block.id}

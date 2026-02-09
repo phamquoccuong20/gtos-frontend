@@ -32,24 +32,24 @@ export function DataTable<T extends { id: number }>({
   editingId
 }: DataTableProps<T>) {
   return (
-    <div className="overflow-x-auto overflow-hidden">
+    <div className="overflow-auto max-h-[calc(100vh-280px)] relative border border-slate-200 rounded-md">
       <table className="w-full text-left border-collapse min-w-[800px]">
         <thead>
           <tr className="bg-[#d0ebff] border-b border-blue-100">
             {onToggleSelect && (
-              <th className="p-4 w-12 text-center">
+              <th className="py-2 px-[14px] w-12 text-center sticky top-0 z-20 bg-[#d0ebff] border-b border-blue-100">
                 <input 
                   type="checkbox" 
                   checked={isAllSelected}
                   onChange={() => onToggleAll?.()}
-                  className="w-4 h-4 text-blue-600 bg-white border-blue-200 rounded focus:ring-blue-500 focus:ring-2 cursor-pointer"
+                  className="w-4 h-4 text-blue-600 bg-white border-none rounded focus:ring-0 cursor-pointer accent-blue-600"
                 />
               </th>
             )}
             {columns.map((col, idx) => (
               <th 
                 key={idx} 
-                className={`p-4 text-xs font-bold text-[#1971c2] uppercase tracking-wider ${
+                className={`py-2 px-[14px] text-xs font-bold text-[#1971c2] uppercase tracking-wider sticky top-0 z-20 bg-[#d0ebff] border-b border-blue-100 ${
                   col.align === 'center' ? 'text-center' : col.align === 'right' ? 'text-right' : 'text-left'
                 }`}
                 style={{ width: col.width }}
@@ -77,12 +77,12 @@ export function DataTable<T extends { id: number }>({
                     ${selectedIds?.has(row.id) ? 'bg-blue-50' : ''}`}
                 >
                   {onToggleSelect && (
-                    <td className="p-4 text-center" onClick={(e) => e.stopPropagation()}>
+                    <td className="p-[14px] text-center" onClick={(e) => e.stopPropagation()}>
                       <input 
                         type="checkbox" 
                         checked={selectedIds?.has(row.id)}
                         onChange={() => onToggleSelect(row.id)}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 cursor-pointer"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-none rounded focus:ring-0 cursor-pointer accent-blue-600"
                       />
                     </td>
                   )}
