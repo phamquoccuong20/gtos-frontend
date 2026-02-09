@@ -17,8 +17,8 @@ const FilterBar: React.FC<FilterBarProps> = ({ vessels, filters, setFilters, onO
   const selectedVessel = vessels.find(v => v.id === filters.vesselId);
 
   return (
-    <div className="bg-white rounded shadow-sm border border-slate-200 p-[10px] mb-6">
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-[10px]">
+    <div className="bg-white rounded shadow-sm border border-slate-200 p-[14px] mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-[14px]">
 
         {/* Vessel Selector (Read-only Input + Search Button) */}
         <div className="md:col-span-4 relative group">
