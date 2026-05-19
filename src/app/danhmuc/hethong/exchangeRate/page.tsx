@@ -1,248 +1,144 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
-import { 
-  Plus, 
-  Trash2, 
-  Save, 
-  Search, 
-  Info,
-  DollarSign,
-} from 'lucide-react';
+import React, { useState, useCallback, useMemo } from 'react';
+import { DollarSign, Info, ChevronDown } from 'lucide-react';
+import { DataTable, ColumnDef } from '@/components/DataTable';
+import { ExchangeRate } from './types';
+import { INITIAL_RATES } from './constants';
 
-// Local imports
-import { ExchangeRate, ToastMessage } from './types';
-import { INITIAL_RATES, ITEMS_PER_PAGE_OPTIONS, DEFAULT_ITEMS_PER_PAGE, TOAST_DURATION_MS } from './constants';
-import AddRowsModal from '@/components/AddRowsModal';
-import {
-  ExchangeRateTable,
-  DeleteConfirmModal,
-  ToastNotification,
-  Pagination,
-} from './components';
-
-/**
- * Exchange Rate Management Page
- * Main page component for managing exchange rates
- */
 const ExchangeRatePage: React.FC = () => {
-  // Data state
   const [rates, setRates] = useState<ExchangeRate[]>(INITIAL_RATES);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-  
-  // UI state
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState<ToastMessage>({ title: '', detail: '' });
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [rowsToAdd, setRowsToAdd] = useState(1);
+  const [isDirty, setIsDirty] = useState(false);
 
-  // Pagination states
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(DEFAULT_ITEMS_PER_PAGE);
+  // Inline update handler
+  const handleUpdateRate = useCallback((id: string, field: keyof ExchangeRate, value: any) => {
+    setRates(prev => prev.map(r => r.id === id ? { ...r, [field]: value } : r));
+    setIsDirty(true);
+  }, []);
 
-  // Filtered and paginated data
-  const filteredRates = useMemo(() => {
-    return rates.filter(rate => 
-      rate.code.toLowerCase().includes(searchQuery.toLowerCase()) || 
-      rate.description.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [rates, searchQuery]);
+  const handleDelete = useCallback((ids: string[]) => {
+    setRates(prev => prev.filter(r => !new Set(ids).has(r.id)));
+    setIsDirty(true);
+  }, []);
 
-  // Reset to first page when search changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchQuery]);
-
-  const totalPages = Math.ceil(filteredRates.length / itemsPerPage);
-  
-  const paginatedRates = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredRates.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredRates, currentPage, itemsPerPage]);
-
-  // Toast helper
-  const showToastMessage = (title: string, detail: string) => {
-    setToastMessage({ title, detail });
-    setShowToast(true);
-    setTimeout(() => setShowToast(false), TOAST_DURATION_MS);
-  };
-
-  // Handler: Add new rows
-  const handleConfirmAdd = (count?: number) => {
-    const finalCount = count || rowsToAdd;
-    const newRates: ExchangeRate[] = Array.from({ length: finalCount }).map((_, i) => ({
+  const handleAdd = useCallback((count: number) => {
+    const newRates: ExchangeRate[] = Array.from({ length: count }).map((_, i) => ({
       id: (Date.now() + i).toString(),
       code: '',
       value: 0,
       description: '',
       lastUpdated: new Date().toLocaleString(),
-      isActive: true
+      isActive: true,
     }));
-    setRates([...newRates, ...rates]);
-    setShowAddModal(false);
-    setRowsToAdd(1);
-    setCurrentPage(1);
-    
-    showToastMessage(
-      'Thêm dòng thành công',
-      `Đã thêm ${finalCount} dòng mới vào danh sách.`
-    );
-  };
+    setRates(prev => [...newRates, ...prev]);
+    setIsDirty(true);
+  }, []);
 
-  // Handler: Update a rate field
-  const handleUpdateRate = (id: string, field: keyof ExchangeRate, value: any) => {
-    setRates(rates.map(r => r.id === id ? { ...r, [field]: value } : r));
-  };
+  const handleSave = useCallback(async () => {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    setIsDirty(false);
+  }, []);
 
-  // Handler: Delete selected rows
-  const handleConfirmDelete = () => {
-    const count = selectedIds.size;
-    const newRates = rates.filter(r => !selectedIds.has(r.id));
-    setRates(newRates);
-    setSelectedIds(new Set());
-    setShowDeleteModal(false);
-    
-    // Adjust page if current page becomes empty
-    const newTotalPages = Math.ceil(newRates.length / itemsPerPage);
-    if (currentPage > newTotalPages && newTotalPages > 0) {
-      setCurrentPage(newTotalPages);
-    }
-    
-    showToastMessage(
-      'Xóa thành công',
-      `Đã xóa ${count} dòng dữ liệu khỏi hệ thống.`
-    );
-  };
-
-  // Handler: Toggle select all (current page only)
-  const handleToggleSelectAll = () => {
-    const currentPaginatedIds = paginatedRates.map(r => r.id);
-    const allCurrentPaginatedSelected = currentPaginatedIds.every(id => selectedIds.has(id));
-    
-    const next = new Set(selectedIds);
-    if (allCurrentPaginatedSelected) {
-      currentPaginatedIds.forEach(id => next.delete(id));
-    } else {
-      currentPaginatedIds.forEach(id => next.add(id));
-    }
-    setSelectedIds(next);
-  };
-
-  // Handler: Toggle single row selection
-  const handleToggleSelect = (id: string) => {
-    const next = new Set(selectedIds);
-    if (next.has(id)) next.delete(id);
-    else next.add(id);
-    setSelectedIds(next);
-  };
-
-  // Handler: Save all data
-  const handleSave = () => {
-    showToastMessage(
-      'Cập nhật thành công',
-      'Dữ liệu tỷ giá đã được đồng bộ trên toàn hệ thống GTOS.'
-    );
-  };
+  /** Column definitions — inside component so they can access handleUpdateRate */
+  const exchangeRateColumns: ColumnDef<ExchangeRate>[] = useMemo(() => [
+    {
+      key: 'code',
+      label: 'Mã tỷ giá',
+      minWidth: '120px',
+      sortable: true,
+      render: (_value: any, row: ExchangeRate) => (
+        <input
+          type="text"
+          value={row.code}
+          placeholder="Mã"
+          onClick={(e) => e.stopPropagation()}
+          onChange={(e) => handleUpdateRate(row.id, 'code', e.target.value.toUpperCase())}
+          className="bg-transparent font-black text-gray-900 text-[14px] focus:outline-none w-full focus:bg-blue-50/50 rounded px-1 py-0.5 transition-colors"
+        />
+      ),
+    },
+    {
+      key: 'value',
+      label: 'Tỷ giá',
+      minWidth: '140px',
+      sortable: true,
+      render: (_value: any, row: ExchangeRate) => (
+        <input
+          type="text"
+          value={row.value.toLocaleString('vi-VN')}
+          onClick={(e) => e.stopPropagation()}
+          onChange={(e) => {
+            const cleanValue = e.target.value.replace(/[^\d.,]/g, '').replace(/,/g, '.');
+            const numValue = parseFloat(cleanValue) || 0;
+            handleUpdateRate(row.id, 'value', numValue);
+          }}
+          className="bg-transparent font-mono font-bold text-gray-800 text-[15px] focus:outline-none w-full focus:bg-blue-50/50 rounded px-1 py-0.5 transition-colors"
+        />
+      ),
+    },
+    {
+      key: 'description',
+      label: 'Diễn giải',
+      minWidth: '200px',
+      sortable: true,
+      render: (_value: any, row: ExchangeRate) => (
+        <input
+          type="text"
+          value={row.description}
+          placeholder="Nhập diễn giải..."
+          onClick={(e) => e.stopPropagation()}
+          onChange={(e) => handleUpdateRate(row.id, 'description', e.target.value)}
+          className="bg-transparent text-gray-500 text-sm italic focus:outline-none w-full focus:bg-blue-50/50 focus:not-italic rounded px-1 py-0.5 transition-colors"
+        />
+      ),
+    },
+    {
+      key: 'isActive',
+      label: 'Trạng thái',
+      render: (_value: any, row: ExchangeRate) => (
+        <div className="relative inline-block" onClick={(e) => e.stopPropagation()}>
+          <select
+            value={row.isActive ? 'active' : 'inactive'}
+            onChange={(e) => handleUpdateRate(row.id, 'isActive', e.target.value === 'active')}
+            className={`appearance-none pl-3 pr-8 py-1.5 rounded-full text-[11px] font-bold uppercase cursor-pointer focus:outline-none border transition-all bg-white ${
+              row.isActive
+                ? 'text-emerald-600 border-emerald-200 hover:border-emerald-400 bg-emerald-50'
+                : 'text-rose-600 border-rose-200 hover:border-rose-400 bg-rose-50'
+            }`}
+          >
+            <option value="active">Đang hiệu lực</option>
+            <option value="inactive">Hết hiệu lực</option>
+          </select>
+          <ChevronDown
+            className={`absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none ${
+              row.isActive ? 'text-emerald-400' : 'text-rose-400'
+            }`}
+            size={12}
+          />
+        </div>
+      ),
+    },
+  ], [handleUpdateRate]);
 
   return (
     <div className="mt-6 space-y-6 animate-in fade-in slide-in-from-bottom-6 duration-700 p-[10px]">
-      {/* Header Card */}
-      <div className="bg-white border border-gray-200 rounded p-[14px] flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-blue-600 rounded flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
-            <DollarSign size={24} />
-          </div>
-          <div className="flex flex-col">
-            <h1 className="text-xl font-bold text-gray-900 leading-tight">Tỷ Giá</h1>
-            <p className="text-sm text-gray-400 font-medium italic">Thiết lập và quản lý tỷ giá ngoại tệ áp dụng cho dịch vụ cảng</p>
-          </div>
-        </div>
-        
-        <div className="flex items-center gap-2">
-          {selectedIds.size > 0 && (
-            <button 
-              onClick={() => setShowDeleteModal(true)} 
-              className="flex items-center gap-2 px-4 py-2.5 border border-red-500 text-red-500 rounded hover:bg-red-50 transition-all font-bold text-sm animate-in fade-in zoom-in duration-200"
-            >
-              <Trash2 size={16} />
-              Xóa ({selectedIds.size})
-            </button>
-          )}
-
-          <button 
-            onClick={() => setShowAddModal(true)} 
-            className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded hover:bg-blue-700 transition-all font-bold text-sm shadow-md shadow-blue-500/10"
-          >
-            <Plus size={18} strokeWidth={3} />
-            Thêm dòng
-          </button>
-          <button 
-            onClick={handleSave} 
-            className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded hover:bg-emerald-700 transition-all font-bold text-sm shadow-md shadow-emerald-500/10"
-          >
-            <Save size={18} />
-            Lưu Hệ Thống
-          </button>
-        </div>
-      </div>
-
-      {/* Table Section */}
-      <div className="bg-white rounded shadow-sm border border-gray-100 overflow-hidden">
-        {/* Search & Stats Header */}
-        <div className="p-[14px] border-b border-gray-50 bg-gray-50/30 flex items-center justify-between">
-          <div className="relative w-80">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-            <input 
-              type="text" 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Tìm kiếm mã ngoại tệ, diễn giải..." 
-              className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded text-sm focus:ring-4 focus:ring-blue-500/5 focus:outline-none focus:border-blue-200 transition-all"
-            />
-          </div>
-          
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold text-gray-400 uppercase">Hiển thị</span>
-              <select 
-                value={itemsPerPage}
-                onChange={(e) => {
-                  setItemsPerPage(Number(e.target.value));
-                  setCurrentPage(1);
-                }}
-                className="bg-white border border-gray-200 rounded text-xs font-bold px-2 py-1 focus:outline-none focus:border-blue-500"
-              >
-                {ITEMS_PER_PAGE_OPTIONS.map(option => (
-                  <option key={option} value={option}>{option}</option>
-                ))}
-              </select>
-            </div>
-            <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">
-              TỔNG CỘNG: <span className="text-blue-600 font-black">{filteredRates.length}</span> NGOẠI TỆ
-            </div>
-          </div>
-        </div>
-
-        {/* Table Container */}
-        <div className="p-[14px] pb-0 overflow-hidden">
-          <ExchangeRateTable
-            paginatedRates={paginatedRates}
-            selectedIds={selectedIds}
-            currentPage={currentPage}
-            itemsPerPage={itemsPerPage}
-            onToggleSelectAll={handleToggleSelectAll}
-            onToggleSelect={handleToggleSelect}
-            onUpdateRate={handleUpdateRate}
-          />
-        </div>
-
-        {/* Pagination */}
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
+      {/* Table Card */}
+      <div className="flex-1 bg-white rounded-[4px] shadow-[0_1px_2px_0_rgba(0,0,0,0.03),0_1px_6px_-1px_rgba(0,0,0,0.02),0_2px_4px_0_rgba(0,0,0,0.02)] overflow-hidden border border-[#f0f0f0]">
+        <DataTable<ExchangeRate>
+          data={rates}
+          columns={exchangeRateColumns}
+          rowKey="id"
+          searchableFields={['code', 'description']}
+          pageSize={10}
+          title="Tỷ Giá"
+          subtitle="Thiết lập và quản lý tỷ giá ngoại tệ áp dụng cho dịch vụ cảng"
+          headerIcon={<DollarSign size={22} />}
+          emptyMessage="Không tìm thấy dữ liệu tỷ giá"
+          onDelete={handleDelete}
+          onAdd={handleAdd}
+          onSave={handleSave}
+          isDirty={isDirty}
+          isSaving={false}
         />
       </div>
 
@@ -258,27 +154,6 @@ const ExchangeRatePage: React.FC = () => {
           </p>
         </div>
       </div>
-
-      {/* Modals */}
-      <AddRowsModal
-        isOpen={showAddModal}
-        onConfirm={handleConfirmAdd}
-        onClose={() => setShowAddModal(false)}
-      />
-
-      <DeleteConfirmModal
-        isOpen={showDeleteModal}
-        selectedCount={selectedIds.size}
-        onConfirm={handleConfirmDelete}
-        onClose={() => setShowDeleteModal(false)}
-      />
-
-      {/* Toast Notification */}
-      <ToastNotification
-        isVisible={showToast}
-        message={toastMessage}
-        onClose={() => setShowToast(false)}
-      />
     </div>
   );
 };

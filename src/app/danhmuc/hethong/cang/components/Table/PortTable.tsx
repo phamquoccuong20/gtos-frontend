@@ -301,10 +301,10 @@ const PortTable: React.FC<PortTableProps> = ({
       <div className="px-6 py-5 flex-1">
         <div className="border border-[#d9d9d9] rounded-lg overflow-hidden shadow-sm bg-white">
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse table-auto">
+            <table className="w-full text-left border-collapse table-auto" style={{ borderSpacing: 0 }}>
               <thead>
                 <tr className="bg-[#d0ebff] border-b border-[#bae7ff]">
-                  <th className="px-3 py-3 w-12 text-center">
+                  <th className="px-3 py-3 w-12 border-r border-[#bae7ff]">
                     <input 
                       type="checkbox" 
                       checked={isAllSelectedOnPage}
@@ -312,9 +312,9 @@ const PortTable: React.FC<PortTableProps> = ({
                       className="w-4 h-4 rounded-[2px] border-blue-300 text-blue-600 focus:ring-blue-500 cursor-pointer accent-blue-600"
                     />
                   </th>
-                  <th className="px-3 py-3 text-[12px] font-bold text-[#1971c2] uppercase tracking-wider w-16 text-center">STT</th>
+                  <th className="px-3 py-3 text-[12px] font-bold text-[#1971c2] uppercase tracking-wider w-16 border-r border-[#bae7ff]">STT</th>
                   
-                  <th className="px-3 py-3 text-[12px] font-bold text-[#1971c2] uppercase tracking-wider min-w-[160px] relative">
+                  <th className="px-3 py-3 text-[12px] font-bold text-[#1971c2] uppercase tracking-wider min-w-[160px] relative border-r border-[#bae7ff]">
                     <div className="flex items-center justify-between gap-2">
                       <span>Quốc gia</span>
                       <button 
@@ -327,7 +327,7 @@ const PortTable: React.FC<PortTableProps> = ({
                     {renderFilterPopover('country', 'QUỐC GIA')}
                   </th>
 
-                  <th className="px-3 py-3 text-[12px] font-bold text-[#1971c2] uppercase tracking-wider min-w-[140px] relative">
+                  <th className="px-3 py-3 text-[12px] font-bold text-[#1971c2] uppercase tracking-wider min-w-[140px] relative border-r border-[#bae7ff]">
                     <div className="flex items-center justify-between gap-2">
                       <span>MÃ CẢNG</span>
                       <button 
@@ -340,7 +340,7 @@ const PortTable: React.FC<PortTableProps> = ({
                     {renderFilterPopover('code', 'MÃ CẢNG')}
                   </th>
 
-                  <th className="px-3 py-3 text-[12px] font-bold text-[#1971c2] uppercase tracking-wider min-w-[240px] relative">
+                  <th className="px-3 py-3 text-[12px] font-bold text-[#1971c2] uppercase tracking-wider min-w-[240px] relative border-r border-[#bae7ff]">
                     <div className="flex items-center justify-between gap-2">
                       <span>Tên Cảng Biển</span>
                       <button 
@@ -356,36 +356,36 @@ const PortTable: React.FC<PortTableProps> = ({
                   <th className="px-3 py-3 text-[12px] font-bold text-[#1971c2] uppercase tracking-wider">Trạng thái</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#f0f0f0]">
+              <tbody>
                 {paginatedPorts.map((port) => {
                   const isSelected = selectedIds.has(port.id);
                   return (
                     <tr 
                       key={port.id} 
                       onClick={() => setEditingPort(port)}
-                      className={`transition-all cursor-pointer ${isSelected ? 'bg-[#e6f7ff]/50' : 'hover:bg-[#f0f7ff]'}`}
+                      className={`transition-all cursor-pointer border-b border-[#e8e8e8] ${isSelected ? 'bg-[#e6f7ff]/50' : 'hover:bg-[#f0f7ff]'}`}
                     >
-                      <td className="px-3 py-3.5 text-center" onClick={(e) => e.stopPropagation()}>
-                        <input 
+                      <td className="px-2 py-2 border-r border-[#e8e8e8]" onClick={(e) => e.stopPropagation()}>
+                        <input
                           type="checkbox" 
                           checked={isSelected}
                           onChange={() => toggleSelect(port.id)}
                           className="w-4 h-4 rounded-[2px] border-blue-300 text-blue-600 focus:ring-blue-500 cursor-pointer accent-blue-600"
                         />
                       </td>
-                      <td className="px-3 py-3.5 text-[14px] font-medium text-slate-500 text-center">
+                      <td className="px-2 py-2 text-[14px] font-medium text-slate-500 border-r border-[#e8e8e8]">
                         {port.stt === 0 ? <span className="text-blue-500 font-bold italic">Mới</span> : port.stt}
                       </td>
-                      <td className="px-3 py-3.5">
+                      <td className="px-2 py-2 border-r border-[#e8e8e8]">
                         <span className="text-[14px] text-slate-700 font-medium">{port.country || '---'}</span>
                       </td>
-                      <td className="px-3 py-3.5">
+                      <td className="px-2 py-2 border-r border-[#e8e8e8]">
                         <span className={`px-2 py-1 rounded border text-[11px] font-bold font-mono ${port.code ? 'bg-slate-100 text-slate-800 border-slate-200' : 'bg-orange-50 text-orange-400 border-orange-100 italic'}`}>
                           {port.code || 'CHƯA NHẬP'}
                         </span>
                       </td>
-                      <td className="px-3 py-3.5 text-[14px] font-bold text-slate-900">{port.name || '---'}</td>
-                      <td className="px-3 py-3.5">
+                      <td className="px-2 py-2 text-[14px] font-bold text-slate-900 border-r border-[#e8e8e8]">{port.name || '---'}</td>
+                      <td className="px-2 py-2">
                         {port.status === 'active' ? (
                           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200 shadow-sm">
                             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
