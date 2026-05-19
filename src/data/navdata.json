@@ -291,19 +291,19 @@
         {
           "key": "nhap",
           "label": "Nhập",
-          "href": "/quy-trinh/nhap",
+          "href": "/quytrinh/nhap",
           "icon": "file-import"
         },
         {
           "key": "bai-kho-hang",
           "label": "Bãi/Kho hàng",
-          "href": "/quy-trinh/bai-kho-hang",
+          "href": "/quytrinh/bai-kho-hang",
           "icon": "warehouse"
         },
         {
           "key": "xuat",
           "label": "Xuất",
-          "href": "/quy-trinh/xuat",
+          "href": "/quytrinh/xuat",
           "icon": "file-export"
         }
       ]

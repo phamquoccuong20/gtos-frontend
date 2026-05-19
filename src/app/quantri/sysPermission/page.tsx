@@ -91,12 +91,11 @@ const SysPermissionPage: React.FC = () => {
           <div className={`bg-white rounded-[4px] border border-slate-200 p-[10px] mb-[10px] ${cardShadowClass}`}>
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-[10px]">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-500">
+                <div className="bg-blue-600 p-2 rounded-lg text-white shadow-lg shadow-blue-600/20">
                    <Shield size={20} />
                 </div>
                 <div>
-                  <h2 className="text-[18px] font-bold text-orange-500 tracking-tight font-['Be_Vietnam_Pro'] leading-tight">Phân Quyền Người Dùng</h2>
-                  <p className="text-slate-400 text-[14px]">Cấu hình quyền truy cập chi tiết</p>
+                  <h2 className="text-[18px] font-bold text-slate-800 tracking-tight leading-tight">Phân Quyền Người Dùng</h2>
                 </div>
               </div>
 

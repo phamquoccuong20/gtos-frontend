@@ -1,0 +1,499 @@
+'use client';
+
+import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import {
+  Search, Plus, Trash2, Save, Loader2, Check,
+  ArrowUpDown, Filter, RotateCcw,
+  ArrowUp, ArrowDown, ChevronLeft, ChevronRight,
+  Inbox
+} from 'lucide-react';
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal';
+import AddRowsModal from '@/components/AddRowsModal';
+import { DataTableProps, SortOrder } from './types';
+
+function DataTable<T extends Record<string, any>>({
+  data,
+  columns,
+  rowKey = 'id' as keyof T,
+  searchableFields,
+  pageSize = 10,
+  showRowNumber = true,
+  showSelection = true,
+  onRowClick,
+  onDelete,
+  onAdd,
+  onSave,
+  isDirty = false,
+  isSaving = false,
+  title,
+  subtitle,
+  headerIcon,
+  emptyMessage = 'Không tìm thấy dữ liệu',
+  renderRowNumber,
+  extraActions,
+}: DataTableProps<T>) {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [showSavedToast, setShowSavedToast] = useState(false);
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Sort & Filter
+  const [activeFilterColumn, setActiveFilterColumn] = useState<string | null>(null);
+  const [sortConfig, setSortConfig] = useState<{ key: string; order: SortOrder } | null>(null);
+  const [columnFilters, setColumnFilters] = useState<Record<string, string>>({});
+
+  const popoverRef = useRef<HTMLDivElement>(null);
+
+  // Close popover on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (popoverRef.current && !popoverRef.current.contains(event.target as Node)) {
+        setActiveFilterColumn(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Save with toast
+  const handleSaveWithFeedback = async () => {
+    if (!isDirty || isSaving || !onSave) return;
+    await onSave();
+    setShowSavedToast(true);
+    setTimeout(() => setShowSavedToast(false), 3000);
+  };
+
+  // Determine which fields to search
+  const effectiveSearchFields = useMemo(() => {
+    if (searchableFields && searchableFields.length > 0) return searchableFields;
+    // Default: all string columns
+    return columns.map(c => c.key as keyof T);
+  }, [searchableFields, columns]);
+
+  // Filter & Sort
+  const filteredAndSortedData = useMemo(() => {
+    let result = data.filter(row => {
+      // Global search
+      const matchesSearch = !searchTerm || effectiveSearchFields.some(field => {
+        const val = String(row[field] ?? '').toLowerCase();
+        return val.includes(searchTerm.toLowerCase());
+      });
+
+      // Column filters
+      const matchesColumnFilters = Object.entries(columnFilters).every(([key, filterValue]) => {
+        if (!filterValue) return true;
+        const val = String(row[key] ?? '').toLowerCase();
+        return val.includes(filterValue.toLowerCase());
+      });
+
+      return matchesSearch && matchesColumnFilters;
+    });
+
+    if (sortConfig && sortConfig.order) {
+      result = [...result].sort((a, b) => {
+        const valA = a[sortConfig.key];
+        const valB = b[sortConfig.key];
+        if (typeof valA === 'string' && typeof valB === 'string') {
+          return sortConfig.order === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        }
+        const numA = Number(valA);
+        const numB = Number(valB);
+        return sortConfig.order === 'asc' ? numA - numB : numB - numA;
+      });
+    }
+
+    return result;
+  }, [data, searchTerm, effectiveSearchFields, columnFilters, sortConfig]);
+
+  // Pagination
+  const totalPages = Math.ceil(filteredAndSortedData.length / pageSize);
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredAndSortedData.slice(start, start + pageSize);
+  }, [filteredAndSortedData, currentPage, pageSize]);
+
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(totalPages);
+    }
+  }, [totalPages, currentPage]);
+
+  // Selection
+  const toggleSelectAll = useCallback(() => {
+    const currentPageIds = paginatedData.map(row => String(row[rowKey]));
+    const allSelectedOnPage = currentPageIds.every(id => selectedIds.has(id));
+
+    const next = new Set(selectedIds);
+    if (allSelectedOnPage) {
+      currentPageIds.forEach(id => next.delete(id));
+    } else {
+      currentPageIds.forEach(id => next.add(id));
+    }
+    setSelectedIds(next);
+  }, [paginatedData, selectedIds, rowKey]);
+
+  const toggleSelect = useCallback((id: string) => {
+    const next = new Set(selectedIds);
+    if (next.has(id)) next.delete(id); else next.add(id);
+    setSelectedIds(next);
+  }, [selectedIds]);
+
+  const isAllSelectedOnPage = paginatedData.length > 0 && paginatedData.every(row => selectedIds.has(String(row[rowKey])));
+
+  const handleBulkDeleteConfirm = () => {
+    onDelete?.(Array.from(selectedIds));
+    setSelectedIds(new Set());
+  };
+
+  const handleConfirmDelete = () => {
+    handleBulkDeleteConfirm();
+    setIsDeleteModalOpen(false);
+  };
+
+  const handleAddWithJump = (count: number) => {
+    onAdd?.(count);
+    setCurrentPage(1);
+  };
+
+  const resetAllFilters = () => {
+    setColumnFilters({});
+    setSortConfig(null);
+    setSearchTerm('');
+    setCurrentPage(1);
+  };
+
+  // Filter popover for a column
+  const renderFilterPopover = (columnKey: string, label: string) => {
+    if (activeFilterColumn !== columnKey) return null;
+
+    return (
+      <div
+        ref={popoverRef}
+        className="absolute top-full left-0 mt-2 w-[280px] bg-white rounded-[4px] shadow-[0_6px_16px_0_rgba(0,0,0,0.08),0_3px_6px_-4px_rgba(0,0,0,0.12),0_9px_28px_8px_rgba(0,0,0,0.05)] border border-[#f0f0f0] z-[100] overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+      >
+        <div className="p-[10px] space-y-[10px]">
+          <div className="text-center py-2 border-b border-[#f0f0f0]">
+            <span className="text-[14px] font-bold text-slate-800 uppercase font-accent">{label}</span>
+          </div>
+
+          <div className="space-y-1">
+            <button
+              onClick={() => { setSortConfig({ key: columnKey, order: 'asc' }); setActiveFilterColumn(null); }}
+              className={`w-full flex items-center h-[36px] gap-3 px-[10px] text-[14px] font-medium rounded-[4px] transition-all ${sortConfig?.key === columnKey && sortConfig.order === 'asc' ? 'bg-[#e6f7ff] text-[#1890ff]' : 'text-slate-700 hover:bg-[#fafafa]'}`}
+            >
+              <ArrowUp size={16} strokeWidth={2} />
+              Sắp xếp A - Z
+            </button>
+            <button
+              onClick={() => { setSortConfig({ key: columnKey, order: 'desc' }); setActiveFilterColumn(null); }}
+              className={`w-full flex items-center h-[36px] gap-3 px-[10px] text-[14px] font-medium rounded-[4px] transition-all ${sortConfig?.key === columnKey && sortConfig.order === 'desc' ? 'bg-[#e6f7ff] text-[#1890ff]' : 'text-slate-700 hover:bg-[#fafafa]'}`}
+            >
+              <ArrowDown size={16} strokeWidth={2} />
+              Sắp xếp Z - A
+            </button>
+          </div>
+
+          <div className="space-y-[6px] pt-2 border-t border-[#f0f0f0]">
+            <div className="flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase px-[10px] tracking-tight">
+              <Filter size={12} />
+              LỌC THEO GIÁ TRỊ
+            </div>
+            <div className="px-[10px]">
+              <input
+                type="text"
+                placeholder="Nhập giá trị..."
+                className="w-full h-[36px] px-[10px] bg-white border border-[#d9d9d9] rounded-[4px] text-[14px] focus:outline-none focus:border-[#40a9ff] focus:ring-4 focus:ring-[#1890ff]/10"
+                value={columnFilters[columnKey] || ''}
+                onChange={(e) => {
+                  setColumnFilters(prev => ({ ...prev, [columnKey]: e.target.value }));
+                  setCurrentPage(1);
+                }}
+                autoFocus
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const hasActiveFilters = Object.values(columnFilters).some(v => !!v) || !!sortConfig;
+
+  return (
+    <div className="flex flex-col h-full min-h-[500px] bg-white relative">
+      {/* Toast Notification */}
+      {showSavedToast && (
+        <div className="fixed top-24 right-6 z-[2000] bg-green-600 text-white px-6 py-3 rounded-lg shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-right-8 duration-300">
+          <Check size={20} strokeWidth={3} />
+          <span className="font-bold text-sm">Dữ liệu đã được lưu thành công!</span>
+        </div>
+      )}
+
+      {/* Header Row 1: Title + Actions */}
+      {(title || onDelete || onSave || onAdd || extraActions) && (
+        <div className="px-6 py-4 flex items-center justify-between border-b border-[#f0f0f0]">
+          {title && (
+            <div className="flex items-center gap-[12px]">
+              {headerIcon && (
+                <div className="w-[44px] h-[44px] bg-[#1890ff] rounded-lg flex items-center justify-center text-white shadow-md shadow-blue-100">
+                  {headerIcon}
+                </div>
+              )}
+              <div>
+                <h2 className="text-[20px] font-bold text-slate-800 tracking-tight font-accent leading-tight">{title}</h2>
+                {subtitle && <p className="text-slate-500 text-[13px] mt-0.5">{subtitle}</p>}
+              </div>
+            </div>
+          )}
+
+          <div className="flex items-center gap-[12px]">
+            {extraActions}
+
+            {onDelete && selectedIds.size > 0 && (
+              <button
+                onClick={() => setIsDeleteModalOpen(true)}
+                className="h-[38px] flex items-center gap-2 px-4 border border-[#ff4d4f] text-[#ff4d4f] font-bold rounded-md hover:bg-[#fff1f0] text-[13px] transition-all"
+              >
+                <Trash2 size={16} />
+                Xóa ({selectedIds.size})
+              </button>
+            )}
+
+            {onSave && (
+              <button
+                onClick={handleSaveWithFeedback}
+                disabled={!isDirty || isSaving}
+                className={`h-[38px] flex items-center gap-2 px-5 font-bold rounded-md text-[13px] transition-all border
+                  ${isDirty
+                    ? 'bg-white text-amber-500 border-amber-500 hover:bg-amber-50 shadow-sm'
+                    : 'bg-white text-slate-400 border-[#d9d9d9] cursor-not-allowed opacity-60'}`}
+              >
+                {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
+                Lưu
+              </button>
+            )}
+
+            {onAdd && (
+              <button
+                onClick={() => setIsAddModalOpen(true)}
+                className="h-[38px] flex items-center gap-2 px-5 bg-blue-600 text-white font-bold rounded-md hover:bg-blue-700 shadow-sm text-[13px] transition-all"
+              >
+                <Plus size={16} strokeWidth={3} />
+                Thêm mới
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Header Row 2: Search + Info */}
+      <div className="px-6 py-3 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#f0f0f0] bg-[#fafafa]/50">
+        <div className="relative flex-1 max-w-md group">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+          <input
+            type="text"
+            placeholder="Tìm kiếm nhanh..."
+            className="w-full h-[36px] pl-10 pr-4 bg-white border border-[#d9d9d9] rounded-md text-[14px] focus:border-[#1890ff] shadow-sm transition-all"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
+        </div>
+
+        <div className="flex items-center gap-6">
+          <div className="text-[13px] text-slate-500 whitespace-nowrap">
+            Tổng số: <span className="font-bold text-slate-900">{filteredAndSortedData.length}</span> dòng
+          </div>
+
+          {hasActiveFilters && (
+            <button
+              onClick={resetAllFilters}
+              className="flex items-center gap-2 h-[32px] px-3 bg-white border border-[#d9d9d9] text-slate-600 rounded-md text-[13px] hover:text-[#1890ff] hover:border-[#1890ff] transition-all"
+            >
+              <RotateCcw size={14} />
+              Làm mới
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Table Content */}
+      <div className="px-6 py-5 flex-1">
+        <div className="border border-[#d9d9d9] rounded-lg overflow-hidden shadow-sm bg-white">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse table-auto" style={{ borderSpacing: 0 }}>
+              <thead>
+                <tr className="bg-[#d0ebff] border-b border-[#bae7ff]">
+                  {/* Checkbox column */}
+                  {showSelection && (
+                    <th className="px-2 py-3 w-12 border-r border-[#bae7ff]">
+                      <input
+                        type="checkbox"
+                        checked={isAllSelectedOnPage}
+                        onChange={toggleSelectAll}
+                        className="w-4 h-4 rounded-[2px] border-blue-300 text-blue-600 focus:ring-blue-500 cursor-pointer accent-blue-600"
+                      />
+                    </th>
+                  )}
+
+                  {/* STT column */}
+                  {showRowNumber && (
+                    <th className="px-2 py-3 text-[12px] font-bold text-[#1971c2] uppercase tracking-wider w-16 border-r border-[#bae7ff]">STT</th>
+                  )}
+
+                  {/* Dynamic columns */}
+                  {columns.map((col, colIdx) => {
+                    const isLastCol = colIdx === columns.length - 1;
+                    return (
+                      <th
+                        key={col.key}
+                        className={`px-2 py-3 text-[12px] font-bold text-[#1971c2] uppercase tracking-wider relative ${!isLastCol ? 'border-r border-[#bae7ff]' : ''}`}
+                        style={{ minWidth: col.minWidth, width: col.width, textAlign: col.align || 'left' }}
+                      >
+                        {col.sortable ? (
+                          <div className="flex items-center justify-between gap-2">
+                            <span>{col.label}</span>
+                            <button
+                              onClick={(e) => { e.stopPropagation(); setActiveFilterColumn(activeFilterColumn === col.key ? null : col.key); }}
+                              className={`p-1 rounded transition-colors ${activeFilterColumn === col.key || columnFilters[col.key] || (sortConfig?.key === col.key)
+                                ? 'bg-[#1890ff] text-white'
+                                : 'hover:bg-blue-200/50 text-[#1971c2]/60'
+                              }`}
+                            >
+                              <ArrowUpDown size={12} strokeWidth={2.5} />
+                            </button>
+                          </div>
+                        ) : (
+                          <span>{col.label}</span>
+                        )}
+                        {col.sortable && renderFilterPopover(col.key, col.label)}
+                      </th>
+                    );
+                  })}
+                </tr>
+              </thead>
+              <tbody>
+                {paginatedData.map((row, localIdx) => {
+                  const id = String(row[rowKey]);
+                  const isSelected = selectedIds.has(id);
+                  const globalIdx = (currentPage - 1) * pageSize + localIdx;
+
+                  return (
+                    <tr
+                      key={id}
+                      onClick={() => onRowClick?.(row)}
+                      className={`transition-all border-b border-[#e8e8e8] ${onRowClick ? 'cursor-pointer' : ''} ${isSelected ? 'bg-[#e6f7ff]/50' : 'hover:bg-[#f0f7ff]'}`}
+                    >
+                      {/* Checkbox */}
+                      {showSelection && (
+                        <td className="px-2 py-2 border-r border-[#e8e8e8]" onClick={(e) => e.stopPropagation()}>
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => toggleSelect(id)}
+                            className="w-4 h-4 rounded-[2px] border-blue-300 text-blue-600 focus:ring-blue-500 cursor-pointer accent-blue-600"
+                          />
+                        </td>
+                      )}
+
+                      {/* STT */}
+                      {showRowNumber && (
+                        <td className="px-2 py-2 text-[14px] font-medium text-slate-500 border-r border-[#e8e8e8]">
+                          {renderRowNumber ? renderRowNumber(row, globalIdx) : globalIdx + 1}
+                        </td>
+                      )}
+
+                      {/* Dynamic columns */}
+                      {columns.map((col, colIdx) => {
+                        const isLastCol = colIdx === columns.length - 1;
+                        return (
+                          <td
+                            key={col.key}
+                            className={`px-2 py-2 ${!isLastCol ? 'border-r border-[#e8e8e8]' : ''}`}
+                            style={{ textAlign: col.align || 'left' }}
+                          >
+                            {col.render
+                              ? col.render(row[col.key], row, globalIdx)
+                              : <span className="text-[14px] text-slate-700">{String(row[col.key] ?? '---')}</span>
+                            }
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Empty state */}
+          {paginatedData.length === 0 && (
+            <div className="py-24 text-center bg-white border-t border-[#f0f0f0]">
+              <Inbox size={48} className="text-slate-200 mx-auto mb-4" />
+              <h3 className="text-[18px] font-bold text-slate-900">{emptyMessage}</h3>
+              <p className="text-slate-500 text-[14px] mt-1">Vui lòng kiểm tra lại từ khóa hoặc bộ lọc</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Footer Pagination */}
+      <div className="px-6 py-4 border-t border-[#f0f0f0] bg-[#fafafa]/30 flex items-center justify-end">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+            disabled={currentPage === 1}
+            className="h-8 w-8 flex items-center justify-center text-slate-600 bg-white border border-[#d9d9d9] rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:text-[#1890ff] hover:border-[#1890ff] transition-all"
+          >
+            <ChevronLeft size={18} />
+          </button>
+
+          {Array.from({ length: totalPages }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentPage(i + 1)}
+              className={`h-8 w-8 rounded-md text-[13px] font-bold transition-all border ${currentPage === i + 1 ? 'bg-[#1890ff] text-white border-[#1890ff] shadow-sm' : 'bg-white border-[#d9d9d9] text-slate-600 hover:text-[#1890ff] hover:border-[#1890ff]'}`}
+            >
+              {i + 1}
+            </button>
+          )).slice(Math.max(0, currentPage - 3), Math.min(totalPages, currentPage + 2))}
+
+          <button
+            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+            disabled={currentPage === totalPages || totalPages === 0}
+            className="h-8 w-8 flex items-center justify-center text-slate-600 bg-white border border-[#d9d9d9] rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:text-[#1890ff] hover:border-[#1890ff] transition-all"
+          >
+            <ChevronRight size={18} />
+          </button>
+        </div>
+      </div>
+
+      {/* Modals */}
+      {onDelete && (
+        <ConfirmDeleteModal
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          onConfirm={handleConfirmDelete}
+          count={selectedIds.size}
+          entityName="dòng"
+        />
+      )}
+
+      {onAdd && (
+        <AddRowsModal
+          isOpen={isAddModalOpen}
+          onClose={() => setIsAddModalOpen(false)}
+          onConfirm={handleAddWithJump}
+        />
+      )}
+    </div>
+  );
+}
+
+export default DataTable;
