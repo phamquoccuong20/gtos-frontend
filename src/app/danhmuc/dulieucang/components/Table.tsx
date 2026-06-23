@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Button, ConfigProvider, Space, Table, Typography } from "antd";
+import { Button, ConfigProvider, Popconfirm, Space, Table, Typography } from "antd";
 import type { TablePaginationConfig, TableProps } from "antd";
 import { DeleteOutlined, PlusOutlined, SaveOutlined } from "@ant-design/icons";
 import ConfirmDeleteModal from "@/components/ConfirmDeleteModal";
