@@ -193,7 +193,7 @@ export default function Page() {
                 "Chọn 1 tàu trong danh sách"
               )
             }
-            style={{ borderRadius: 14 }}
+            style={{ borderRadius: 4 }}
           >
             {selectedRow && (
               <div className="grid grid-cols-2 gap-3">

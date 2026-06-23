@@ -5,6 +5,7 @@ import KeHoachTauCapBen from "./KeHoachTauCapBen";
 import XacNhanTauCapBen from "./XacNhanTauCapBen";
 import wharf from "./component/wharf.module.scss";
 import { DeleteOutlined, PlusOutlined, SaveOutlined, SearchOutlined } from "@ant-design/icons";
+import { CalendarDays } from "lucide-react";
 
 export default function KeHoachCauBenPage() {
   const items = [
@@ -21,8 +22,17 @@ export default function KeHoachCauBenPage() {
   ];
   return (
     <section className="section_plan p-4">
-      <div className={wharf.header}>
-        <Typography.Title level={4}>KẾ HOẠCH CẦU BẾN</Typography.Title>
+      <div className={`${wharf.header} items-center mb-4`}>
+        <div className="flex items-center gap-3">
+          <div className="bg-blue-600 p-2.5 rounded-lg text-white shadow-sm flex items-center justify-center">
+            <CalendarDays size={20} />
+          </div>
+          <div>
+            <Typography.Title level={4} style={{ margin: 0 }}>
+              KẾ HOẠCH CẦU BẾN
+            </Typography.Title>
+          </div>
+        </div>
         <div className={wharf.header_right}>
           <Button
             variant="outlined"

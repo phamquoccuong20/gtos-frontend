@@ -1,10 +1,12 @@
 "use client";
 
-import {Form, Input, InputNumber, message, Modal, TableProps } from "antd";
+import { Form, Input, message, TableProps } from "antd";
 import { useEffect, useMemo, useState } from "react";
+import { ClipboardList } from "lucide-react";
 import DataTable from "../components/Table";
 import SearchBar from "../components/SearchBar";
 import rawData from "@/data/tinhtranghanghoa.json";
+import AddRowsModal from "@/components/AddRowsModal";
 
 type Row = {
   id: number;
@@ -27,8 +29,7 @@ export default function LoaiCongViecPage() {
   const [data, setData] = useState<Row[]>(INITIAL);
   const [q, setQ] = useState("");
   const [form] = Form.useForm<Row>();
-  const [addCount, setAddCount] = useState<number | null>(null);
-  const [open, setOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -82,33 +83,9 @@ const addBlankRows = (n: number) => {
       );
     }, [data, q]);
 
-    const AddRowsModal = (
-    <Modal
-      open={open}
-      title="Thêm dữ liệu"
-      onCancel={() => setOpen(false)}
-      onOk={() => { addBlankRows(addCount || 1); setOpen(false);}}
-      okText="Thêm"
-      width="fit-content"
-      afterClose={() => setAddCount(null)}
-      cancelText="Hủy"
-      centered
-    >
-      <div style={{marginTop: 25 }}>Nhập số dòng cần thêm:</div>
-      <InputNumber
-        placeholder="Nhập số dòng"
-        min={1}
-        max={500}
-        value={addCount ?? undefined}
-        onChange={(v) => setAddCount(typeof v === 'number' ? v : null)}
-        style={{ width: 300, marginTop: 8 }}
-      />
-    </Modal>
-    )
-
   const columns: TableProps<Row>["columns"] = useMemo(
     () => [
-      { title: "Mã bãi", dataIndex: "status", with: 100, align: "center",
+      { title: "Tình trạng hàng hóa", dataIndex: "status", width: 350, align: "center",
         render: (val, r) =>
           r.editable
             ? ( <Input
@@ -134,13 +111,22 @@ const addBlankRows = (n: number) => {
 
   const onAdd = () => {
     form.resetFields();
-    setOpen(true);
+    setIsAddModalOpen(true);
   }
 
   return (
-    <section id="tinh-trang-hang-hoa" className="mb-8 scroll-mt-[84px] space-y-4">
+    <section id="tinh-trang-hang-hoa" className="mb-4 scroll-mt-[84px] space-y-4">
       <DataTable<Row>
-        title="TRÌNH TRẠNG HÀNG HÓA"
+        title={
+          <span className="flex items-center gap-[12px] -my-1">
+            <span className="w-[38px] h-[38px] bg-[#1890ff] rounded-lg flex items-center justify-center text-white shadow-md shadow-blue-100">
+              <ClipboardList size={20} />
+            </span>
+            <span className="text-[18px] font-bold text-slate-800 tracking-tight font-accent leading-tight">
+              TÌNH TRẠNG HÀNG HÓA
+            </span>
+          </span>
+        }
         rowKey="id"
         columns={columns}
         onAdd={onAdd}
@@ -152,7 +138,11 @@ const addBlankRows = (n: number) => {
         data={filtered}
         scrollY={ 'calc(100vh - 412px)' }
       />
-      {AddRowsModal}
+      <AddRowsModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onConfirm={addBlankRows}
+      />
     </section>
   )
 }

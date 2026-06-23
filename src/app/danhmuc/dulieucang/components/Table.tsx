@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { Button, ConfigProvider, Popconfirm, Space, Table, Typography } from "antd";
+import { Button, ConfigProvider, Space, Table, Typography } from "antd";
 import type { TablePaginationConfig, TableProps } from "antd";
 import { DeleteOutlined, PlusOutlined, SaveOutlined } from "@ant-design/icons";
-import { on } from "events";
+import ConfirmDeleteModal from "@/components/ConfirmDeleteModal";
 
 type RowActionRender<T> = (record: T) => React.ReactNode;
 
@@ -59,6 +59,7 @@ export default function DataTable<T extends object>({
   });
 
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
 
   const rowSelection = selectable
     ? {
@@ -158,75 +159,69 @@ export default function DataTable<T extends object>({
         `}
       </style>
       {title ? (
-        <Typography.Title level={4} style={{ marginTop: 0, marginBottom: 25, borderBottom: "1px solid #ced4da", padding: 25 }}>
-          {title}
-        </Typography.Title>
-      ) : null}
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-2 px-5 pb-4">
-        <div className="min-w-0">{leftSlot}</div>
-
-        <div className="flex items-center gap-2">
-          <span className="text-slate-600">
-            Số dòng: {data.length.toLocaleString()}
-          </span>
-
-          {selectable && (
-            <>
-              <Button
-                onClick={() =>
-                  setSelectedRowKeys(
-                    data.map(
-                      (d: any, i) =>
-                        (typeof rowKey === "function"
-                          ? rowKey(d)
-                          : (d as any)[rowKey as string]) ?? i
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#ced4da] px-6 py-4">
+          <Typography.Title level={4} style={{ margin: 0, display: "flex", alignItems: "center" }}>
+            {title}
+          </Typography.Title>
+          <div className="flex items-center gap-2">
+            {selectable && (
+              <>
+                <Button
+                  onClick={() =>
+                    setSelectedRowKeys(
+                      data.map(
+                        (d: any, i) =>
+                          (typeof rowKey === "function"
+                            ? rowKey(d)
+                            : (d as any)[rowKey as string]) ?? i
+                      )
                     )
-                  )
-                }
-              >
-                Chọn tất cả
-              </Button>
-              <Button onClick={() => setSelectedRowKeys([])}>Bỏ chọn</Button>
-            </>
-          )}
+                  }
+                >
+                  Chọn tất cả
+                </Button>
+                <Button onClick={() => setSelectedRowKeys([])}>Bỏ chọn</Button>
+              </>
+            )}
 
-          {onDeleteSelected && (
-            <Popconfirm
-              title={`Xoá ${selectedRowKeys.length} dòng?`}
-              okText="Xoá"
-              cancelText="Huỷ"
-              onConfirm={() => {
-                onDeleteSelected(selectedRowKeys);
-                setSelectedRowKeys([]);
-              }}
-            >
+            {onDeleteSelected && (
               <Button
                 danger
                 icon={<DeleteOutlined />}
                 disabled={selectedRowKeys.length === 0}
+                onClick={() => setIsDeleteModalOpen(true)}
               >
                 Xóa dòng
               </Button>
-            </Popconfirm>
-          )}
+            )}
 
-          {onAdd && (
-            <Button type="primary" icon={<PlusOutlined />} onClick={onAdd}>
-              Thêm dòng
-            </Button>
-          )}
+            {onAdd && (
+              <Button type="primary" icon={<PlusOutlined />} onClick={onAdd}>
+                Thêm dòng
+              </Button>
+            )}
 
-          {onEdit && (
-            <Button type="primary" icon={<PlusOutlined />} onClick={() => onEdit(data[0])}>
-              Sửa dòng
-            </Button>
-          )}
+            {onEdit && (
+              <Button type="primary" icon={<PlusOutlined />} onClick={() => onEdit(data[0])}>
+                Sửa dòng
+              </Button>
+            )}
 
-          {onSave && (
-            <Button icon={<SaveOutlined />} onClick={onSave}>
-              Lưu
-            </Button>
-          )}
+            {onSave && (
+              <Button icon={<SaveOutlined />} onClick={onSave}>
+                Lưu
+              </Button>
+            )}
+          </div>
+        </div>
+      ) : null}
+      <div className="my-4 flex flex-wrap items-center justify-between gap-2 px-6">
+        <div className="min-w-0">{leftSlot}</div>
+
+        <div className="flex items-center gap-2">
+          <span className="text-slate-500 text-xs font-semibold select-none">
+            Số dòng: {data.length.toLocaleString()}
+          </span>
         </div>
       </div>
       <div className="px-5">
@@ -250,6 +245,19 @@ export default function DataTable<T extends object>({
           />
         </ConfigProvider>
       </div>
+      <ConfirmDeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={() => {
+          if (onDeleteSelected) {
+            onDeleteSelected(selectedRowKeys);
+          }
+          setSelectedRowKeys([]);
+          setIsDeleteModalOpen(false);
+        }}
+        count={selectedRowKeys.length}
+        entityName="dòng"
+      />
     </div>
   );
 }
