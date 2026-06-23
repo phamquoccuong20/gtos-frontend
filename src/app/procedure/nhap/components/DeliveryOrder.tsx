@@ -229,7 +229,7 @@ const DeliveryOrder: React.FC<DeliveryOrderProps> = ({ onBack }) => {
               <div className="relative flex-1">
                 <DatePicker
                   selected={expiryDate}
-                  onChange={(date) => setExpiryDate(date)}
+                  onChange={(date: Date | null) => setExpiryDate(date)}
                   showTimeSelect
                   timeFormat="HH:mm:ss"
                   timeIntervals={15}
