@@ -128,7 +128,7 @@ export default function DataTable<T extends object>({
   ]);
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white shadow-sm pt-5">
+    <div className="rounded-[4px] border border-slate-200 bg-white shadow-sm pt-5">
       <style>
         {`
           .ship-table .ant-table-thead > tr > th {

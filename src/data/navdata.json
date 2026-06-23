@@ -177,13 +177,13 @@
               "icon": "users"
             },
             {
-              "key": "loai-khach-hang",
+              "key": "customerType",
               "label": "Loại khách hàng",
-              "href": "/danh-muc/du-lieu-khai-thac/loai-khach-hang",
+              "href": "/danhmuc/dulieukhaithac/customerType",
               "icon": "user-tag"
             },
             {
-              "key": "khach-hang",
+              "key": "khachhang",
               "label": "Khách hàng",
               "href": "/danh-muc/du-lieu-khai-thac/khach-hang",
               "icon": "user"
@@ -291,19 +291,19 @@
         {
           "key": "nhap",
           "label": "Nhập",
-          "href": "/quytrinh/nhap",
+          "href": "/procedure/nhap",
           "icon": "file-import"
         },
         {
           "key": "bai-kho-hang",
           "label": "Bãi/Kho hàng",
-          "href": "/quytrinh/bai-kho-hang",
+          "href": "/procedure/bai-kho-hang",
           "icon": "warehouse"
         },
         {
           "key": "xuat",
           "label": "Xuất",
-          "href": "/quytrinh/xuat",
+          "href": "/procedure/xuat",
           "icon": "file-export"
         }
       ]

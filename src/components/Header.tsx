@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import { usePathname } from "next/navigation";
-import { Menu, Bell, Settings, User, ChevronDown, Package, Warehouse } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Menu, Bell, Settings, User, ChevronDown, Package, Warehouse, LogOut, KeyRound } from "lucide-react";
 import navDataRaw from "../data/navdata.json";
+import ChangePasswordModal from "./ChangePasswordModal";
 
 // Define the shape of our navigation data
 interface NavItem {
@@ -23,8 +24,12 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isBellShaking, setIsBellShaking] = useState(false);
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const settingsRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const router = useRouter();
 
   // Dynamic title lookup - finds the top-level parent category
   const pageTitle = useMemo(() => {
@@ -82,6 +87,12 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
         !settingsRef.current.contains(event.target as Node)
       ) {
         setIsSettingsOpen(false);
+      }
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsUserMenuOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -200,21 +211,60 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
         </div>
 
         {/* User Profile */}
-        <div className="flex items-center gap-3 pl-2 cursor-pointer hover:bg-gray-50 p-1.5 rounded-full pr-4 transition-colors border border-transparent hover:border-gray-100">
-          <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 shadow-sm border border-blue-100">
-            <User size={20} />
+        <div className="relative animate-in fade-in" ref={userMenuRef}>
+          <div 
+            onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+            className="flex items-center gap-3 pl-2 cursor-pointer hover:bg-gray-50 p-1.5 rounded-full pr-4 transition-colors border border-transparent hover:border-gray-100"
+          >
+            <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 shadow-sm border border-blue-100">
+              <User size={20} />
+            </div>
+            <div className="flex flex-col hidden sm:flex">
+              <span className="text-sm font-bold text-gray-700 leading-tight">
+                Admin
+              </span>
+              <span className="text-[10px] text-gray-400 font-medium">
+                Super User
+              </span>
+            </div>
+            <ChevronDown size={14} className={`text-gray-400 transition-transform duration-200 ${isUserMenuOpen ? 'rotate-180' : ''}`} />
           </div>
-          <div className="flex flex-col hidden sm:flex">
-            <span className="text-sm font-bold text-gray-700 leading-tight">
-              Admin
-            </span>
-            <span className="text-[10px] text-gray-400 font-medium">
-              Super User
-            </span>
-          </div>
-          <ChevronDown size={14} className="text-gray-400" />
+
+          {isUserMenuOpen && (
+            <div className="absolute right-0 mt-3 w-48 bg-white rounded-xl shadow-xl py-1.5 text-gray-700 border border-gray-100 animate-in fade-in zoom-in-95 duration-200 origin-top-right z-[200] ring-1 ring-black/5">
+              {/* Arrow pointing up */}
+              <div className="absolute -top-2 right-6 w-0 h-0 border-l-8 border-r-8 border-b-8 border-l-transparent border-r-transparent border-b-white"></div>
+              <div className="absolute -top-[10px] right-6 w-0 h-0 border-l-[9px] border-r-[9px] border-b-[9px] border-l-transparent border-r-transparent border-b-gray-200"></div>
+              
+              <button
+                className="w-full flex items-center gap-3 px-5 py-2.5 hover:bg-blue-50 hover:text-blue-600 text-sm font-medium transition-colors border-b border-gray-50 text-left"
+                onClick={() => {
+                  setIsUserMenuOpen(false);
+                  setIsChangePasswordOpen(true);
+                }}
+              >
+                <KeyRound size={16} className="text-gray-400" />
+                Đổi mật khẩu
+              </button>
+              
+              <button
+                className="w-full flex items-center gap-3 px-5 py-2.5 hover:bg-red-50 hover:text-red-600 text-sm font-medium transition-colors text-left"
+                onClick={() => {
+                  setIsUserMenuOpen(false);
+                  router.push("/auth/login");
+                }}
+              >
+                <LogOut size={16} className="text-gray-400" />
+                Đăng xuất
+              </button>
+            </div>
+          )}
         </div>
       </div>
+      <ChangePasswordModal
+        isOpen={isChangePasswordOpen}
+        onClose={() => setIsChangePasswordOpen(false)}
+      />
     </header>
   );
 };
