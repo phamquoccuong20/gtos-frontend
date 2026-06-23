@@ -265,7 +265,7 @@ const OrderUpdate: React.FC<OrderUpdateProps> = ({ onBack }) => {
                 <div className="relative flex-1">
                   <DatePicker
                     selected={fromDate}
-                    onChange={(date) => setFromDate(date)}
+                    onChange={(date: Date | null) => setFromDate(date)}
                     showTimeSelect
                     timeFormat="HH:mm:ss"
                     timeIntervals={15}
@@ -280,7 +280,7 @@ const OrderUpdate: React.FC<OrderUpdateProps> = ({ onBack }) => {
                 <div className="relative flex-1">
                   <DatePicker
                     selected={toDate}
-                    onChange={(date) => setToDate(date)}
+                    onChange={(date: Date | null) => setToDate(date)}
                     showTimeSelect
                     timeFormat="HH:mm:ss"
                     timeIntervals={15}
@@ -342,7 +342,7 @@ const OrderUpdate: React.FC<OrderUpdateProps> = ({ onBack }) => {
                   type="checkbox" 
                   id="dich-vu-thong-thuong-ou" 
                   checked={isCommonService}
-                  onChange={(e) => setIsCommonService(e.checked)}
+                  onChange={(e) => setIsCommonService(e.target.checked)}
                   className="w-4 h-4 border-slate-300 rounded text-blue-600 focus:ring-blue-500 cursor-pointer" 
                 />
                 <label htmlFor="dich-vu-thong-thuong-ou" className="text-[12px] font-bold text-slate-600 cursor-pointer">
